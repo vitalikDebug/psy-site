@@ -1,5 +1,5 @@
 // src/components/Footer/Footer.jsx
-import './Footer.scss';
+import './Footer.css';
 
 export default function Footer() {
   return (

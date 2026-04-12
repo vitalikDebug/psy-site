@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import './ConsequencesSection.scss';
+import './ConsequencesSection.css';
 
 const consequencesData = [
   {

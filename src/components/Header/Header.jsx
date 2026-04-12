@@ -6,7 +6,7 @@ import Link from 'next/link';
 import GooeyButton from '../GooeyButton/GooeyButton';
 // 1. Импортируем хук и достаем selectedService
 import { useModal } from '@/context/ModalContext';
-import './Header.scss';
+import './Header.css';
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState('');

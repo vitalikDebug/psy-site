@@ -1,5 +1,5 @@
 // src/components/ProcessSection/ProcessSection.jsx
-import './ProcessSection.scss';
+import './ProcessSection.css';
 
 const processData = [
   // ... (Твои данные для списка остаются без изменений)

@@ -1,0 +1,209 @@
+/* src/components/ProblemSection/ProblemSection.css */
+
+.problemSection {
+  padding: 100px 0;
+  overflow: hidden; /* Чтобы круги не вылезали за пределы экрана на мобильных */
+}
+
+.problemSection__container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.problemSection__footer {
+  margin-top: 60px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.problemSection__footer-text {
+  font-family: var(--font-family-headings);
+  font-size: 32px;
+  font-weight: 700;
+  color: #3b5266; /* Хардкодный цвет из макета */
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* --- СЕТКА --- */
+.problemGrid {
+  display: grid;
+  /* 3 колонки: левые карточки, центр, правые карточки */
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  position: relative;
+}
+
+.problemGrid__col {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Расстояние между карточками по вертикали */
+  z-index: 2;
+}
+
+/* --- ЦЕНТРАЛЬНЫЙ БЛОК --- */
+.problemGrid__center {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+}
+
+/* Декоративные круги */
+.problemGrid__center .circle-decoration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  /* Цвет бордера с сильной прозрачностью */
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 8%, transparent);
+  z-index: -1;
+}
+
+.problemGrid__center .circle-1 {
+  width: 100%;
+  height: 100%;
+}
+
+.problemGrid__center .circle-2 {
+  width: 130%; /* Круг побольше */
+  height: 130%;
+}
+
+.problemGrid__title {
+  font-family: var(--font-family-headings);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text-dark);
+  padding: 20px;
+  border-radius: 50%;
+}
+
+/* --- КАРТОЧКА --- */
+.problemCard {
+  background-color: #F5F5F5; /* Светло-серый, как на макете */
+  border-radius: 20px;
+  padding: 30px 40px;
+  /* Тень с прозрачностью */
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
+  transition: transform 0.3s ease;
+}
+
+.problemCard:hover {
+  transform: translateY(-3px);
+}
+
+.problemCard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.problemCard__title {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.problemCard__tag {
+  background-color: var(--color-white);
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.problemCard__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.problemCard__list li {
+  position: relative;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  line-height: 1.5;
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
+  margin-bottom: 12px;
+  padding-left: 16px;
+}
+
+.problemCard__list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Кастомный буллит */
+.problemCard__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  /* Цвет буллита с прозрачностью */
+  background-color: color-mix(in srgb, var(--color-text-dark) 30%, transparent);
+}
+
+
+/* --- АДАПТИВ --- */
+@media (max-width: 1024px) {
+  .problemGrid {
+    gap: 20px;
+  }
+
+  .problemGrid__center {
+    width: 250px;
+    height: 250px;
+  }
+
+  .problemGrid__title {
+    font-size: 28px;
+  }
+
+  .problemCard {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .problemGrid {
+    /* На мобилках выстраиваем всё в одну колонку */
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .problemGrid__center {
+    order: -1; /* Ставим заголовок на первое место (наверх) */
+    margin: 0 auto;
+  }
+
+  .problemGrid__center .circle-2 {
+    display: none; /* Убираем внешний круг, чтобы не ломал ширину экрана */
+  }
+
+  .problemSection__footer-text {
+    font-size: 24px;
+  }
+}

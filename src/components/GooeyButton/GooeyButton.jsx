@@ -1,6 +1,6 @@
 // src/components/GooeyButton/GooeyButton.jsx
 import Link from 'next/link';
-import './GooeyButton.scss';
+import './GooeyButton.css';
 
 export default function GooeyButton({ href, children, className = '' }) {
   return (

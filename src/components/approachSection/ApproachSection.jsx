@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import './ApproachSection.scss';
+import './ApproachSection.css';
 
 // Новые данные из документа ("ПОЧЕМУ ВЫБИРАЮТ ЭТУ РАБОТУ")
 const approachData = [

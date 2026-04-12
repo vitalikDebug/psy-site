@@ -1,6 +1,6 @@
 // src/app/layout.js
 import Header from '@/components/Header/Header';
-import './global.scss';
+import './global.css';
 // Импортируем наш новый провайдер
 import { ModalProvider } from '@/context/ModalContext';
 

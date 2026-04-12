@@ -1,0 +1,41 @@
+/* src/app/globals.css */
+
+/* --- Глобальные переменные CSS --- */
+:root {
+  /* Цвета */
+  --color-text-dark: #4A4A4A;
+  --color-accent: #A57C9B;
+  --color-white: #FFFFFF;
+  --color-bg-main: #FAF7F2;
+
+  /* Цвета для ховеров (замена функции darken) */
+  /* Я вручную затемнил твои цвета примерно на 5-8% */
+  --color-accent-hover: #8a6580; 
+  --button-color-hover: #your_darkened_button_color_here; /* Замени на свой */
+
+  /* Шрифты (берем из переменных CSS, которые создал Next.js в layout.jsx) */
+  --font-family-headings: var(--font-playfair), Georgia, 'Times New Roman', serif;
+  --font-family-body: var(--font-inter), Helvetica, Arial, sans-serif;
+
+  /* Размеры */
+  --container-width: 1440px;
+}
+
+/* --- Сброс стилей (Reset) --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Базовые стили --- */
+html, body {
+  color: var(--color-text-dark); /* Используем переменную через var() */
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: var(--font-family-body);
+  background-color: var(--color-bg-main);
+}
+
+/* УДАЛИ ВСЕ СТАРЫЕ @import ИЗ ЭТОГО ФАЙЛА! В CSS ОНИ НЕ НУЖНЫ */

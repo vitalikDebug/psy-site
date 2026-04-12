@@ -1,5 +1,5 @@
 // src/components/ReviewsSection/ReviewsSection.jsx
-import './ReviewsSection.scss';
+import './ReviewsSection.css';
 
 // Данные для отзывов (взяты из твоего скрина)
 const reviewsData = [

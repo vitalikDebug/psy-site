@@ -1,0 +1,143 @@
+/* src/components/FAQSection/FAQSection.css */
+
+.faqSection {
+  padding: 100px 0;
+  background-color: #FAFBFC; /* Очень светлый фон секции */
+}
+
+.faqSection__container {
+  width: 100%;
+  max-width: 800px; /* Сужаем контейнер */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.faqSection__header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.faqSection__subtitle {
+  display: block;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  margin-bottom: 16px;
+}
+
+.faqSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 48px;
+  font-weight: 400;
+  color: var(--color-text-dark);
+}
+
+/* --- СПИСОК И КАРТОЧКИ --- */
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faqItem {
+  border-radius: 40px; /* "Таблетка" по умолчанию */
+  background-color: #F0F4F8; /* Мягкий серо-голубой цвет */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* --- СОСТОЯНИЕ: ЗАКРЫТО --- */
+.faqItem__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 20px 32px;
+}
+
+.faqItem__question {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  padding-right: 20px;
+}
+
+.faqItem__toggle-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.faqItem__answer-wrapper {
+  overflow: hidden;
+}
+
+.faqItem__answer {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.6;
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  padding: 0 32px 30px 32px;
+  margin: 0;
+}
+
+/* --- СОСТОЯНИЕ: ОТКРЫТО --- */
+.faqItem--open {
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(74, 74, 74, 0.05); /* Используем хардкод цвета для тени */
+}
+
+.faqItem--open .faqItem__toggle-btn {
+  background-color: #F0F4F8;
+  box-shadow: none;
+  transform: rotate(90deg);
+}
+
+/* Эффект наведения (только для закрытых) */
+.faqItem:not(.faqItem--open):hover {
+  /* Затемнение цвета фона при наведении (аналог darken) */
+  background-color: color-mix(in srgb, #F0F4F8 97%, black);
+}
+
+
+/* --- АДАПТИВ --- */
+@media (max-width: 768px) {
+  .faqSection__title {
+    font-size: 36px;
+  }
+
+  .faqItem__top {
+    padding: 16px 20px 16px 24px;
+  }
+
+  .faqItem__question {
+    font-size: 16px;
+  }
+
+  .faqItem__toggle-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .faqItem__answer {
+    font-size: 15px;
+    padding: 0 24px 24px 24px;
+  }
+}

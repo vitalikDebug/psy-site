@@ -1,5 +1,5 @@
 // src/components/ProblemSection/ProblemSection.jsx
-import './ProblemSection.scss';
+import './ProblemSection.css';
 
 export default function ProblemSection() {
   return (

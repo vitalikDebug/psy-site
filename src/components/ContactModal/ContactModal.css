@@ -1,0 +1,194 @@
+/* src/components/ContactModal/ContactModal.css */
+
+/* Оверлей (затемненный фон) */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.contactModal {
+  background-color: var(--color-white);
+  width: 100%;
+  max-width: 480px;
+  padding: 40px;
+  border-radius: 24px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.contactModal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  /* Цвет с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  transition: color 0.3s;
+}
+
+.contactModal__close:hover {
+  color: var(--color-text-dark);
+}
+
+.contactModal__title {
+  font-family: var(--font-family-headings);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--color-text-dark);
+  text-align: center;
+}
+
+.contactModal__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  /* Цвет с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+/* --- ФОРМА --- */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contactForm__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Стили для поля ввода, доступного только для чтения */
+.contactForm__field input.contactForm__input--readonly {
+  background-color: #f5f5f5;
+  /* Цвет с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  border-color: transparent;
+  cursor: default;
+  font-weight: 600;
+}
+
+.contactForm__field input.contactForm__input--readonly:focus {
+  border-color: transparent;
+  outline: none;
+}
+
+.contactForm__field label {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.contactForm__field input {
+  padding: 14px 16px;
+  /* Бордер с прозрачностью */
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
+  border-radius: 8px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.contactForm__field input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.contactForm__field input::placeholder {
+  /* Плейсхолдер с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+}
+
+.contactForm__btn {
+  margin-top: 10px;
+  padding: 16px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contactForm__btn:hover {
+  /* Затемнение цвета при наведении (аналог darken) */
+  background-color: color-mix(in srgb, var(--color-accent) 95%, black);
+}
+
+.contactForm__btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.contactForm__policy {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  /* Цвет с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* --- УСПЕШНАЯ ОТПРАВКА --- */
+.contactModal__success {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.contactModal__success .success-icon {
+  width: 64px;
+  height: 64px;
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  font-size: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.contactModal__success h3 {
+  font-family: var(--font-family-headings);
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.contactModal__success p {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  /* Цвет с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+/* Адаптив для мобилок */
+@media (max-width: 480px) {
+  .contactModal {
+    padding: 30px 20px;
+  }
+
+  .contactModal__title {
+    font-size: 24px;
+  }
+}

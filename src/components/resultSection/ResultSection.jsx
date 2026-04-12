@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import './ResultSection.scss';
+import './ResultSection.css';
 
 // Новые данные: Цифра + Описание
 const resultsData = [

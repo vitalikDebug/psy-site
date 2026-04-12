@@ -1,0 +1,82 @@
+/* src/components/ResultsSection/ResultsSection.css */
+
+.resultsSection {
+  padding: 100px 0;
+}
+
+.resultsSection__container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.resultsSection__header {
+  margin-bottom: 60px;
+  max-width: 400px;
+}
+
+.resultsSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 48px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--color-text-dark);
+}
+
+/* --- НОВАЯ СЕТКА РЕЗУЛЬТАТОВ (3 колонки) --- */
+.resultsSection .resultsGrid {
+  display: grid;
+  /* 3 равные колонки */
+  grid-template-columns: repeat(3, 1fr);
+  /* Отступы между карточками */
+  gap: 30px;
+  margin-bottom: 80px;
+}
+
+/* --- КАРТОЧКА С ЦИФРОЙ --- */
+.resultsSection .resultsCard {
+  background-color: var(--color-white);
+  /* Тонкая светлая рамка с прозрачностью */
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 10%, transparent);
+  border-radius: 16px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* Большая, жирная цифра */
+.resultsSection .resultsCard__number {
+  font-family: var(--font-family-headings);
+  /* Очень крупно */
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+/* Текст описания под цифрой */
+.resultsSection .resultsCard__text {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.5;
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+/* --- ЦИТАТА ВНИЗУ --- */
+.resultsSection__quote {
+  font-family: var(--font-family-headings);
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-accent);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.3;
+}

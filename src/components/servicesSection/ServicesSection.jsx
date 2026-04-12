@@ -1,6 +1,6 @@
 // src/components/ServicesSection/ServicesSection.jsx
 import Link from 'next/link';
-import './ServicesSection.scss';
+import './ServicesSection.css';
 import { useModal } from '@/context/ModalContext';
 
 // Полные данные из твоего документа

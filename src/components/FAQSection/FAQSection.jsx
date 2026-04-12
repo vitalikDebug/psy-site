@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import './FAQSection.scss';
+import './FAQSection.css';
 
 // Все вопросы из документа
 const faqData = [

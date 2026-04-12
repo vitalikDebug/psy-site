@@ -1,0 +1,237 @@
+/* src/components/HeroSection/HeroSection.css */
+
+.heroSection {
+  /* Цвет фона берется из переменных (молочный) */
+  background-color: var(--color-bg-main);
+  /* Важно! Отступ сверху, чтобы компенсировать фиксированную шапку (140px) */
+  padding-top: 140px;
+  /* Чтобы горизонтальный скролл не появлялся из-за вылетающей картинки */
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh; /* Секция на весь экран по высоте */
+  display: flex;
+  align-items: center; /* Вертикальное центрирование контента */
+}
+
+.heroSection__container {
+  width: 100%;
+  max-width: var(--container-width); /* 1440px */
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center; /* Центрируем левую и правую части по вертикали */
+  position: relative; /* Важно для позиционирования правой части */
+  height: 100%; /* Чтобы контейнер растянулся */
+}
+
+/* --- ЛЕВАЯ ЧАСТЬ (Текст) --- */
+.heroSection__left {
+  flex: 1; /* Занимает оставшееся пространство */
+  max-width: 600px; /* Ограничиваем ширину текста */
+  z-index: 5; /* Текст поверх картинок */
+  padding-bottom: 60px; /* Небольшой отступ снизу */
+}
+
+.heroSection__subtitle {
+  display: block;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  margin-bottom: 16px;
+}
+
+.heroSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 64px; /* Крупный заголовок */
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-text-dark);
+  margin-bottom: 40px;
+}
+
+.heroSection__list {
+  list-style: none;
+  margin-bottom: 48px;
+  padding-left: 20px; /* Отступ для черточек */
+}
+
+.heroSection__list-item {
+  position: relative;
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  color: var(--color-text-dark);
+}
+
+/* Делаем красивые черточки перед пунктами */
+.heroSection__list-item::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 12px;
+  width: 12px;
+  height: 1px;
+  background-color: var(--color-accent);
+}
+
+.heroSection__cta-block {
+  margin-top: 40px;
+}
+
+.heroSection__cta-text {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.heroSection__cta-text span {
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* Кнопка */
+.heroSection__btn {
+  display: inline-block;
+  padding: 16px 40px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.heroSection__btn:hover {
+  /* Затемнение цвета при наведении (аналог darken) */
+  background-color: color-mix(in srgb, var(--color-accent) 92%, black);
+  transform: translateY(-2px);
+  /* Тень с использованием акцентного цвета и прозрачности */
+  box-shadow: 0 10px 20px -10px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+
+
+/* --- ПРАВАЯ ЧАСТЬ (Фото с вылетом) --- */
+.heroSection__right {
+  /* Магия абсолютного позиционирования */
+  position: absolute;
+  top: 40%; /* Центрируем по вертикали относительно контейнера */
+  left: 60%; /* Начинаем от центра контейнера */
+  /* Сдвигаем немного влево */
+  transform: translate(-10%, -45%);
+  width: auto;
+  height: auto;
+  z-index: 1;
+}
+
+.heroSection__image-wrapper {
+  position: relative;
+  /* Скорректировал размеры обертки под новые размеры фото */
+  width: 700px;
+  height: 750px;
+}
+
+.heroSection__img {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 24px; /* Мягкие углы */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+}
+
+/* Первое (основное) фото - БОЛЬШОЕ и цветное */
+.heroSection__img--main {
+  width: 550px;
+  height: 680px;
+  bottom: 0;
+  left: 0;
+  z-index: 3; /* Самый высокий приоритет */
+}
+
+/* Второе фото - МАЛЕНЬКОЕ и Ч/Б */
+.heroSection__img--secondary {
+  width: 380px;
+  height: 480px;
+  /* Позиционируем так, чтобы оно выглядывало сверху-справа */
+  top: 45px;
+  right: -170px; /* Вылет за пределы контейнера */
+  z-index: 2; /* За главным фото */
+  /* Делаем ЧЕРНО-БЕЛЫМ */
+  filter: grayscale(100%);
+  opacity: 0.9;
+  transition: all 1s ease-in-out;
+}
+
+.heroSection__img--secondary:hover {
+  filter: grayscale(0%);
+  z-index: 4;
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+
+/* --- Адаптив для мобильных --- */
+@media (max-width: 1024px) {
+  .heroSection {
+    padding-top: 120px;
+    min-height: auto;
+    padding-bottom: 60px;
+  }
+
+  .heroSection__container {
+    flex-direction: column;
+  }
+
+  .heroSection__left {
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .heroSection__list {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .heroSection__right {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+  }
+
+  .heroSection__image-wrapper {
+    width: auto;
+    height: auto;
+  }
+
+  .heroSection__img {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Ограничиваем ширину на мобилках */
+    height: auto; /* Автоматическая высота */
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    border: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Второе фото скрываем на маленьких экранах */
+  .heroSection__img--secondary {
+    display: none;
+  }
+}

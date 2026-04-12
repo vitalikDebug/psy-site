@@ -1,0 +1,145 @@
+/* src/components/ReviewsSection/ReviewsSection.css */
+
+.reviewsSection {
+  padding: 100px 0;
+}
+
+.reviewsSection__container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.reviewsSection__header {
+  margin-bottom: 60px;
+}
+
+/* Плашка "Отзывы" */
+.reviewsSection__badge {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.reviewsSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 40px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+  line-height: 1.2;
+}
+
+/* --- СЕТКА (MASONRY) --- */
+.reviewsMasonry {
+  /* Разбиваем контент на 2 колонки */
+  column-count: 2;
+  /* Расстояние между колонками */
+  column-gap: 30px;
+}
+
+/* --- КАРТОЧКА ОТЗЫВА --- */
+.reviewCard {
+  /* Чтобы карточка не разрывалась между колонками */
+  break-inside: avoid;
+  /* Отступ снизу для каждой карточки */
+  margin-bottom: 30px;
+  background-color: var(--color-white);
+  border-radius: 16px;
+  padding: 40px; /* Делаем просторными */
+  /* Цвет бордера с прозрачностью */
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 5%, transparent);
+  /* Тень с прозрачностью */
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
+  transition: all 0.3s ease;
+}
+
+.reviewCard:hover {
+  /* Тень при наведении с прозрачностью */
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--color-text-dark) 6%, transparent);
+  transform: translateY(-2px);
+}
+
+.reviewCard__text {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.6;
+  /* Цвет текста с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
+  margin-bottom: 30px;
+}
+
+.reviewCard__footer {
+  display: flex;
+  align-items: center;
+  position: relative; /* Для позиционирования иконки */
+}
+
+.reviewCard__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 16px;
+}
+
+.reviewCard__author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewCard__name {
+  font-family: var(--font-family-headings);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.reviewCard__role {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  /* Цвет роли с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  margin-top: 2px;
+}
+
+.reviewCard__icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  /* Цвет иконки с прозрачностью */
+  color: color-mix(in srgb, var(--color-text-dark) 20%, transparent);
+}
+
+/* --- АДАПТИВ --- */
+@media (max-width: 1024px) {
+  .reviewsMasonry {
+    column-gap: 20px; /* Уменьшаем отступ между колонками на планшете */
+  }
+  .reviewCard {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviewsSection__title {
+    font-size: 32px;
+  }
+
+  .reviewsMasonry {
+    /* На мобилках выстраиваем отзывы в одну колонку */
+    column-count: 1;
+  }
+
+  .reviewCard {
+    margin-bottom: 20px;
+    padding: 24px;
+  }
+}

@@ -2,7 +2,7 @@
 'use client';
 
 import { useModal } from '@/context/ModalContext';
-import './HeroSection.scss';
+import './HeroSection.css';
 
 export default function HeroSection() {
   const { openModal } = useModal();

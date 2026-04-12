@@ -3,7 +3,7 @@
 
 // 1. Импортируем хук
 import { useModal } from '@/context/ModalContext';
-import './FinalCTASection.scss';
+import './FinalCTASection.css';
 
 // 2. Убираем пропсы
 export default function FinalCTASection() {

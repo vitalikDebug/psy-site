@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 // 1. Импортируем хук, чтобы получить функцию очистки
 import { useModal } from '@/context/ModalContext';
-import './ContactModal.scss';
+import './ContactModal.css';
 
 // Пропсы приходят из page.js
 export default function ContactModal({ isOpen, onClose, initialService = '' }) {

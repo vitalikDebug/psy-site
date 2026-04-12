@@ -1,0 +1,231 @@
+/* src/components/ConsequencesSection/ConsequencesSection.css */
+
+/* Основной контейнер секции */
+.consequencesSection {
+  padding: 100px 0;
+}
+
+.consequencesSection__container {
+  width: 100%;
+  /* Используем CSS-переменную */
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.consequencesSection__title {
+  /* Используем CSS-переменные для шрифтов и цветов */
+  font-family: var(--font-family-headings);
+  font-size: 40px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+  margin-bottom: 60px;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.consequencesSection__footer {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.consequencesSection__footer-text {
+  font-family: var(--font-family-headings);
+  font-size: 24px;
+  font-weight: 700;
+  /* Здесь был хардкодный цвет, можно заменить на переменную, если есть подходящая */
+  color: #3b5266; 
+  text-transform: uppercase;
+}
+
+/* --- СЕТКА (BENTO GRID) --- */
+.consequencesGrid {
+  display: grid;
+  /* 4 колонки */
+  grid-template-columns: repeat(4, 1fr);
+  /* 2 ряда фиксированной высоты */
+  grid-template-rows: repeat(2, 260px);
+  gap: 24px;
+}
+
+/* --- ОБЩИЕ СТИЛИ КАРТОЧКИ --- */
+.consequencesItem {
+  position: relative;
+  background-color: var(--color-white);
+  /* В CSS нельзя использовать rgba с переменной напрямую. 
+     Используем хардкод или новую переменную для цвета бордера */
+  border: 1px solid rgba(74, 74, 74, 0.1); /* #4A4A4A с прозрачностью 0.1 */
+  border-radius: 12px;
+  padding: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  box-shadow: 0 4px 15px rgba(74, 74, 74, 0.02);
+}
+
+/* Номер шага в углу */
+.consequencesItem__step {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: var(--font-family-headings);
+  font-size: 32px;
+  font-weight: 700;
+  /* Цвет номера шага (бледный) */
+  color: rgba(74, 74, 74, 0.08);
+}
+
+.consequencesItem__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.consequencesItem__title {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--color-text-dark);
+}
+
+.consequencesItem__text {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  line-height: 1.5;
+  /* Цвет текста (полупрозрачный) */
+  color: rgba(74, 74, 74, 0.7);
+}
+
+/* Стили для списка */
+.consequencesItem__list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0 0;
+}
+
+.consequencesItem__list li {
+  position: relative;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(74, 74, 74, 0.7);
+  margin-bottom: 8px;
+  padding-left: 16px;
+}
+
+/* Кастомный буллит */
+.consequencesItem__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(74, 74, 74, 0.3);
+}
+
+/* --- РАССТАНОВКА В СЕТКЕ (Модификаторы) --- */
+
+/* 1. Начало */
+.consequencesItem--start {
+  grid-column: 1 / 2;
+  grid-row: 1;
+}
+
+/* 2. Страх */
+.consequencesItem--fear {
+  grid-column: 2 / 3;
+  grid-row: 1;
+}
+
+/* 3. Поведение (Высокий правый блок) */
+.consequencesItem--behavior {
+  grid-column: 3 / 5;
+  grid-row: 1 / 3;
+  justify-content: flex-start;
+  padding-top: 50px;
+}
+
+/* Специфичный стиль для текста внутри этого блока */
+.consequencesItem--behavior .consequencesItem__text {
+  margin-bottom: 10px;
+}
+
+/* 4. Итог (Широкий нижний) */
+.consequencesItem--final {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  /* Цвет фона для "опасной" зоны */
+  background-color: #F2EBE9;
+  border: none;
+}
+
+/* Специфичный стиль для номера шага внутри этого блока */
+.consequencesItem--final .consequencesItem__step {
+  color: rgba(74, 74, 74, 0.15);
+}
+
+
+/* --- АДАПТИВ --- */
+@media (max-width: 1024px) {
+  .consequencesGrid {
+    /* На планшетах 2 колонки */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .consequencesItem {
+    min-height: 220px;
+  }
+
+  /* Сбрасываем сетку для обычных блоков */
+  .consequencesItem--start,
+  .consequencesItem--fear,
+  .consequencesItem--final {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  /* Высокий блок на всю ширину */
+  .consequencesItem--behavior {
+    grid-column: 1 / -1;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .consequencesSection__title {
+    font-size: 28px;
+  }
+  
+  .consequencesSection__title br {
+    display: none;
+  }
+
+  .consequencesGrid {
+    /* На телефонах 1 колонка */
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .consequencesItem {
+    min-height: auto;
+    padding: 24px;
+  }
+
+  .consequencesItem__step {
+    font-size: 24px;
+    top: 15px;
+    right: 15px;
+  }
+
+  .consequencesSection__footer-text {
+    font-size: 18px;
+  }
+}
