@@ -1,0 +1,217 @@
+// src/components/ServicesSection/ServicesSection.scss
+@import '../../styles/_variables.scss';
+
+.servicesSection {
+  padding: 100px 0;
+  background-color: #FAF9F7; // Чуть более светлый фон для контраста с карточками
+
+  &__container {
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 60px;
+
+  }
+
+  &__title {
+    font-family: $font-family-headings;
+    font-size: 40px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    margin-bottom: 20px;
+  }
+
+  &__subtitle {
+    font-family: $font-family-body;
+    font-size: 18px;
+    color: rgba($color-text-dark, 0.8);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// --- СЕТКА КАРТОЧЕК ---
+.servicesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // Центрируем карточки, если их нечетное количество
+  gap: 30px;
+}
+
+// --- КАРТОЧКА УСЛУГИ ---
+.serviceCard {
+  background-color: $color-white;
+  border: 1px solid rgba($color-text-dark, 0.1);
+  border-radius: 16px;
+  padding: 40px;
+  // Ширина карточки. Flex-basis позволяет им сжиматься/расширяться.
+  // calc(33.333% - 20px) - это попытка вписать 3 в ряд с учетом отступов.
+  flex: 0 1 calc(33.333% - 20px);
+  min-width: 320px; // Минимальная ширина, чтобы не сплющивались
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba($color-text-dark, 0.02);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba($color-text-dark, 0.08);
+    border-color: rgba($color-accent, 0.3);
+  }
+  
+  // Опционально: выделить первую карточку (Консультация)
+  &--primary {
+    border-color: $color-accent;
+    background-color: #FFFCF9; // Едва заметный теплый оттенок
+  }
+
+  &__header {
+  margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba($color-text-dark, 0.1);
+    min-height: 75px;
+  }
+
+  &__title {
+    font-family: $font-family-headings;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    line-height: 1.3;
+  }
+
+  &__body {
+    flex: 1; // Растягивает тело карточки, чтобы футер прижался вниз
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  &__block {
+    &-title {
+      font-family: $font-family-body;
+      font-size: 16px;
+      font-weight: 700;
+      color: $color-accent; // Выделяем заголовки блоков цветом
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    // Блок с результатом можно выделить фоном (опционально)
+    &--result {
+       background-color: rgba($color-accent, 0.05);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: auto; // Прижимаем к низу блока body
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      position: relative;
+      font-family: $font-family-body;
+      font-size: 15px;
+      line-height: 1.5;
+      color: rgba($color-text-dark, 0.8);
+      margin-bottom: 10px;
+      padding-left: 20px;
+
+      // Буллит-галочка
+      &::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: $color-accent;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__text {
+    font-family: $font-family-body;
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba($color-text-dark, 0.9);
+  }
+
+  &__format {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-family-body;
+    font-size: 14px;
+    color: rgba($color-text-dark, 0.6);
+    // margin-top: auto; 
+    padding-top: 20px;
+
+    &-icon {
+        font-size: 16px;
+    }
+  }
+
+  &__footer {
+    margin-top: 30px;
+  }
+
+  &__btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: $color-accent;
+    border: none;
+    color: $color-white;
+    text-decoration: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-family: $font-family-body;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: darken($color-accent, 5%);
+      box-shadow: 0 4px 15px rgba($color-accent, 0.3);
+    }
+  }
+}
+
+// --- АДАПТИВ ---
+@media (max-width: 1200px) {
+  .servicesGrid {
+    // На средних экранах по 2 карточки в ряд
+    justify-content: center;
+  }
+  .serviceCard {
+     // calc(50% - 20px) - попытка вписать 2 в ряд
+     flex: 0 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .servicesSection__title {
+    font-size: 32px;
+  }
+
+  .servicesGrid {
+    flex-direction: column; // На мобилках в одну колонку
+    align-items: center;
+  }
+
+  .serviceCard {
+    width: 100%;
+    max-width: 450px; // Ограничиваем ширину
+    flex: 1 1 auto;
+  }
+}

@@ -1,0 +1,22 @@
+// src/styles/_variables.scss
+
+// --- Цвета (оставляем как было) ---
+// $color-bg-main: #F5F0E6;
+$color-text-dark: #4A4A4A;
+$color-accent: #A57C9B;
+$color-white: #FFFFFF;
+$color-bg-main: #FAF7F2;
+// --- Шрифты (НОВОЕ!) ---
+// Мы ссылаемся на переменные, которые создали в layout.jsx
+// И добавляем запасные варианты на всякий случай.
+
+// Шрифт для заголовков (с засечками)
+$font-family-headings: var(--font-playfair), Georgia, 'Times New Roman', serif;
+
+// Шрифт для основного текста (без засечек)
+$font-family-body: var(--font-inter), Helvetica, Arial, sans-serif;
+
+
+// --- Размеры (оставляем как было) ---
+$container-width: 1440px;
+// ...

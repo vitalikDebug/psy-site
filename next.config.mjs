@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Мы убрали блок sassOptions полностью.
+  // Больше никакой автоматической вставки путей.
 };
 
 export default nextConfig;

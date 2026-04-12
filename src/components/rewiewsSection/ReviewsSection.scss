@@ -1,0 +1,141 @@
+// src/components/ReviewsSection/ReviewsSection.scss
+@import '../../styles/variables';
+
+.reviewsSection {
+  padding: 100px 0;
+
+  &__container {
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__header {
+    margin-bottom: 60px;
+  }
+
+  // Плашка "Отзывы" (как на макете в левом верхнем углу)
+  &__badge {
+    display: inline-block;
+    background-color: $color-accent; // Используем наш фиолетовый
+    color: $color-white;
+    font-family: $font-family-body;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-family: $font-family-headings;
+    font-size: 40px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: $color-text-dark;
+    line-height: 1.2;
+  }
+}
+
+// --- СЕТКА (MASONRY) ---
+.reviewsMasonry {
+  // Разбиваем контент на 2 колонки
+  column-count: 2;
+  // Расстояние между колонками
+  column-gap: 30px;
+}
+
+// --- КАРТОЧКА ОТЗЫВА ---
+.reviewCard {
+  // Чтобы карточка не разрывалась между колонками
+  break-inside: avoid; 
+  // Отступ снизу для каждой карточки
+  margin-bottom: 30px; 
+  
+  background-color: $color-white;
+  border-radius: 16px;
+  padding: 40px; // Делаем просторными
+  border: 1px solid rgba($color-text-dark, 0.05);
+  box-shadow: 0 4px 20px rgba($color-text-dark, 0.02);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 30px rgba($color-text-dark, 0.06);
+    transform: translateY(-2px);
+  }
+
+  &__text {
+    font-family: $font-family-body;
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba($color-text-dark, 0.8);
+    margin-bottom: 30px;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    position: relative; // Для позиционирования иконки
+  }
+
+  &__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+  }
+
+  &__author-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    font-family: $font-family-headings;
+    font-size: 18px;
+    font-weight: 700;
+    color: $color-text-dark;
+  }
+
+  &__role {
+    font-family: $font-family-body;
+    font-size: 14px;
+    color: rgba($color-text-dark, 0.5);
+    margin-top: 2px;
+  }
+
+  &__icon {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: rgba($color-text-dark, 0.2); // Светло-серая иконка файла
+  }
+}
+
+// --- АДАПТИВ ---
+@media (max-width: 1024px) {
+  .reviewsMasonry {
+    column-gap: 20px; // Уменьшаем отступ между колонками на планшете
+  }
+  .reviewCard {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviewsSection__title {
+    font-size: 32px;
+  }
+  
+  .reviewsMasonry {
+    // На мобилках выстраиваем отзывы в одну колонку
+    column-count: 1; 
+  }
+
+  .reviewCard {
+    margin-bottom: 20px;
+    padding: 24px;
+  }
+}

@@ -1,0 +1,142 @@
+// src/components/FAQSection/FAQSection.scss
+@import '../../styles/_variables.scss';
+
+.faqSection {
+  padding: 100px 0;
+  background-color: #FAFBFC; // Очень светлый фон секции, чтобы белые карточки выделялись
+
+  &__container {
+    width: 100%;
+    max-width: 800px; // Сужаем контейнер для вопросов, так текст читать удобнее
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  &__subtitle {
+    display: block;
+    font-family: $font-family-body;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba($color-text-dark, 0.6);
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-family: $font-family-headings;
+    font-size: 48px;
+    font-weight: 400;
+    color: $color-text-dark;
+  }
+}
+
+// --- СПИСОК И КАРТОЧКИ ---
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; // Отступ между вопросами
+}
+
+.faqItem {
+  border-radius: 40px; // Делаем "таблеткой" по умолчанию
+  background-color: #F0F4F8; // Мягкий серо-голубой цвет закрытой карточки
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  // --- СОСТОЯНИЕ: ЗАКРЫТО ---
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 20px 32px;
+  }
+
+  &__question {
+    font-family: $font-family-body;
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-text-dark;
+    padding-right: 20px;
+  }
+
+  &__toggle-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: $color-white; // Белая кнопка на сером фоне
+    color: $color-text-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); // Легкая тень на кнопке
+  }
+
+  &__answer-wrapper {
+    overflow: hidden;
+  }
+
+  &__answer {
+    font-family: $font-family-body;
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba($color-text-dark, 0.7);
+    padding: 0 32px 30px 32px; // Отступ текста от краев
+    margin: 0;
+  }
+
+  // --- СОСТОЯНИЕ: ОТКРЫТО ---
+  &--open {
+    background-color: $color-white; // Становится белым
+    border-radius: 24px; // Углы становятся менее круглыми
+    box-shadow: 0 10px 40px rgba($color-text-dark, 0.05); // Появляется тень
+
+    .faqItem__toggle-btn {
+      background-color: #F0F4F8; // Кнопка становится серой (инверсия)
+      box-shadow: none;
+      transform: rotate(90deg); // Легкая анимация поворота при смене + на x
+    }
+  }
+
+  // Эффект наведения (только для закрытых)
+  &:not(.faqItem--open):hover {
+    background-color: darken(#F0F4F8, 3%);
+  }
+}
+
+// --- АДАПТИВ ---
+@media (max-width: 768px) {
+  .faqSection__title {
+    font-size: 36px;
+  }
+
+  .faqItem {
+    &__top {
+      padding: 16px 20px 16px 24px;
+    }
+
+    &__question {
+      font-size: 16px;
+    }
+
+    &__toggle-btn {
+      width: 36px;
+      height: 36px;
+    }
+
+    &__answer {
+      font-size: 15px;
+      padding: 0 24px 24px 24px;
+    }
+  }
+}

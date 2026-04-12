@@ -1,66 +1,52 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// src/app/page.js
+'use client';
+
+// 1. Импортируем хук контекста (useState здесь больше не нужен)
+import { useModal } from '@/context/ModalContext';
+
+import HeroSection from "@/components/HeroSection/HeroSection";
+// ... остальные импорты секций без изменений ...
+import ResultsSection from "@/components/resultSection/ResultSection";
+import ApproachSection from "@/components/approachSection/ApproachSection";
+import ProcessSection from "@/components/processSection/ProcessSection";
+import ReviewsSection from "@/components/rewiewsSection/ReviewsSection";
+import ServicesSection from "@/components/servicesSection/ServicesSection";
+import AboutSection from "@/components/aboutSection/AboutSection";
+import ProblemSection from "@/components/problemSection/ProblemSection";
+import ConsequencesSection from "@/components/сonsequencesSection/ConsequencesSection";
+import FAQSection from "@/components/FAQSection/FAQSection";
+import FinalCTASection from "@/components/FinalCTASection/FinalCTASection";
+import Footer from "@/components/footer/Footer";
+import ContactModal from "@/components/ContactModal/ContactModal";
 
 export default function Home() {
+  // 2. Достаем всё состояние и функции из глобального контекста
+  const { isModalOpen, selectedService, closeModal } = useModal();
+
+  // ЛОКАЛЬНОЕ СОСТОЯНИЕ И ФУНКЦИИ УДАЛЕНЫ (они теперь в контексте)
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main>
+      {/* Секции теперь сами используют useModal(), им не нужны пропсы */}
+      <HeroSection />
+      <AboutSection />
+      <ProblemSection />
+      <ConsequencesSection />
+      <ServicesSection />
+      <ApproachSection />
+      <ResultsSection />
+      <ReviewsSection />
+      <ProcessSection />
+      <FAQSection />
+      <FinalCTASection />
+      <Footer />
+
+      {/* 3. Модалка теперь получает данные напрямую из контекста */}
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        initialService={selectedService}
+      />
+    </main>
   );
 }

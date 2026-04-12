@@ -1,0 +1,153 @@
+// src/components/Footer/Footer.scss
+@import '../../styles/_variables.scss';
+
+.footer {
+  // Фон совпадает с FinalCTASection для бесшовного перехода
+  background-color: #111111; 
+  color: $color-white;
+  padding: 60px 0 40px;
+
+  &__container {
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  // --- ВЕРХНЯЯ ЧАСТЬ (Колонки) ---
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; // Для адаптива
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  &__col {
+    flex: 1;
+    min-width: 200px;
+
+    &--brand {
+      flex: 2; // Колонка с логотипом пошире
+    }
+  }
+
+  &__logo {
+    font-family: $font-family-headings;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  &__slogan {
+    font-family: $font-family-body;
+    font-size: 14px;
+    color: rgba($color-white, 0.5);
+  }
+
+  &__col-title {
+    font-family: $font-family-body;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba($color-white, 0.5); // Приглушенный заголовок колонки
+    margin-bottom: 20px;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 12px;
+    }
+
+    a {
+      font-family: $font-family-body;
+      font-size: 14px;
+      color: $color-white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: rgba($color-white, 0.6); // Тускнеет при наведении
+      }
+    }
+  }
+
+  // --- РАЗДЕЛИТЕЛЬ ---
+  &__divider {
+    height: 1px;
+    background-color: rgba($color-white, 0.1);
+    margin-bottom: 40px;
+  }
+
+  // --- НИЖНЯЯ ЧАСТЬ (Юридическая) ---
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  &__legal-text {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    p {
+      font-family: $font-family-body;
+      font-size: 12px;
+      color: rgba($color-white, 0.4);
+      margin: 0;
+    }
+  }
+
+  &__legal-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    a {
+      font-family: $font-family-body;
+      font-size: 12px;
+      color: rgba($color-white, 0.4);
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $color-white;
+      }
+    }
+  }
+}
+
+// --- АДАПТИВ ---
+@media (max-width: 768px) {
+  .footer {
+    &__top {
+      flex-direction: column;
+    }
+
+    &__col {
+      &--brand {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &__legal-text, &__legal-links {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}

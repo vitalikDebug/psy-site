@@ -1,0 +1,245 @@
+// src/components/HeroSection/HeroSection.scss
+
+@import '../../styles/_variables.scss'; // Импортируем переменные
+
+.heroSection {
+  // Цвет фона берется из переменных (проверь, что там выбран молочный)
+  background-color: $color-bg-main;
+  
+  // Важно! Отступ сверху, чтобы компенсировать фиксированную шапку (140px)
+  padding-top: 140px; 
+  // Чтобы горизонтальный скролл не появлялся из-за вылетающей картинки
+  overflow-x: hidden; 
+  position: relative;
+  min-height: 100vh; // Секция на весь экран по высоте
+  display: flex;
+  align-items: center; // Вертикальное центрирование контента
+
+  &__container {
+    width: 100%;
+    max-width: $container-width; // 1440px
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center; // Центрируем левую и правую части по вертикали
+    position: relative; // Важно для позиционирования правой части
+    height: 100%; // Чтобы контейнер растянулся
+  }
+
+  // --- ЛЕВАЯ ЧАСТЬ (Текст) ---
+  &__left {
+    flex: 1; // Занимает оставшееся пространство (до 50% примерно)
+    max-width: 600px; // Ограничиваем ширину текста, чтобы не расплывался
+    z-index: 5; // Увеличил z-index, чтобы текст точно был поверх всех картинок
+    padding-bottom: 60px; // Небольшой отступ снизу
+  }
+
+  &__subtitle {
+    display: block;
+    font-family: $font-family-body;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba($color-text-dark, 0.6);
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-family: $font-family-headings;
+    font-size: 64px; // Крупный заголовок
+    font-weight: 400;
+    line-height: 1.1;
+    color: $color-text-dark;
+    margin-bottom: 40px;
+  }
+
+  &__list {
+    list-style: none;
+    margin-bottom: 48px;
+    padding-left: 20px; // Отступ для черточек
+  }
+
+  &__list-item {
+    position: relative;
+    font-family: $font-family-body;
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    color: $color-text-dark;
+
+    // Делаем красивые черточки перед пунктами
+    &::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 12px;
+      width: 12px;
+      height: 1px;
+      background-color: $color-accent;
+    }
+  }
+
+  &__cta-block {
+    margin-top: 40px;
+  }
+
+  &__cta-text {
+    font-family: $font-family-body;
+    font-size: 16px;
+    margin-bottom: 16px;
+    
+    span {
+      font-weight: 600;
+      color: $color-accent;
+    }
+  }
+
+  // Кнопка
+  &__btn {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: $color-accent;
+    color: $color-white;
+    font-family: $font-family-body;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    &:hover {
+      background-color: darken($color-accent, 8%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -10px rgba($color-accent, 0.4);
+    }
+  }
+
+
+  // --- ПРАВАЯ ЧАСТЬ (Фото с вылетом) ---
+  &__right {
+    // Магия абсолютного позиционирования
+    position: absolute;
+    top: 40%; // Центрируем по вертикали относительно контейнера
+    left: 60%; // Начинаем от центра контейнера
+    // Сдвигаем немного влево, чтобы дать больше места большой картинке
+    transform: translate(-10%, -45%); 
+    
+    width: auto; 
+    height: auto;
+    z-index: 1;
+    // Временно можно включить outline, чтобы видеть границы блока
+    // outline: 1px solid red; 
+  }
+
+  &__image-wrapper {
+    position: relative;
+    // Скорректировал размеры обертки под новые размеры фото
+    width: 700px; 
+    height: 750px; 
+  }
+
+  &__img {
+    position: absolute;
+    object-fit: cover;
+    border-radius: 24px; // Мягкие углы
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transition: all 0.5s ease;
+
+    // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
+
+    // Первое (основное) фото - ТЕПЕРЬ БОЛЬШОЕ и цветное
+    &--main {
+      width: 550px;  // Увеличили ширину
+      height: 680px; // Увеличили высоту
+      bottom: 0;
+      left: 0;
+      z-index: 3; // Самый высокий приоритет
+      // border: 4px solid $color-white; 
+    }
+
+    // Второе фото - ТЕПЕРЬ МАЛЕНЬКОЕ и Ч/Б
+    &--secondary {
+      width: 380px; // Уменьшили ширину
+      height: 480px; // Уменьшили высоту
+      
+      // Позиционируем так, чтобы оно выглядывало сверху-справа
+      top: 45px; 
+      right: -170px; // Вылет за пределы контейнера
+      
+      z-index: 2; // За главным фото
+      
+      // Делаем ЧЕРНО-БЕЛЫМ
+      filter: grayscale(100%); 
+      opacity: 0.9; 
+     transition: all 1s ease-in-out;
+      &:hover {
+         filter: grayscale(0%); 
+         z-index: 4; 
+         transform: scale(1.05);
+         opacity: 1;
+      }
+    }
+  }
+}
+
+
+// --- Адаптив для мобильных ---
+// (Оставляем практически без изменений, так как на мобилках мы показываем только одно фото)
+@media (max-width: 1024px) {
+  .heroSection {
+    padding-top: 120px;
+    min-height: auto;
+    padding-bottom: 60px;
+    
+    &__container {
+      flex-direction: column;
+    }
+
+    &__left {
+      max-width: 100%;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    &__list {
+      display: inline-block;
+      text-align: left;
+    }
+
+    &__right {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      height: auto;
+      display: flex;
+      justify-content: center;
+      margin-top: -20px;
+    }
+    
+    &__image-wrapper {
+        width: auto;
+        height: auto;
+    }
+
+    &__img {
+      position: relative;
+      width: 100%;
+      max-width: 500px; // Ограничиваем ширину на мобилках
+      height: auto; // Автоматическая высота
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      border: none;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      
+      // Второе фото по-прежнему скрываем на маленьких экранах
+      &--secondary {
+        display: none; 
+      }
+    }
+  }
+}

@@ -1,0 +1,169 @@
+// src/components/AboutSection/AboutSection.scss
+@import '../../styles/_variables.scss';
+
+.aboutSection {
+  padding: 100px 0;
+  // position: relative; // Если захочешь добавить фоновые круги потом
+
+  &__container {
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  // --- ВЕРХНЯЯ ЧАСТЬ ---
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+
+  &__top-left {
+    flex: 0 0 55%; // Левая часть шире, как на макете
+  }
+
+  .badge {
+    display: inline-block;
+    background-color: rgba($color-accent, 0.6); // Приглушенный фиолетовый
+    color: $color-white;
+    font-family: $font-family-body;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 20px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    font-family: $font-family-headings;
+    font-size: 42px;
+    line-height: 1.2;
+    color: #2C3E50; // Глубокий сине-серый цвет текста из макета
+    font-weight: 400;
+  }
+
+  &__top-right {
+    flex: 1;
+    padding-top: 10px; // Чуть опускаем, чтобы выровнять оптически
+  }
+
+  &__name {
+    font-family: $font-family-body;
+    font-size: 20px;
+    color: rgba($color-accent, 0.8);
+    margin-bottom: 8px;
+  }
+
+  &__role {
+    font-family: $font-family-body;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2C3E50;
+    margin-bottom: 16px;
+  }
+
+  &__stats {
+    font-family: $font-family-body;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba($color-text-dark, 0.7);
+    margin-bottom: 24px;
+  }
+
+  &__outline-btn {
+    display: inline-block;
+    border: 1px solid rgba($color-accent, 0.6);
+    color: rgba($color-accent, 0.8);
+    font-family: $font-family-body;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 6px; // Строгие углы из макета
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba($color-accent, 0.1);
+    }
+  }
+
+  // --- НИЖНЯЯ ЧАСТЬ (ФОТО + КАРТОЧКА) ---
+  &__bottom {
+    position: relative;
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  &__image {
+    width: 85%; // Фото занимает не всю ширину
+    height: 550px;
+    object-fit: cover;
+    border-radius: 24px; // Скругление как на макете
+    margin-left: auto; // Прижимаем фото вправо
+    display: block;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+  }
+
+  &__floating-card {
+    position: absolute;
+    left: 0; // Прижата к левому краю контейнера
+    bottom: 60px; // Сдвинута от нижнего края фото
+    width: 400px;
+    background-color: $color-white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba($color-text-dark, 0.08); // Красивая мягкая тень
+    z-index: 2; // Поверх фото
+
+    p {
+      font-family: $font-family-body;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #2C3E50;
+    }
+  }
+}
+
+// --- АДАПТИВ ---
+@media (max-width: 1024px) {
+  .aboutSection {
+    &__top {
+      flex-direction: column;
+      gap: 40px;
+    }
+    
+    &__top-left {
+      flex: auto;
+      width: 100%;
+    }
+
+    &__image {
+      width: 100%; // На планшете фото на всю ширину
+      height: 450px;
+    }
+
+    &__floating-card {
+      position: relative;
+      bottom: auto;
+      left: auto;
+      width: 90%;
+      margin: -60px auto 0; // Залезает на фото снизу по центру
+      padding: 30px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutSection__title {
+    font-size: 32px;
+  }
+
+  .aboutSection__floating-card {
+    width: 100%;
+    margin-top: -40px;
+    border-radius: 16px;
+  }
+}
