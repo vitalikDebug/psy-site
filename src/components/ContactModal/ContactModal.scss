@@ -2,7 +2,8 @@
 // @import '../../styles/_variables.scss';
 
 // Оверлей (затемненный фон) - стили дублируются из других модалок, можно вынести в global
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .modalOverlay {
   position: fixed;

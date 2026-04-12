@@ -1,5 +1,6 @@
 // src/components/ResultsSection/ResultsSection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .resultsSection {
   padding: 100px 0;

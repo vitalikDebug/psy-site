@@ -1,5 +1,6 @@
 // src/components/GooeyButton/GooeyButton.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 // Цвет кнопки и пузырьков (используем наш акцентный)
 $button-color: $color-accent;

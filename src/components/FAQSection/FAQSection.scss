@@ -1,5 +1,6 @@
 // src/components/FAQSection/FAQSection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .faqSection {
   padding: 100px 0;

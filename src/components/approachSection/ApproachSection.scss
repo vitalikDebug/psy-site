@@ -1,5 +1,6 @@
 // src/components/ApproachSection/ApproachSection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .approachSection {
   padding: 100px 0;

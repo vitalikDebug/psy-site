@@ -1,5 +1,6 @@
 // src/components/FinalCTASection/FinalCTASection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .finalCTASection {
   padding: 140px 0;

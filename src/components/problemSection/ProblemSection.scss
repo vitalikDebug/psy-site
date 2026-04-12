@@ -1,5 +1,6 @@
 // src/components/ProblemSection/ProblemSection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .problemSection {
   padding: 100px 0;

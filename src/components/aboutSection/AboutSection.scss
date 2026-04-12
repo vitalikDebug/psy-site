@@ -1,5 +1,6 @@
 // src/components/AboutSection/AboutSection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .aboutSection {
   padding: 100px 0;

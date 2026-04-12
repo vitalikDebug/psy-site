@@ -1,5 +1,6 @@
 // src/components/Footer/Footer.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .footer {
   // Фон совпадает с FinalCTASection для бесшовного перехода

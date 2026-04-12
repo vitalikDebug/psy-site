@@ -1,6 +1,7 @@
 // src/components/HeroSection/HeroSection.scss
 
-@import '../../styles/_variables.scss'; 
+// @import '../../styles/_variables.scss'; 
+@use "@/styles/variables" as *;
 
 .heroSection {
   // Цвет фона берется из переменных (проверь, что там выбран молочный)

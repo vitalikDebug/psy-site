@@ -1,5 +1,6 @@
 // src/components/ProcessSection/ProcessSection.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
+@use "@/styles/variables" as *;
 
 .processSection {
   padding: 100px 0;
