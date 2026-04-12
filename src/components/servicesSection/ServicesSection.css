@@ -2,7 +2,8 @@
 
 .servicesSection {
   padding: 100px 0;
-  background-color: #FAF9F7; /* Чуть более светлый фон для контраста */
+  /* background-color: #FAF9F7;  */
+  background-color: #fff;
 }
 
 .servicesSection__container {

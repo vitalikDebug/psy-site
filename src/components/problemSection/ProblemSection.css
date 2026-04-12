@@ -3,6 +3,7 @@
 .problemSection {
   padding: 100px 0;
   overflow: hidden; /* Чтобы круги не вылезали за пределы экрана на мобильных */
+  background-color: #fff;
 }
 
 .problemSection__container {

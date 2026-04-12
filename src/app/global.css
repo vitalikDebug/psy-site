@@ -8,12 +8,11 @@
   --color-white: #FFFFFF;
   --color-bg-main: #FAF7F2;
 
-  /* Цвета для ховеров (замена функции darken) */
-  /* Я вручную затемнил твои цвета примерно на 5-8% */
-  --color-accent-hover: #8a6580; 
-  --button-color-hover: #your_darkened_button_color_here; /* Замени на свой */
 
-  /* Шрифты (берем из переменных CSS, которые создал Next.js в layout.jsx) */
+  --color-accent-hover: #8a6580; 
+  --button-color-hover: #your_darkened_button_color_here; 
+
+
   --font-family-headings: var(--font-playfair), Georgia, 'Times New Roman', serif;
   --font-family-body: var(--font-inter), Helvetica, Arial, sans-serif;
 
@@ -34,8 +33,11 @@ html, body {
   max-width: 100vw;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  font-family: var(--font-family-body);
+  font-family: var(--font-inter), sans-serif;
   background-color: var(--color-bg-main);
+  scroll-behavior: smooth;
 }
 
-/* УДАЛИ ВСЕ СТАРЫЕ @import ИЗ ЭТОГО ФАЙЛА! В CSS ОНИ НЕ НУЖНЫ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), serif;
+}

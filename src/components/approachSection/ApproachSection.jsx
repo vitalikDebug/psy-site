@@ -5,46 +5,45 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './ApproachSection.css';
 
-// Новые данные из документа ("ПОЧЕМУ ВЫБИРАЮТ ЭТУ РАБОТУ")
 const approachData = [
   {
     id: "approach-1",
-    type: "wide", // Широкий бежевый блок
+    type: "wide",
     title: "РАБОТАЮ С ПРИЧИНОЙ, А НЕ ТОЛЬКО С РЕЧЬЮ",
     shortText: "Заикание — это верхушка айсберга. Мы ищем и устраняем корень проблемы — внутреннее напряжение и страх.",
     description: "Механические упражнения дают временный эффект, если не убрать причину, запускающую спазм. Мы работаем с тем, что происходит ДО того, как вы начали говорить."
   },
   {
     id: "approach-2",
-    type: "narrow-1", // Узкий слева
+    type: "narrow-1",
     title: "НА СТЫКЕ ПСИХОЛОГИИ И ЛОГОПЕДИИ",
     shortText: "Комплексный взгляд на проблему для устойчивого результата.",
     description: "Я использую знания из обеих областей. Как логопед, я понимаю механику речи, а как психолог — помогаю перенастроить нервную систему и реакции."
   },
   {
     id: "approach-3",
-    type: "narrow-2", // Узкий посередине
+    type: "narrow-2",
     title: "РАБОТА СО СТРАХОМ РЕЧИ И НАПРЯЖЕНИЕМ",
     shortText: "Убираем главный блокирующий фактор — страх.",
     description: "Именно страх ожидания запинки создает колоссальное напряжение, которое и не дает сказать слово свободно. Снижая тревогу, мы освобождаем речь."
   },
   {
     id: "approach-4",
-    type: "photo", // Блок с фото
+    type: "photo",
     title: "ИНДИВИДУАЛЬНЫЙ ПОДХОД К КАЖДОМУ",
     shortText: "Нет универсальных решений. Программа строится под вашу ситуацию, возраст и степень заикания.",
     description: "Я учитываю ваш темперамент, историю возникновения заикания и текущий образ жизни, чтобы подобрать инструменты, которые сработают именно у вас."
   },
   {
     id: "approach-5",
-    type: "stacked-1", // Правый верхний
+    type: "stacked-1",
     title: "ОНЛАЙН ФОРМАТ ИЗ ЛЮБОЙ ТОЧКИ МИРА",
     shortText: "Эффективная работа в комфортной для вас обстановке.",
     description: "Современные методики позволяют проводить полноценную диагностику и терапию дистанционно, не теряя в качестве."
   },
   {
     id: "approach-6",
-    type: "stacked-2", // Правый нижний
+    type: "stacked-2",
     title: "ПОДДЕРЖКА РОДИТЕЛЕЙ В ПРОЦЕССЕ",
     shortText: "Обучаю, как создать терапевтическую среду дома.",
     description: "Родители — главные ко-терапевты для ребенка. Я даю четкие инструкции, как реагировать и помогать, чтобы закрепить результат."
@@ -53,7 +52,7 @@ const approachData = [
 
 export default function ApproachSection() {
   const [selectedId, setSelectedId] = useState(null);
-  const selectedItem = approachData.find(item => item.id === selectedId);
+  const selectedItem = selectedId ? approachData.find(item => item.id === selectedId) : null;
 
   return (
     <section className="approachSection" id='approach'>
@@ -64,33 +63,49 @@ export default function ApproachSection() {
         </h2>
 
         {/* СЕТКА БЛОКОВ */}
-        <motion.div className="approachGrid" layout>
+        <div className="approachGrid">
           {approachData.map((item) => (
             <motion.div
               key={item.id}
+              // ВАЖНО: Добавили prop 'layout'
+              layout
+              // 'layoutId' связывает эту карточку с модальным окном
               layoutId={item.id}
               onClick={() => setSelectedId(item.id)}
               className={`approachItem approachItem--${item.type}`}
-              whileHover={{ scale: 1.02 }}
+              // Анимация при наведении (теперь не конфликтует с CSS)
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              whileTap={{ scale: 0.98 }}
+              // Убираем скругление при открытии, чтобы оно плавно перешло в модалку
+              style={{ borderRadius: "10px" }} 
             >
               
-              {item.type === 'photo' && (
-                <div className="approachItem__photo-bg">
-                   {/* Убедись, что путь к фото верный */}
-                  <img src="/photo_2025-11-28_14-58-13.jpg" alt="Юлия Шкаранда" />
-                  <div className="approachItem__photo-overlay"></div>
-                </div>
-              )}
+              {/* Внутренний контент, который исчезает при клике */}
+              {/* Оборачиваем все внутренности в один motion.div для синхронного исчезновения */}
+              <motion.div
+                className="approachItem__inner-wrapper"
+                // Если карточка выбрана, её контент плавно исчезает
+                animate={{ opacity: selectedId === item.id ? 0 : 1 }}
+                transition={{ duration: 0.2 }}
+                style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+              >
+                {item.type === 'photo' && (
+                  <div className="approachItem__photo-bg">
+                    <img src="/photo_2025-11-28_14-58-13.jpg" alt="Юлия Шкаранда" />
+                    <div className="approachItem__photo-overlay"></div>
+                  </div>
+                )}
 
-              <motion.div className="approachItem__content" layout>
-                <h3 className="approachItem__title">{item.title}</h3>
-                <p className="approachItem__text">{item.shortText}</p>
+                <div className="approachItem__content">
+                  <h3 className="approachItem__title">{item.title}</h3>
+                  <p className="approachItem__text">{item.shortText}</p>
+                </div>
+                
+                <div className="approachItem__dot"></div>
               </motion.div>
-              
-              <div className="approachItem__dot"></div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
       </div>
 
@@ -99,32 +114,55 @@ export default function ApproachSection() {
         {selectedId && selectedItem && (
           <motion.div 
             className="modalOverlay"
+            // Фон затемнения
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             onClick={() => setSelectedId(null)}
           >
+            {/* САМО МОДАЛЬНОЕ ОКНО */}
             <motion.div 
               className="modalCard"
+              // ВАЖНО: 'layoutId' совпадает с ID карточки
               layoutId={selectedId}
-              onClick={(e) => e.stopPropagation()} 
+              // Настройки плавности трансформации "пружина"
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ borderRadius: "24px" }} 
             >
-              <button className="modalCloseBtn" onClick={() => setSelectedId(null)}>
+              {/* КОНТЕНТ ВНУТРИ МОДАЛКИ (Появляется с задержкой) */}
+              
+              <motion.button 
+                className="modalCloseBtn" 
+                onClick={() => setSelectedId(null)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.2, duration: 0.2 }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
-              </button>
+              </motion.button>
               
-              <motion.h3 className="modalCard__title" layout>
+              <motion.h3 
+                className="modalCard__title"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.25, duration: 0.3 }}
+              >
                 {selectedItem.title}
               </motion.h3>
               
               <motion.p 
                 className="modalCard__description"
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
               >
                 {selectedItem.description}
               </motion.p>
