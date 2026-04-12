@@ -1,7 +1,9 @@
 // src/components/ContactModal/ContactModal.scss
-@import '../../styles/_variables.scss';
+// @import '../../styles/_variables.scss';
 
 // Оверлей (затемненный фон) - стили дублируются из других модалок, можно вынести в global
+@import '../../styles/_variables.scss';
+
 .modalOverlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;

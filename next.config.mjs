@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Мы убрали блок sassOptions полностью.
-  // Больше никакой автоматической вставки путей.
+  // Мы полностью убрали sassOptions.
+  // Больше никаких автоматических импортов, которые ломают Windows.
 };
 
 export default nextConfig;
