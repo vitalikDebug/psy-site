@@ -16,22 +16,21 @@ html, body {
   font-family: $font-family-body; // Используем переменную
 }
 
-// 4. Импортируем стили всех компонентов
-// Они "увидят" переменные, подключенные выше.
-@import "../components/Header/Header.scss";
-@import "../components/HeroSection/HeroSection.scss";
-@import "../components/aboutSection/AboutSection.scss";
-@import "../components/problemSection/ProblemSection.scss";
-// Внимание на путь с кириллицей, убедись что папка называется именно так
-@import "../components/%D1%81onsequencesSection/ConsequencesSection.scss";
-@import "../components/servicesSection/ServicesSection.scss";
-@import "../components/approachSection/ApproachSection.scss";
-@import "../components/resultSection/ResultSection.scss";
-@import "../components/rewiewsSection/ReviewsSection.scss";
-@import "../components/processSection/ProcessSection.scss";
-@import "../components/FAQSection/FAQSection.scss";
-@import "../components/FinalCTASection/FinalCTASection.scss";
-@import "../components/footer/Footer.scss";
 
-@import "../components/GooeyButton/GooeyButton.scss";
-@import "../components/ContactModal/ContactModal.scss";
+// @import "../components/Header/Header.scss";
+// @import "../components/HeroSection/HeroSection.scss";
+// @import "../components/aboutSection/AboutSection.scss";
+// @import "../components/problemSection/ProblemSection.scss";
+// // Внимание на путь с кириллицей, убедись что папка называется именно так
+// @import "../components/%D1%81onsequencesSection/ConsequencesSection.scss";
+// @import "../components/servicesSection/ServicesSection.scss";
+// @import "../components/approachSection/ApproachSection.scss";
+// @import "../components/resultSection/ResultSection.scss";
+// @import "../components/rewiewsSection/ReviewsSection.scss";
+// @import "../components/processSection/ProcessSection.scss";
+// @import "../components/FAQSection/FAQSection.scss";
+// @import "../components/FinalCTASection/FinalCTASection.scss";
+// @import "../components/footer/Footer.scss";
+
+// @import "../components/GooeyButton/GooeyButton.scss";
+// @import "../components/ContactModal/ContactModal.scss";
