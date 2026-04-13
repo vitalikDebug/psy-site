@@ -1,0 +1,348 @@
+/* src/components/BeforeAfterSection/BeforeAfterSection.css */
+
+.beforeAfterSection {
+  padding: 100px 0;
+  transition: background-color 0.5s ease-in-out; /* Плавная смена фона секции */
+}
+
+/* Фон для состояния "ДО" (чуть прохладный/серый) */
+.beforeAfterSection--before {
+  background-color: color-mix(in srgb, var(--color-text-dark) 4%, var(--color-bg-main));
+}
+
+/* Фон для состояния "ПОСЛЕ" (теплый, светлый, наш основной) */
+.beforeAfterSection--after {
+  background-color: var(--color-bg-main);
+}
+
+.beforeAfterSection__container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- ЗАГОЛОВОК СВЕРХУ --- */
+.beforeAfterSection__header {
+  font-family: var(--font-family-headings);
+  font-size: 36px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 60px;
+  color: var(--color-text-dark);
+  line-height: 1.3;
+}
+
+.beforeAfterSection__header .highlight {
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+/* --- ЦЕНТРАЛЬНЫЙ КОНТЕНТ (Flex) --- */
+.beforeAfterSection__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 60px;
+  min-height: 420px; /* Фиксируем высоту, чтобы блок не прыгал при смене контента */
+}
+
+/* Левая часть с видео */
+.beforeAfterSection__video-wrapper {
+  flex: 0 0 400px; /* Фиксированная ширина для видео-блока */
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- СТИЛЬ ВИДЕО "TELEGRAM" --- */
+.telegram-video-container {
+  width: 380px;
+  height: 380px;
+  /* Магия формы: супер-скругленный квадрат (squircle) или круг */
+  border-radius: 50%; /* Для идеального круга */
+  /* border-radius: 35%; // Раскомментируй для формы "подушки" как в новых версиях ТГ */
+  
+  overflow: hidden; /* Обрезаем всё, что торчит за пределы радиуса */
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  /* border: 4px solid var(--color-white);  */
+  /* background-color: #000;  */
+}
+
+.telegram-video {
+  width: 100%;
+  height: 100%;
+  /* САМОЕ ВАЖНОЕ: обрезает видео, заполняя контейнер */
+  object-fit: cover; 
+  display: block;
+}
+
+/* Правая часть с текстом */
+.beforeAfterSection__text-content {
+  flex: 0 1 500px; /* Максимальная ширина текста */
+}
+
+.beforeAfterSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 24px;
+}
+
+.beforeAfterSection__description {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-text-dark);
+}
+
+/* --- НИЖНЯЯ ЧАСТЬ: ПЕРЕКЛЮЧАТЕЛЬ --- */
+.beforeAfterSection__controls {
+  display: flex;
+  justify-content: center;
+}
+
+/* Контейнер для кнопок (серый овал) */
+.toggle-container {
+  position: relative;
+  display: flex;
+  background-color: color-mix(in srgb, var(--color-text-dark) 8%, transparent);
+  padding: 4px;
+  border-radius: 40px;
+  width: 320px; /* Ширина всего переключателя */
+  height: 56px;
+}
+
+/* Сами кнопки (текст) */
+.toggle-btn {
+  flex: 1; /* Каждая кнопка занимает 50% */
+  position: relative;
+  z-index: 2; /* Текст поверх плавающего фона */
+  background: none;
+  border: none;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  border-radius: 36px;
+}
+
+/* Активный цвет текста */
+.toggle-btn.active {
+  color: var(--color-text-dark);
+}
+
+/* Плавающий фон (белый овал) */
+.toggle-slider {
+  position: absolute;
+  top: 4px;
+  /* left задается в JSX через инлайн-стили */
+  width: calc(50% - 4px); /* Ширина половины минус отступы */
+  height: calc(100% - 8px);
+  background-color: var(--color-white);
+  border-radius: 36px;
+  z-index: 1; /* Под текстом кнопок */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+
+/* --- АДАПТИВ --- */
+@media (max-width: 900px) {
+    .beforeAfterSection__content {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px; 
+    min-height: auto; 
+    margin-bottom: 40px; 
+  }
+  
+  .beforeAfterSection__video-wrapper {
+    flex: auto;
+    height: auto;
+  }
+
+  /* На планшетах чуть уменьшаем видео */
+  .telegram-video-container {
+    width: 320px;
+    height: 320px;
+  }
+   .beforeAfterSection__text-content {
+        flex: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .beforeAfterSection__text-content {
+        flex: none;
+    }
+  .beforeAfterSection {
+    padding: 60px 0; /* Меньше воздуха сверху и снизу всей секции */
+  }
+
+  .beforeAfterSection__header {
+    font-size: 22px;
+    margin-bottom: 30px; /* Уменьшаем отступ после главного заголовка */
+  }
+
+  .beforeAfterSection__content {
+    margin-bottom: 30px; /* Еще сильнее уменьшаем отступ до кнопок До/После */
+    gap: 20px; /* Текст становится ближе к видео */
+  }
+
+  /* На мобилках делаем видео еще чуть компактнее */
+  .telegram-video-container {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .beforeAfterSection__title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .beforeAfterSection__description {
+    font-size: 15px; /* Чуть уменьшаем описание для удобного чтения */
+  }
+
+  .toggle-container {
+    width: 100%; /* Переключатель на всю ширину */
+    max-width: 320px;
+  }
+
+  /* На мобилке пододвигаем кнопку звука ближе к краю видео */
+  .video-mute-btn-external {
+    width: 40px;
+    height: 40px;
+    top: 5px;
+    right: -5px; 
+  }
+
+  .video-play-btn {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+
+
+.video-player-box {
+  position: relative; /* Чтобы кнопка звука позиционировалась относительно этого блока */
+}
+
+/* Внешняя кнопка звука в правом верхнем углу */
+.video-mute-btn-external {
+  position: absolute;
+  top: 15px;
+  right: -15px; /* Выступает за край кружочка */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 10%, transparent);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  z-index: 20; /* Поверх всего */
+  transition: all 0.3s ease;
+}
+
+.video-mute-btn-external:hover {
+  transform: scale(1.1);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* Оверлей затемнения поверх видео */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Изначально прозрачный */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Затемняем при наведении ИЛИ когда видео на паузе */
+.telegram-video-container:hover .video-overlay,
+.video-play-btn.visible {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Кнопка Play/Pause по центру */
+.video-play-btn {
+  width: 72px; /* Сделали больше */
+  height: 72px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  cursor: pointer;
+  
+  /* Скрыта по умолчанию, чуть уменьшена */
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+/* Показываем кнопку при наведении на видео ИЛИ если видео на паузе */
+.telegram-video-container:hover .video-play-btn,
+.video-play-btn.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.video-play-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1) !important;
+}
+
+
+/* --- АДАПТИВ ДЛЯ НОВЫХ КНОПОК --- */
+@media (max-width: 600px) {
+  .video-mute-btn-external {
+    width: 42px;
+    height: 42px;
+    top: 10px;
+    right: -5px; /* На мобилке пододвигаем ближе */
+  }
+
+  .video-play-btn {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 900px) {
+
+  
+  .beforeAfterSection__video-wrapper {
+    flex: auto;
+    height: auto;
+  }
+
+  /* На планшетах чуть уменьшаем видео */
+  .telegram-video-container {
+    width: 320px;
+    height: 320px;
+  }
+}

@@ -18,6 +18,8 @@ import FAQSection from "@/components/FAQSection/FAQSection";
 import FinalCTASection from "@/components/FinalCTASection/FinalCTASection";
 import Footer from "@/components/footer/Footer";
 import ContactModal from "@/components/ContactModal/ContactModal";
+import CauseSection from '@/components/causeSection/CauseSection';
+import BeforeAfterSection from '@/components/beforeAfterSection/BeforeAfterSection';
 
 export default function Home() {
   // 2. Достаем всё состояние и функции из глобального контекста
@@ -31,10 +33,12 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <ProblemSection />
+      <CauseSection />
       <ConsequencesSection />
       <ServicesSection />
       <ApproachSection />
       <ResultsSection />
+      <BeforeAfterSection />
       <ReviewsSection />
       <ProcessSection />
       <FAQSection />

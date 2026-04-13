@@ -29,9 +29,9 @@ export default function HeroSection() {
           </ul>
 
           <div className="heroSection__cta-block">
-            <p className="heroSection__cta-text">
+            {/* <p className="heroSection__cta-text">
               Юлия Шкаранда
-            </p>
+            </p> */}
             {/* ИСПРАВЛЕНИЕ ЗДЕСЬ: */}
             {/* Убрали текст из скобок. Теперь вызываем просто openModal() */}
             <button onClick={() => openModal()} className="heroSection__btn">

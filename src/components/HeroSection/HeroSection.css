@@ -45,7 +45,8 @@
 
 .heroSection__title {
   font-family: var(--font-family-headings);
-  font-size: 64px; /* Крупный заголовок */
+  /* БАЗОВЫЙ РАЗМЕР ДЛЯ ДЕСКТОПА */
+  font-size: 64px;
   font-weight: 400;
   line-height: 1.1;
   color: var(--color-text-dark);
@@ -166,7 +167,7 @@
   /* Делаем ЧЕРНО-БЕЛЫМ */
   filter: grayscale(100%);
   opacity: 0.9;
-  transition: all 1s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .heroSection__img--secondary:hover {
@@ -177,7 +178,11 @@
 }
 
 
-/* --- Адаптив для мобильных --- */
+/* =========================================
+   --- АДАПТИВ (МЕДИА-ЗАПРОСЫ) ---
+========================================= */
+
+/* Планшеты и небольшие ноутбуки (меньше 1024px) */
 @media (max-width: 1024px) {
   .heroSection {
     padding-top: 120px;
@@ -193,6 +198,11 @@
     max-width: 100%;
     text-align: center;
     margin-bottom: 60px;
+  }
+  
+  /* Уменьшаем заголовок на планшетах */
+  .heroSection__title {
+    font-size: 56px;
   }
 
   .heroSection__list {
@@ -233,5 +243,44 @@
   /* Второе фото скрываем на маленьких экранах */
   .heroSection__img--secondary {
     display: none;
+  }
+}
+
+/* Крупные телефоны (iPhone Pro Max и т.д.) и вертикальные планшеты (меньше 768px) */
+@media (max-width: 768px) {
+  .heroSection {
+      padding-top: 100px; /* Еще меньше отступ сверху */
+  }
+  
+  .heroSection__subtitle {
+      font-size: 14px;
+  }
+
+  /* УМЕНЬШАЕМ ЗАГОЛОВОК */
+  .heroSection__title {
+    font-size: 48px;
+    margin-bottom: 30px;
+  }
+  
+  .heroSection__list-item {
+      font-size: 16px;
+  }
+
+  .heroSection__left {
+      margin-bottom: 40px;
+  }
+}
+
+/* Обычные смартфоны (меньше 480px) */
+@media (max-width: 480px) {
+  /* ЕЩЕ СИЛЬНЕЕ УМЕНЬШАЕМ ЗАГОЛОВОК */
+  .heroSection__title {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+  
+  .heroSection__btn {
+      width: 100%; /* Кнопка на всю ширину */
+      text-align: center;
   }
 }

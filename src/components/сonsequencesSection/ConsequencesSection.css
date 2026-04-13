@@ -198,6 +198,24 @@
     min-height: auto;
   }
 }
+@media (max-width: 900px) {
+  /* Переводим сетку в обычную колонку */
+  .consequencesGrid { /* Проверь, чтобы название класса сетки совпадало с твоим */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* СБРАСЫВАЕМ все десктопные привязки для карточек */
+  .consequenceCard,
+  .consequenceCard--wide, /* Если у тебя есть такие классы модификаторы */
+  .consequenceCard--narrow,
+  .consequenceCard:nth-child(n) {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100%;
+  }
+}
 
 @media (max-width: 600px) {
   .consequencesSection__title {

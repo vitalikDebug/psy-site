@@ -3,90 +3,104 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import GooeyButton from '../GooeyButton/GooeyButton';
-// 1. Импортируем хук и достаем selectedService
-import { useModal } from '@/context/ModalContext';
+import { usePathname } from 'next/navigation';
+// Импортируем иконки. Замени 'Users' на другую, если есть более подходящая иконка "родителя"
+import { CalendarDays, Menu, X, Users } from 'lucide-react';
 import './Header.css';
 
+const navLinks = [
+  { name: 'Обо мне', href: '/#about' },
+  { name: 'Подход', href: '/#approach' },
+  { name: 'Отзывы', href: '/#reviews' },
+  { name: 'Контакты', href: '/#contacts' },
+];
+
 export default function Header() {
-  const [activeSection, setActiveSection] = useState('');
-  // 2. Достаем не только openModal, но и selectedService
-  const { openModal, selectedService } = useModal();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-  const navLinks = [
-    { name: 'Главная', href: '#hero', id: 'hero' },
-    { name: 'Обо мне', href: '#about', id: 'about' },
-    { name: 'Форматы работы', href: '#services', id: 'services' },
-    { name: 'Подход', href: '#approach', id: 'approach' },
-    { name: 'Отзывы', href: '#reviews', id: 'reviews' },
-    { name: 'FAQ', href: '#faq', id: 'faq' },
-    { name: 'Контакты', href: '#contacts', id: 'contacts' },
-  ];
-
-  // ... (useEffect для скролла остается без изменений) ...
+  // Блокируем прокрутку страницы при открытом меню
   useEffect(() => {
-    const options = { root: null, rootMargin: '0px', threshold: 0.6 };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActiveSection(entry.target.id);
-      });
-    }, options);
-    navLinks.forEach((link) => {
-      const section = document.getElementById(link.id);
-      if (section) observer.observe(section);
-    });
-    return () => {
-      navLinks.forEach((link) => {
-        const section = document.getElementById(link.id);
-        if (section) observer.unobserve(section);
-      });
-    };
-  }, []);
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    // Очистка при размонтировании
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isMenuOpen]);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <header className="header">
       <div className="header__container">
         
+        {/* --- ЛЕВАЯ ЧАСТЬ (Кнопка Записи) --- */}
         <div className="header__left">
-           {/* Кнопка вызывает модалку. Если услуга уже выбрана, она откроется с ней. */}
-           <button className="header__booking-btn" onClick={() => openModal()}>
-             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-               <path d="M16 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-               <path d="M8 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-               <path d="M3 10H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-             </svg>
-             <span>Запись</span>
-
-             {/* 3. УСЛОВНЫЙ РЕНДЕРИНГ: Если есть выбранная услуга, показываем бейдж */}
-             {selectedService && (
-                <span className="header__booking-badge">1</span>
-             )}
-           </button>
+          <button className="header__booking-btn" aria-label="Записаться">
+            <CalendarDays size={20} />
+            <span>Запись</span>
+            {/* Бейдж (если нужен) */}
+            {/* <div className="header__booking-badge">1</div> */}
+          </button>
         </div>
 
-        <nav className="header__nav">
+        {/* --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация Десктоп) --- */}
+        <nav className="header__nav-desktop">
           <ul className="header__list">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.id;
-              return (
-                <li key={link.id} className="header__item">
-                  <Link 
-                    href={link.href}
-                    className={`header__link ${isActive ? 'header__link--active' : ''}`}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              );
-            })}
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link 
+                  href={link.href}
+                  className={`header__link ${pathname === link.href ? 'header__link--active' : ''}`}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
           </ul>
-
-          <GooeyButton href="/course" className="header__btn--gooey">
-             Курс для родителей
-          </GooeyButton>
         </nav>
+
+        {/* --- ПРАВАЯ ЧАСТЬ (Кнопка Курса и Бургер) --- */}
+        <div className="header__right">
+          {/* Адаптивная кнопка курса (без пузырьков) */}
+          <Link href="/course" className="header__course-btn">
+            {/* Иконка видна только на мобильных (через CSS) */}
+            <Users size={18} className="header__course-icon-mob" />
+            
+            {/* Текст меняется через CSS media queries */}
+            <span className="course-text-desk">Курс для родителей</span>
+            <span className="course-text-mob">Курс</span>
+          </Link>
+
+          {/* Кнопка Бургер-меню (видна только на планшетах/мобильных) */}
+          <button className="header__burger-btn" onClick={toggleMenu} aria-label="Меню">
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
+
+      {/* --- МОБИЛЬНОЕ МЕНЮ (Оверлей) --- */}
+      <div className={`header__mobile-menu ${isMenuOpen ? 'header__mobile-menu--open' : ''}`}>
+        <div className="header__mobile-menu-container">
+          <ul className="header__mobile-list">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link 
+                  href={link.href}
+                  className={`header__mobile-link ${pathname === link.href ? 'header__mobile-link--active' : ''}`}
+                  onClick={closeMenu} // Закрываем меню при клике
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
     </header>
   );
 }

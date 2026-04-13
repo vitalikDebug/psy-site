@@ -3,7 +3,7 @@ import './Footer.css';
 
 export default function Footer() {
   return (
-    <footer className="footer" id='footer'>
+    <footer className="footer" id='contacts'>
       <div className="footer__container">
         
         {/* Верхняя часть футера (Колонки) */}

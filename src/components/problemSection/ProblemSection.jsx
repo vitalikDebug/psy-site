@@ -76,11 +76,11 @@ export default function ProblemSection() {
         </div>
 
         {/* НИЖНИЙ ТЕКСТ ПО ЦЕНТРУ */}
-        <div className="problemSection__footer">
+        {/* <div className="problemSection__footer">
           <p className="problemSection__footer-text">
             Если вы узнали себя — это можно изменить.
           </p>
-        </div>
+        </div> */}
 
       </div>
     </section>

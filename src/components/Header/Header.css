@@ -9,7 +9,6 @@
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  /* Цвет бордера с прозрачностью */
   border-bottom: 1px solid color-mix(in srgb, var(--color-text-dark) 5%, transparent);
   transition: all 0.3s ease;
 }
@@ -19,19 +18,19 @@
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 20px;
-  /* ВАЖНО: Делаем флекс и разносим элементы по краям */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* --- НОВАЯ ЛЕВАЯ ЧАСТЬ --- */
+/* --- ЛЕВАЯ ЧАСТЬ (Кнопка Записи) --- */
 .header__left {
   display: flex;
   align-items: center;
+  /* Убеждаемся, что левая часть не сжимается */
+  flex-shrink: 0;
 }
 
-/* Стили для кнопки "Запись" с иконкой */
 .header__booking-btn {
   display: flex;
   align-items: center;
@@ -39,7 +38,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  position: relative; /* Важно для позиционирования бейджа */
+  position: relative;
   font-family: var(--font-family-body);
   font-size: 15px;
   font-weight: 600;
@@ -54,9 +53,7 @@
   transition: transform 0.3s ease;
 }
 
-/* Ховер для кнопки записи */
 .header__booking-btn:hover {
-  /* Фон с прозрачностью акцентного цвета */
   background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
   color: var(--color-accent);
 }
@@ -65,31 +62,13 @@
   transform: scale(1.1);
 }
 
-.header__booking-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(40%, -40%); /* Сдвигаем в правый верхний угол */
+/* --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация Десктоп) --- */
+.header__nav-desktop {
+  /* Занимает все доступное место по центру */
+  flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  /* Красный цвет (можно заменить на var(--color-accent)) */
-  background-color: #FF4D4F;
-  color: var(--color-white);
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 50%; /* Круглая форма */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* ------------------------- */
-
-.header__nav {
-  display: flex;
-  align-items: center;
-  gap: 40px;
+  padding: 0 20px;
 }
 
 .header__list {
@@ -100,13 +79,6 @@
   gap: 24px;
 }
 
-@media (max-width: 1024px) {
-  .header__list {
-    display: none;
-  }
-}
-
-/* --- ССЫЛКИ МЕНЮ --- */
 .header__link {
   text-decoration: none;
   color: var(--color-text-dark);
@@ -118,7 +90,6 @@
   padding-bottom: 4px;
 }
 
-/* Подчеркивание ссылки */
 .header__link::after {
   content: '';
   position: absolute;
@@ -130,7 +101,6 @@
   transition: width 0.3s ease;
 }
 
-/* Ховер для ссылки */
 .header__link:hover {
   color: var(--color-accent);
 }
@@ -139,7 +109,6 @@
   width: 100%;
 }
 
-/* Активная ссылка */
 .header__link--active {
   color: var(--color-accent);
   font-weight: 600;
@@ -149,14 +118,169 @@
   width: 100%;
 }
 
-/* АДАПТИВ */
+/* --- ПРАВАЯ ЧАСТЬ (Курс и Бургер) --- */
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Расстояние между кнопкой курса и бургером */
+  flex-shrink: 0;
+}
+
+/* Кнопка Бургер (скрыта на десктопе) */
+.header__burger-btn {
+  display: none; /* По умолчанию скрыта */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-dark);
+  padding: 4px;
+  z-index: 1002; /* Поверх мобильного меню */
+}
+
+/* --- АДАПТИВНАЯ КНОПКА КУРСА (Новые стили без пузырьков) --- */
+.header__course-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  /* Простая заливка акцентным цветом */
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  /* gap нужен для мобильной версии */
+  gap: 8px; 
+}
+
+.header__course-btn:hover {
+  /* Простое затемнение при наведении */
+  background-color: color-mix(in srgb, var(--color-accent) 85%, black);
+  transform: translateY(-2px);
+}
+
+/* Управление видимостью элементов внутри кнопки */
+.header__course-icon-mob { display: none; } /* Иконка скрыта на десктопе */
+.course-text-mob { display: none; } /* Короткий текст скрыт на десктопе */
+.course-text-desk { display: inline; } /* Длинный текст виден на десктопе */
+
+
+/* --- МОБИЛЬНОЕ МЕНЮ (Оверлей) --- */
+.header__mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-white);
+  z-index: 1001; /* Под кнопкой бургера, но над всем остальным */
+  
+  /* Анимация появления (сдвиг сверху) */
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  pointer-events: none; /* Чтобы не мешало, когда закрыто */
+}
+
+/* Состояние открытого меню */
+.header__mobile-menu--open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.header__mobile-menu-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px; /* Отступ сверху, чтобы не наезжать на хедер */
+}
+
+.header__mobile-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.header__mobile-link {
+  font-family: var(--font-family-headings);
+  font-size: 28px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-dark);
+  transition: color 0.3s ease;
+}
+
+.header__mobile-link:hover,
+.header__mobile-link--active {
+  color: var(--color-accent);
+}
+
+/* =========================================
+   --- МЕДИА-ЗАПРОСЫ (АДАПТИВ) ---
+========================================= */
+
+/* Планшеты и меньше (скрываем десктопное меню, показываем бургер) */
+@media (max-width: 1024px) {
+  .header__nav-desktop {
+    display: none;
+  }
+
+  .header__burger-btn {
+    display: block;
+  }
+
+  /* Центрируем оставшиеся элементы */
+  .header__container {
+    justify-content: space-between;
+  }
+}
+
+/* Мобильные телефоны */
 @media (max-width: 768px) {
   .header__container {
     padding: 0 15px;
   }
 
-  /* На мобилках уменьшаем отступы */
-  .header__nav {
-    gap: 20px;
+  .header__right {
+    gap: 12px; /* Уменьшаем отступ между кнопками справа */
   }
+  
+  /* В кнопке "Запись" убираем текст, оставляем только иконку (опционально, для экономии места) */
+  /* .header__booking-btn span {
+    display: none;
+  } 
+  .header__booking-btn {
+      padding: 8px;
+  }
+  */
+
+  /* --- Адаптация кнопки "Курс" на мобильных --- */
+  .header__course-btn {
+    padding: 8px 16px; /* Уменьшаем размер кнопки */
+    font-size: 14px;
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 1px solid var(--color-accent); /* Добавляем рамку */
+    color: var(--color-accent); /* Цвет текста меняем на акцентный */
+  }
+  
+  .header__course-btn:hover {
+      background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+      transform: none;
+  }
+
+  /* Переключаем видимость контента внутри кнопки */
+  .header__course-icon-mob { display: block; } /* Показываем иконку */
+  .course-text-mob { display: inline; } /* Показываем короткий текст "Курс" */
+  .course-text-desk { display: none; } /* Скрываем длинный текст */
 }

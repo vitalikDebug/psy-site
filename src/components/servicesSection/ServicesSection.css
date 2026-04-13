@@ -2,7 +2,6 @@
 
 .servicesSection {
   padding: 100px 0;
-  /* background-color: #FAF9F7;  */
   background-color: #fff;
 }
 
@@ -36,50 +35,50 @@
   margin: 0 auto;
 }
 
-/* --- СЕТКА КАРТОЧЕК --- */
+/* --- СЕТКА КАРТОЧЕК (Десктоп) --- */
 .servicesGrid {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* На десктопе переносим на новую строку */
   justify-content: center; /* Центрируем карточки */
   gap: 30px;
 }
 
-/* --- КАРТОЧКА УСЛУГИ --- */
+/* --- КАРТОЧКА УСЛУГИ (Общие стили) --- */
 .serviceCard {
   background-color: var(--color-white);
   /* Цвет бордера с прозрачностью */
   border: 1px solid color-mix(in srgb, var(--color-text-dark) 10%, transparent);
   border-radius: 16px;
   padding: 40px;
-  /* Ширина карточки. Flex-basis позволяет им сжиматься/расширяться.
-     calc(33.333% - 20px) - это попытка вписать 3 в ряд с учетом отступов. */
+  /* Ширина карточки для десктопа.
+     calc(33.333% - 20px) - попытка вписать 3 в ряд с учетом отступов. */
   flex: 0 1 calc(33.333% - 20px);
-  min-width: 320px; /* Минимальная ширина */
+  min-width: 320px; /* Минимальная ширина для десктопа */
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
   /* Тень с прозрачностью */
   box-shadow: 0 4px 20px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
+  
+  /* Важно для слайдера: чтобы высота карточек была одинаковой */
+  height: auto; 
 }
 
 .serviceCard:hover {
   transform: translateY(-5px);
-  /* Тень при наведении с прозрачностью */
   box-shadow: 0 15px 40px color-mix(in srgb, var(--color-text-dark) 8%, transparent);
-  /* Цвет бордера при наведении с прозрачностью */
   border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
 /* Выделить первую карточку (Консультация) */
 .serviceCard--primary {
   border-color: var(--color-accent);
-  background-color: #FFFCF9; /* Едва заметный теплый оттенок */
+  background-color: #FFFCF9;
 }
 
 .serviceCard__header {
   margin-bottom: 30px;
   padding-bottom: 20px;
-  /* Линия-разделитель с прозрачностью */
   border-bottom: 1px solid color-mix(in srgb, var(--color-text-dark) 10%, transparent);
   min-height: 75px;
 }
@@ -104,7 +103,7 @@
   font-family: var(--font-family-body);
   font-size: 16px;
   font-weight: 700;
-  color: var(--color-accent); /* Выделяем заголовки блоков цветом */
+  color: var(--color-accent);
   margin-bottom: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -112,7 +111,6 @@
 
 /* Блок с результатом */
 .serviceCard__block--result {
-  /* Фон с прозрачностью акцентного цвета */
   background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
   padding: 15px;
   border-radius: 8px;
@@ -130,7 +128,6 @@
   font-family: var(--font-family-body);
   font-size: 15px;
   line-height: 1.5;
-  /* Цвет текста с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
   margin-bottom: 10px;
   padding-left: 20px;
@@ -149,7 +146,6 @@
   font-family: var(--font-family-body);
   font-size: 15px;
   line-height: 1.5;
-  /* Цвет текста с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 90%, transparent);
 }
 
@@ -159,7 +155,6 @@
   gap: 8px;
   font-family: var(--font-family-body);
   font-size: 14px;
-  /* Цвет текста с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
   padding-top: 20px;
 }
@@ -186,20 +181,18 @@
   font-size: 16px;
   font-weight: 600;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .serviceCard__btn:hover {
-  /* Затемнение цвета при наведении (аналог darken) */
   background-color: color-mix(in srgb, var(--color-accent) 95%, black);
-  /* Тень с прозрачностью */
   box-shadow: 0 4px 15px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
 
-/* --- АДАПТИВ --- */
+/* --- АДАПТИВ (Планшеты) --- */
 @media (max-width: 1200px) {
   .servicesGrid {
-    /* На средних экранах по 2 карточки в ряд */
     justify-content: center;
   }
   .serviceCard {
@@ -208,19 +201,65 @@
   }
 }
 
+/* --- АДАПТИВ (Мобильные - ПРЕВРАЩЕНИЕ В СЛАЙДЕР) --- */
 @media (max-width: 768px) {
   .servicesSection__title {
     font-size: 32px;
   }
-
-  .servicesGrid {
-    flex-direction: column; /* На мобилках в одну колонку */
-    align-items: center;
+  
+  .servicesSection__header {
+      margin-bottom: 40px;
   }
 
+  /* Изменяем контейнер сетки на слайдер */
+  .servicesGrid {
+    display: flex;
+    flex-wrap: nowrap; /* ЗАПРЕЩАЕМ перенос на новую строку */
+    overflow-x: auto; /* Разрешаем горизонтальную прокрутку */
+    gap: 15px; /* Уменьшаем отступы между карточками */
+    justify-content: flex-start; /* Выравниваем по началу */
+    
+    /* Магия CSS Scroll Snap */
+    scroll-snap-type: x mandatory; /* Обязательное прилипание по горизонтали */
+    
+    /* UX улучшения для скролла */
+    padding: 20px 20px 40px 20px; /* Добавляем отступы вокруг, чтобы тени не обрезались */
+    margin: 0 -20px; /* Компенсируем паддинги родительского контейнера, чтобы слайдер был от края до края */
+    
+    /* Скрываем скроллбар (для эстетики) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+  }
+  
+  /* Скрываем скроллбар для Chrome/Safari/Opera */
+  .servicesGrid::-webkit-scrollbar {
+      display: none;
+  }
+
+  /* Адаптируем карточки для слайдера */
   .serviceCard {
-    width: 100%;
-    max-width: 450px; /* Ограничиваем ширину */
-    flex: 1 1 auto;
+    /* Фиксируем ширину карточки */
+    flex: 0 0 auto; /* Не сжиматься, не растягиваться */
+    width: 85vw; /* Ширина 85% от экрана телефона (чтобы видно было следующую карточку) */
+    max-width: 380px; /* Но не шире 380px */
+    min-width: 0; /* Сброс минимальной ширины десктопа */
+    
+    /* Магия CSS Scroll Snap */
+    scroll-snap-align: center; /* Карточка будет центрироваться при остановке скролла */
+    
+    padding: 30px 24px; /* Чуть меньше внутренние отступы */
+    margin-bottom: 0; /* Убираем отступы снизу */
+  }
+
+  /* Отключаем эффекты наведения на тач-скринах */
+  .serviceCard:hover {
+    transform: none;
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
+    border-color: color-mix(in srgb, var(--color-text-dark) 10%, transparent);
+  }
+  
+  /* Но оставляем выделение для primary карточки */
+  .serviceCard--primary {
+      border-color: var(--color-accent);
   }
 }

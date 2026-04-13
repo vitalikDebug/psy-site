@@ -1,0 +1,152 @@
+/* src/components/CauseSection/CauseSection.css */
+
+.causeSection {
+  padding: 100px 0;
+  background-color: #fff;
+}
+
+.causeSection__container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.causeSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 40px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+  margin-bottom: 60px;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* --- СЕТКА --- */
+.causeGrid {
+  display: grid;
+  /* 4 колонки для шагов */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* --- ОБЩИЕ СТИЛИ КАРТОЧКИ --- */
+.causeItem {
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 10%, transparent);
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.causeItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--color-text-dark) 5%, transparent);
+}
+
+.causeItem__title {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--color-text-dark);
+  z-index: 2;
+}
+
+.causeItem__text {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  z-index: 2;
+}
+
+/* Цифра на фоне для карточек-шагов */
+.causeItem__step-num {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-family: var(--font-family-headings);
+  font-size: 64px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--color-text-dark) 4%, transparent);
+  z-index: 1;
+  line-height: 1;
+}
+
+/* --- МОДИФИКАТОРЫ ПОЗИЦИЙ --- */
+
+/* Вступление (на всю ширину) */
+.causeItem--intro {
+  grid-column: 1 / -1; /* Занимает все колонки */
+  background-color: var(--color-text-dark);
+  color: var(--color-white);
+  border: none;
+}
+
+.causeItem--intro .causeItem__title,
+.causeItem--intro .causeItem__text {
+  color: var(--color-white);
+}
+
+.causeItem--intro .causeItem__text {
+  font-size: 18px; /* Текст крупнее во вступлении */
+  max-width: 800px;
+}
+
+/* Шаги (по одной колонке) */
+.causeItem--step {
+  grid-column: span 1;
+  min-height: 220px;
+}
+
+/* Итог (на всю ширину снизу) */
+.causeItem--outro {
+  grid-column: 1 / -1;
+  background-color: #F2EBE9; /* Мягкий бежево-розовый оттенок, как в Consequences */
+  border: none;
+  align-items: center; /* Центрируем контент */
+  text-align: center;
+}
+
+.causeItem--outro .causeItem__text {
+  max-width: 800px;
+  font-weight: 500;
+}
+
+
+/* --- АДАПТИВ --- */
+@media (max-width: 1024px) {
+  .causeGrid {
+    /* На планшетах делаем 2 колонки для шагов */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .causeSection__title {
+    font-size: 32px;
+  }
+
+  .causeGrid {
+    /* На мобилках все в одну колонку */
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .causeItem {
+    padding: 24px;
+    min-height: auto;
+  }
+  
+  .causeItem--intro .causeItem__text {
+    font-size: 16px;
+  }
+}

@@ -87,11 +87,11 @@ export default function ConsequencesSection() {
         </div>
 
         {/* ВАЖНЫЙ ВЫВОД ВНИЗУ */}
-        <div className="consequencesSection__footer">
+        {/* <div className="consequencesSection__footer">
           <p className="consequencesSection__footer-text">
             Чем раньше начать, тем легче убрать страх речи.
           </p>
-        </div>
+        </div> */}
       </div>
     </section>
   );

@@ -65,7 +65,7 @@ const servicesData = [
       'Рекомендации родителям'
     ],
     result: 'Уменьшаются запинки, ребёнок говорит спокойнее, снижается тревога.',
-    format: '6–7 встреч (1 неделя)',
+    format: '6–7 встреч (2 недели)',
     buttonText: 'Узнать подробнее',
     // buttonLink: 'https://t.me/m/NXl4uiraZTE6'
   },
@@ -139,7 +139,7 @@ export default function ServicesSection() {
                 {/* Блок "Подойдет если" */}
                 {item.suitableFor && (
                   <div className="serviceCard__block">
-                    <h4 className="serviceCard__block-title">Подойдёт если:</h4>
+                    <h4 className="serviceCard__block-title">Подойдёт если</h4>
                     <ul className="serviceCard__list">
                       {item.suitableFor.map((items, i) => (
                         <li key={i}>{items}</li>
@@ -151,7 +151,7 @@ export default function ServicesSection() {
                 {/* Блок "Что входит/узнаете" */}
                 {item.includes && (
                   <div className="serviceCard__block">
-                    <h4 className="serviceCard__block-title">Что входит:</h4>
+                    <h4 className="serviceCard__block-title">Что входит</h4>
                     <ul className="serviceCard__list">
                       {item.includes.map((item, i) => (
                         <li key={i}>{item}</li>
@@ -163,7 +163,7 @@ export default function ServicesSection() {
                 {/* Блок "Результат" (если есть) */}
                 {item.result && (
                   <div className="serviceCard__block serviceCard__block--result">
-                    <h4 className="serviceCard__block-title">Результат:</h4>
+                    <h4 className="serviceCard__block-title">Результат</h4>
                     <p className="serviceCard__text">{item.result}</p>
                   </div>
                 )}
