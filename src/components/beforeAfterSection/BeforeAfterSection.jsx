@@ -10,13 +10,15 @@ const contentData = {
     id: 'before',
     title: "ДО: Скованность и страх",
     description: "Речь прерывистая, сильное волнение перед началом разговора. Заметны физические зажимы в области шеи и челюсти. Избегание зрительного контакта.",
-    videoSrc: "/videos/first_v_before.mp4" 
+
+    videoSrc: "https://github.com/vitalikDebug/psy-site/releases/download/v1.0-media/first_v_before.mp4" 
   },
   after: {
     id: 'after',
     title: "ПОСЛЕ: Свобода и уверенность",
     description: "Плавная, спокойная речь без видимых усилий. Уверенный зрительный контакт, отсутствие страха паузы. Человек получает удовольствие от общения.",
-    videoSrc: "/videos/first_v_after.mp4" 
+ 
+    videoSrc: "https://github.com/vitalikDebug/psy-site/releases/download/v1.0-media/first_v_after.mp4" 
   }
 };
 
