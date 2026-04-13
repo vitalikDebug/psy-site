@@ -8,6 +8,8 @@ import { usePathname } from 'next/navigation';
 import { CalendarDays, Menu, X, Users } from 'lucide-react';
 import './Header.css';
 
+import { useModal } from '@/context/ModalContext';
+
 const navLinks = [
   { name: 'Обо мне', href: '/#about' },
   { name: 'Подход', href: '/#approach' },
@@ -18,6 +20,8 @@ const navLinks = [
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const { openModal } = useModal();
 
   // Блокируем прокрутку страницы при открытом меню
   useEffect(() => {
@@ -39,12 +43,14 @@ export default function Header() {
         
         {/* --- ЛЕВАЯ ЧАСТЬ (Кнопка Записи) --- */}
         <div className="header__left">
-          <button className="header__booking-btn" aria-label="Записаться">
-            <CalendarDays size={20} />
-            <span>Запись</span>
-            {/* Бейдж (если нужен) */}
-            {/* <div className="header__booking-badge">1</div> */}
-          </button>
+         <button 
+  className="header__booking-btn" 
+  aria-label="Записаться"
+  onClick={() => openModal('Общая запись с сайта')} // Вызываем функцию открытия
+>
+  <CalendarDays size={20} />
+  <span>Запись</span>
+</button>
         </div>
 
         {/* --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация Десктоп) --- */}

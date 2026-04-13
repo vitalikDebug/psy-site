@@ -182,14 +182,14 @@ export default function ServicesSection() {
                     {item.buttonText}
                   </Link>
                 ) : (
-                  // Если ссылки нет, рендерим кнопку, открывающую модалку
-                  // И передаем ей заголовок этой карточки (item.title)
-                 <button 
-                    className="serviceCard__btn"
-                    onClick={() => openModal(item.title)} 
-                  >
-                    {item.buttonText}
-                  </button>
+                  
+                <button 
+        className="serviceCard__btn"
+       
+        onClick={() => openModal(`${item.title}`)} 
+      >
+        {item.buttonText}
+      </button>
                 )}
               </div>
 
