@@ -1,28 +1,39 @@
 /* src/components/Header/Header.css */
 
+/* --- ОСНОВНОЙ КОНТЕЙНЕР (ОСТРОВОК) --- */
 .header {
-position: fixed;
+  position: fixed;
+  /* Отступ сверху */
   top: 10px;
+  /* Центрирование по горизонтали */
   left: 50%;
   transform: translateX(-50%);
+  
+  /* Ширина: на всю ширину минус отступы по бокам, но не шире контейнера */
   width: calc(100% - 40px);
   max-width: var(--container-width);
   
+  /* ВАЖНО: Должен быть выше мобильного меню (у которого 1001) */
+  z-index: 1002;
+  
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid color-mix(in srgb, var(--color-text-dark) 8%, transparent);
+  
+  /* Рамка и тени для эффекта парения */
+  /* border: 1px solid color-mix(in srgb, var(--color-text-dark) 8%, transparent); */
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   
   padding: 10px 20px;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
   
-  /* ВАЖНО: Скрываем все, что вылезает за скругленные углы */
+  /* Плавное изменение цвета границ и теней при смене режима */
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+  
+  /* ВАЖНО: Скрываем анимированный фон, вылезающий за скругленные углы */
   overflow: hidden; 
-  z-index: 1002;
 }
 
-/* --- МАГИЯ: АНИМИРОВАННЫЙ ФОН --- */
+/* --- МАГИЯ: АНИМИРОВАННЫЙ ФОН (Заливка цветом) --- */
 .header::before {
   content: '';
   position: absolute;
@@ -31,38 +42,43 @@ position: fixed;
   width: 100%;
   height: 100%;
   background-color: var(--color-accent);
-  z-index: 0; /* Под контентом */
+  z-index: 0; /* Фон лежит ПОД контентом */
   
-  /* Создаем круг, который сжат в невидимую точку справа (где была кнопка) */
-  clip-path: circle(0px at calc(100% - 100px) 50%);
+  /* Создаем круг, который изначально сжат в невидимую точку справа (в районе кнопки действий) */
+  clip-path: circle(0px at calc(100% - 60px) 50%);
   transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none; /* Чтобы фон не перехватывал клики */
 }
 
-/* Когда активирован режим курса */
+/* --- РЕЖИМ КУРСА (Активируется на странице /course) --- */
 .header--course-mode {
-  border-color: transparent; /* Убираем бордер */
-  box-shadow: 0 10px 40px color-mix(in srgb, var(--color-accent) 40%, transparent); /* Тень в цвет акцента */
+  border-color: transparent; /* Убираем серую рамку, она не нужна на цветном фоне */
+  /* Тень становится цветной, под цвет акцента */
+  box-shadow: 0 10px 40px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
-/* Раздуваем фон на весь островок */
+/* Раздуваем фон на весь островок при активации режима */
 .header--course-mode::before {
-  /* Круг становится радиусом 150%, полностью покрывая шапку */
-  clip-path: circle(150% at calc(100% - 100px) 50%);
+  /* Круг расширяется до 150% радиуса, полностью заливая шапку */
+  clip-path: circle(150% at calc(100% - 60px) 50%);
 }
 
+/* --- ВНУТРЕННИЙ КОНТЕЙНЕР --- */
 .header__container {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  /* ВАЖНО: Чтобы текст был поверх анимированного фона */
+  /* ВАЖНО: Текст и кнопки должны быть поверх анимированного фона */
   position: relative;
   z-index: 1; 
 }
 
 
-/* --- ЛЕВАЯ ЧАСТЬ (Кнопка Записи) --- */
+/* =========================================
+   --- ЛЕВАЯ ЧАСТЬ (Кнопка Записи) ---
+========================================= */
 .header__left {
   display: flex;
   align-items: center;
@@ -83,7 +99,7 @@ position: fixed;
   color: var(--color-text-dark);
   padding: 8px 12px;
   border-radius: 12px;
-  /* Плавная смена цвета текста */
+  /* Плавная смена цвета текста при переходе в режим курса */
   transition: all 0.4s ease;
 }
 
@@ -92,7 +108,7 @@ position: fixed;
   transition: all 0.4s ease;
 }
 
-/* Перекрашиваем кнопку записи в режиме курса */
+/* Перекрашиваем кнопку записи в белый цвет в режиме курса */
 .header--course-mode .header__booking-btn,
 .header--course-mode .header__booking-icon {
   color: var(--color-white);
@@ -107,43 +123,43 @@ position: fixed;
   transform: scale(1.1);
 }
 
-/* Ховер в режиме курса */
+/* Ховер кнопки записи в режиме курса */
 .header--course-mode .header__booking-btn:hover {
   background-color: rgba(255, 255, 255, 0.15);
   color: var(--color-white);
 }
 
-
 /* --- БЕЙДЖ С ЦИФРОЙ "1" --- */
-/* (Код бейджа оставляем без изменений) */
 .header__booking-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    background-color: #FF4D4F;
-    color: var(--color-white);
-    font-family: var(--font-family-body);
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    transition: all 0.4s ease;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: #FF4D4F; /* Красный в обычном режиме */
+  color: var(--color-white);
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: all 0.4s ease;
 }
 
-/* В режиме курса бейдж становится белым, а цифра в цвет акцента */
+/* В режиме курса бейдж становится белым, а цифра — акцентной */
 .header--course-mode .header__booking-badge {
-    background-color: var(--color-white);
-    color: var(--color-accent);
+  background-color: var(--color-white);
+  color: var(--color-accent);
 }
 
 
-/* --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация) --- */
+/* =========================================
+   --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация Десктоп) ---
+========================================= */
 .header__nav-desktop {
   flex: 1;
   display: flex;
@@ -165,11 +181,12 @@ position: fixed;
   font-family: var(--font-family-body);
   font-size: 15px;
   font-weight: 500;
-  transition: color 0.4s ease; /* Добавили плавность для цвета */
+  transition: color 0.4s ease; /* Плавность для смены цвета текста */
   position: relative;
   padding-bottom: 4px;
 }
 
+/* Подчеркивание при наведении */
 .header__link::after {
   content: '';
   position: absolute;
@@ -178,25 +195,27 @@ position: fixed;
   width: 0;
   height: 2px;
   background-color: var(--color-accent);
+  /* Плавность для ширины и цвета подчеркивания */
   transition: width 0.3s ease, background-color 0.4s ease;
   border-radius: 2px;
 }
 
-/* Перекрашиваем ссылки в белые */
+/* --- Стили ссылок в режиме курса (Белые) --- */
 .header--course-mode .header__link {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.8); /* Слегка прозрачный белый */
 }
 
 .header--course-mode .header__link:hover,
 .header--course-mode .header__link--active {
-  color: var(--color-white);
+  color: var(--color-white); /* Ярко-белый при активе/ховере */
 }
 
-/* Подчеркивание тоже белое */
+/* Подчеркивание тоже становится белым */
 .header--course-mode .header__link::after {
   background-color: var(--color-white);
 }
 
+/* --- Обычные состояния ссылок --- */
 .header__link:hover {
   color: var(--color-accent);
 }
@@ -212,7 +231,9 @@ position: fixed;
 }
 
 
-/* --- ПРАВАЯ ЧАСТЬ --- */
+/* =========================================
+   --- ПРАВАЯ ЧАСТЬ (Кнопки действий и Бургер) ---
+========================================= */
 .header__right {
   display: flex;
   align-items: center;
@@ -220,6 +241,7 @@ position: fixed;
   flex-shrink: 0;
 }
 
+/* Бургер-меню (скрыто на десктопе) */
 .header__burger-btn {
   display: none;
   background: none;
@@ -231,12 +253,14 @@ position: fixed;
   transition: color 0.4s ease;
 }
 
-/* Бургер становится белым */
+/* Бургер становится белым в режиме курса */
 .header--course-mode .header__burger-btn {
   color: var(--color-white);
 }
 
-/* --- КНОПКИ СПРАВА (Курс / Назад) --- */
+/* --- КНОПКИ СПРАВА (Курс / Назад) - ИСПРАВЛЕНО --- */
+
+/* 1. Стандартная кнопка "Курс" (Широкая, с текстом) */
 .header__course-btn {
   display: inline-flex;
   align-items: center;
@@ -253,85 +277,112 @@ position: fixed;
   gap: 8px; 
 }
 
+.header__course-btn:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 85%, black);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+/* 2. Новая кнопка "Назад" (Круглая иконка со стрелкой) */
 .header__back-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 44px; /* Жесткая ширина для круга */
   height: 44px; /* Жесткая высота для круга */
-  padding: 0;
+  padding: 0;   /* Убираем паддинги, чтобы не ломать круг */
   border-radius: 50%; /* Идеальный круг */
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачный белый фон */
   color: var(--color-white);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Полупрозрачная рамка */
   transition: all 0.3s ease;
   flex-shrink: 0; /* Чтобы кнопка не сплющивалась, если мало места */
 }
 
-/* .header__course-btn:hover {
-  background-color: color-mix(in srgb, var(--color-accent) 85%, black);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent);
-} */
-
-/* Стандартная кнопка "Курс" */
-.header__course-btn {
-  background-color: var(--color-accent);
-  color: var(--color-white);
-}
-.header__course-btn:hover {
- background-color: color-mix(in srgb, var(--color-accent) 85%, black);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent);
-}
-
-/* Новая кнопка "Назад" (прозрачно-белая) */
-.header__back-btn {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: var(--color-white);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
 .header__back-btn:hover {
   background-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-.header__course-icon-mob { display: none; }
-.course-text-mob { display: none; }
-.course-text-desk { display: inline; }
+/* Управление текстом/иконками внутри кнопки курса */
+.header__course-icon-mob { display: none; } /* Скрыто на десктопе */
+.course-text-mob { display: none; } /* Скрыто на десктопе */
+.course-text-desk { display: inline; } /* Видно на десктопе */
 
 
-/* ... Остальной код для Мобильного меню и Адаптив (Media Queries) остается без изменений, 
-   нужно только обновить адаптив кнопки "Назад" ... */
+/* =========================================
+   --- МЕДИА-ЗАПРОСЫ (АДАПТИВ) ---
+========================================= */
 
+/* Планшеты и меньше (скрываем десктопное меню, показываем бургер) */
+@media (max-width: 1024px) {
+  .header__nav-desktop {
+    display: none;
+  }
+
+  .header__burger-btn {
+    display: block;
+  }
+
+  .header__container {
+    justify-content: space-between;
+  }
+}
+
+/* Мобильные телефоны */
 @media (max-width: 768px) {
-  /* ... твой старый медиа запрос для 768 ... */
-  
-  .header__course-btn,
-  .header__back-btn {
-    padding: 8px 16px;
-    font-size: 14px;
+  .header {
+      /* На мобильных островок чуть шире и отступ сверху меньше */
+      width: calc(100% - 24px); 
+      top: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+  }
+
+  .header__container {
+    padding: 0; /* Убираем внутренние отступы контейнера */
+  }
+
+  .header__right {
+    gap: 12px;
   }
   
+  /* Мобильная кнопка "Курс" (Прозрачная с рамкой) */
   .header__course-btn {
+    padding: 8px 16px;
+    font-size: 14px;
     background-color: transparent;
     border: 1px solid var(--color-accent);
     color: var(--color-accent);
+    box-shadow: none; /* Убираем тень на мобилке */
+  }
+  
+  .header__course-btn:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    transform: none;
   }
 
+  /* Мобильная кнопка "Назад" (Круглая, чуть меньше) */
   .header__back-btn {
-    /* На мобилке кнопка назад тоже аккуратная белая */
+    width: 38px;
+    height: 38px;
+    /* На мобилке тоже прозрачно-белая */
     background-color: transparent;
-    border: 1px solid rgba(255,255,255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     color: var(--color-white);
   }
 
+  /* Переключение контента кнопки курса */
   .header__course-icon-mob { display: block; }
   .course-text-mob { display: inline; }
   .course-text-desk { display: none; }
 }
 
 
+/* =========================================
+   --- МОБИЛЬНОЕ МЕНЮ (Оверлей) ---
+========================================= */
+/* Меню находится снаружи header в JSX, поэтому стилизуется отдельно */
 .header__mobile-menu {
   position: fixed;
   top: 0;
@@ -339,13 +390,18 @@ position: fixed;
   width: 100%;
   height: 100vh;
   background-color: var(--color-white);
-  z-index: 1001; /* Оно под островком, у которого z-index: 1002 */
+  
+  /* Z-index меньше, чем у шапки (1002), чтобы шапка была поверх меню */
+  z-index: 1001; 
+  
+  /* Анимация появления (сдвиг сверху) */
   transform: translateY(-100%);
   opacity: 0;
   transition: all 0.4s ease-in-out;
-  pointer-events: none;
+  pointer-events: none; /* Чтобы не мешало, когда закрыто */
 }
 
+/* Состояние открытого меню */
 .header__mobile-menu--open {
   transform: translateY(0);
   opacity: 1;
@@ -358,6 +414,7 @@ position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Большой отступ сверху, чтобы пункты меню не перекрывались островком */
   padding: 100px 20px 40px; 
 }
 
