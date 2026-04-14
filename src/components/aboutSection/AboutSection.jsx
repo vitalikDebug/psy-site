@@ -1,7 +1,40 @@
 // src/components/AboutSection/AboutSection.jsx
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
 import './AboutSection.css';
 
 export default function AboutSection() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
+
+  // Данные фотографий (вынесли в массив для удобства)
+  const photos = [
+    { src: "/photo_2025-11-28_14-57-57.jpg", alt: "Юлия Шкаранда портрет", className: "puzzle-item--tall" },
+    { src: "/photo_2025-11-28_14-58-21.jpg", alt: "Процесс работы", className: "puzzle-item--top-right" },
+    { src: "/photo_2025-11-28_14-58-25.jpg", alt: "Детали", className: "puzzle-item--bottom-right" }
+  ];
+
+  // Функция для отслеживания скролла и обновления активной точки
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const width = sliderRef.current.offsetWidth;
+      // Вычисляем индекс слайда (округляем до ближайшего целого)
+      const index = Math.round(scrollLeft / width);
+      setActiveSlide(index);
+    }
+  };
+
+  // Добавляем слушатель события скролла
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (slider) {
+      slider.addEventListener('scroll', handleScroll, { passive: true });
+      return () => slider.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
   return (
     <section className="aboutSection" id='about'>
       <div className="aboutSection__container">
@@ -37,33 +70,34 @@ export default function AboutSection() {
               
               {/* External Link Icon */}
               <a href="https://iimax.ru/zaikanie_preodolimo" target="_blank" rel="noreferrer" className="social-icon-link link-external" aria-label="Ссылка на материалы">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15 3 21 3 21 9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720"><path fill="currentColor" d="M350.4,9.6C141.8,20.5,4.1,184.1,12.8,390.4c3.8,90.3,40.1,168,48.7,253.7,2.2,22.2-4.2,49.6,21.4,59.3,31.5,11.9,79.8-8.1,106.2-26.4,9-6.1,17.6-13.2,24.2-22,27.3,18.1,53.2,35.6,85.7,43.4,143.1,34.3,299.9-44.2,369.6-170.3C799.6,291.2,622.5-4.6,350.4,9.6h0ZM269.4,504c-11.3,8.8-22.2,20.8-34.7,27.7-18.1,9.7-23.7-.4-30.5-16.4-21.4-50.9-24-137.6-11.5-190.9,16.8-72.5,72.9-136.3,150-143.1,78-6.9,150.4,32.7,183.1,104.2,72.4,159.1-112.9,316.2-256.4,218.6h0Z"/></svg>
+
               </a>
             </div>
           </div>
         </div>
 
-        {/* ПРАВАЯ КОЛОНКА: Пазл из фотографий */}
-        <div className="aboutSection__puzzle">
-          {/* Фото 1: Высокое (слева) */}
-          <div className="puzzle-item puzzle-item--tall">
-            <img src="/photo_2025-11-28_14-57-57.jpg" alt="Юлия Шкаранда портрет" />
+        {/* ПРАВАЯ КОЛОНКА: Пазл / Слайдер */}
+        <div className="aboutSection__puzzle-container">
+          {/* Обертка для слайдера (нужна для скролла) */}
+          <div className="puzzle-slider-wrapper" ref={sliderRef}>
+            <div className="aboutSection__puzzle">
+              {photos.map((photo, index) => (
+                <div key={index} className={`puzzle-item ${photo.className}`}>
+                  <img src={photo.src} alt={photo.alt} />
+                </div>
+              ))}
+            </div>
           </div>
-          
-          {/* Фото 2: Квадратное (справа сверху) */}
-          <div className="puzzle-item puzzle-item--top-right">
-             {/* Замени на другое фото */}
-            <img src="/photo_2025-11-28_14-58-21.jpg" alt="Процесс работы" />
-          </div>
-          
-          {/* Фото 3: Квадратное (справа снизу) */}
-          <div className="puzzle-item puzzle-item--bottom-right">
-             {/* Замени на третье фото */}
-            <img src="/photo_2025-11-28_14-58-25.jpg" alt="Детали" />
+
+          {/* Индикаторы слайдов (видны только на мобильных) */}
+          <div className="slider-dots">
+            {photos.map((_, index) => (
+              <div 
+                key={index} 
+                className={`slider-dot ${index === activeSlide ? 'slider-dot--active' : ''}`}
+              />
+            ))}
           </div>
         </div>
 

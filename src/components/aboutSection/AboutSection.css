@@ -130,15 +130,26 @@
 }
 
 /* --- ПРАВАЯ КОЛОНКА (ПАЗЛ ИЗ ФОТО) --- */
+.aboutSection__puzzle-container {
+  flex: 1;
+  /* Высота на десктопе, чтобы фото растянулись */
+  height: 600px; 
+}
+
+/* Обертка для слайдера (нужна для скролла на мобилках) */
+.puzzle-slider-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
 .aboutSection__puzzle {
-  flex: 1; /* Занимает оставшееся пространство */
   display: grid;
   /* Сетка из двух колонок: левая чуть шире правой */
   grid-template-columns: 5fr 4fr; 
   /* Два одинаковых ряда по высоте */
   grid-template-rows: 1fr 1fr; 
   gap: 16px; /* Расстояние между "кусочками пазла" */
-  height: 600px; /* Фиксируем высоту блока, чтобы фото растянулись */
+  height: 100%; 
 }
 
 .puzzle-item {
@@ -159,66 +170,112 @@
   transform: scale(1.03); /* Легкий зум при наведении */
 }
 
-/* Настраиваем позиции для каждого "кусочка" */
+/* Настраиваем позиции для каждого "кусочка" на десктопе */
+.puzzle-item--tall { grid-column: 1 / 2; grid-row: 1 / 3; }
+.puzzle-item--top-right { grid-column: 2 / 3; grid-row: 1 / 2; }
+.puzzle-item--bottom-right { grid-column: 2 / 3; grid-row: 2 / 3; }
 
-/* Высокое фото (слева) */
-.puzzle-item--tall {
-  grid-column: 1 / 2; /* Занимает первую колонку */
-  grid-row: 1 / 3;    /* Растягивается на оба ряда вниз */
-}
-
-/* Квадратное фото (справа сверху) */
-.puzzle-item--top-right {
-  grid-column: 2 / 3; /* Вторая колонка */
-  grid-row: 1 / 2;    /* Первый ряд */
-}
-
-/* Квадратное фото (справа снизу) */
-.puzzle-item--bottom-right {
-  grid-column: 2 / 3; /* Вторая колонка */
-  grid-row: 2 / 3;    /* Второй ряд */
+/* Индикаторы слайдов (скрыты на десктопе) */
+.slider-dots {
+  display: none;
 }
 
 
 /* --- АДАПТИВ --- */
 @media (max-width: 1024px) {
   .aboutSection__container {
-    flex-direction: column; /* На планшетах ставим колонки друг под друга */
+    flex-direction: column;
     gap: 50px;
   }
-
   .aboutSection__content {
     flex: auto;
     width: 100%;
   }
-
   .aboutSection__main-name {
     font-size: 48px;
   }
-
-  .aboutSection__puzzle {
+  .aboutSection__puzzle-container {
     width: 100%;
-    height: 500px; /* Чуть уменьшаем высоту пазла */
+    height: 500px;
   }
 }
 
+/* --- МОБИЛЬНАЯ ВЕРСИЯ (СЛАЙДЕР) --- */
 @media (max-width: 768px) {
+  .aboutSection {
+    padding: 60px 0;
+  }
   .aboutSection__main-name {
     font-size: 36px;
   }
-  
   .aboutSection__description {
     font-size: 18px;
   }
-
-  .aboutSection__puzzle {
-    /* На мобилках выстраиваем фото в ряд или колонку */
-    display: flex;
-    flex-direction: column;
-    height: auto;
+  
+  /* Контейнер для всего блока с фото */
+  .aboutSection__puzzle-container {
+    height: auto; /* Высота теперь автоматическая */
+    width: 100vw; /* На всю ширину экрана */
+    margin-left: -20px; /* Компенсируем паддинг родителя */
+    margin-right: -20px;
   }
 
+  /* Обертка для скролла */
+  .puzzle-slider-wrapper {
+    /* Включаем горизонтальный скролл */
+    overflow-x: auto;
+    /* Магия Scroll Snap */
+    scroll-snap-type: x mandatory;
+    /* Скрываем скроллбар */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+    
+    /* Паддинги, чтобы слайды не прилипали к краям и была видна тень */
+    padding: 20px 20px 30px 20px;
+  }
+  .puzzle-slider-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome/Safari/Opera */
+  }
+
+  /* Сама сетка превращается в гибкую строку */
+  .aboutSection__puzzle {
+    display: flex;
+    gap: 16px;
+    height: 400px; /* Фиксированная высота для слайдов */
+  }
+
+  /* Слайды */
   .puzzle-item {
-    height: 300px; /* Фиксируем высоту для мобилок */
+    /* Отключаем десктопную сетку */
+    grid-column: auto !important;
+    grid-row: auto !important;
+    
+    /* Делаем слайды фиксированной ширины */
+    flex: 0 0 85%; /* Ширина 85% от экрана, чтобы было видно следующий слайд */
+    
+    /* Магия Scroll Snap */
+    scroll-snap-align: center;
+  }
+  
+  /* --- ИНДИКАТОРЫ СЛАЙДОВ --- */
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  .slider-dot {
+    width: 30px; /* Ширина прямоугольника */
+    height: 4px; /* Высота */
+    border-radius: 4px; /* Скругление */
+    background-color: color-mix(in srgb, var(--color-text-dark) 20%, transparent); /* Неактивный цвет (серый) */
+    transition: all 0.3s ease;
+  }
+
+  .slider-dot--active {
+    width: 45px; /* Активный прямоугольник чуть шире */
+    background-color: var(--color-accent); /* Активный цвет */
   }
 }
