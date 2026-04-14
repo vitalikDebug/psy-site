@@ -49,6 +49,7 @@
   justify-content: center;
   transition: all 0.3s ease;
   height: 100%; /* Чтобы карточки были одинаковой высоты */
+  cursor: pointer;
 }
 
 /* Эффект при наведении (опционально, можно раскомментировать) */
@@ -68,6 +69,7 @@
   color: var(--color-text-dark);
   line-height: 1;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 /* Текст описания под цифрой */
