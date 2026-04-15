@@ -405,105 +405,79 @@
     font-size: 48px;
   }
   .heroSection__gallery {
-    transform: scale(0.9);
+    transform: scale(0.85);
     transform-origin: right center;
   }
 }
 
 @media (max-width: 900px) {
   .heroSection {
-    padding: 140px 0 80px;
+    padding: 10px 0 60px;
+    text-align: center;
   }
 
   .heroSection__container {
     flex-direction: column;
-    text-align: center;
-    gap: 40px;
-  }
-
-  .heroSection__content {
-    flex: auto;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
 
+  /* 1. Прячем галерею с фотографиями */
+  .heroSection__gallery {
+    display: none; /* Полностью убирает блок из верстки */
+  }
+
+  /* 2. Растягиваем контент на всю ширину */
+  .heroSection__content {
+    flex: 0 0 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем текст и кнопки */
+  }
+
   .heroSection__subtitle {
-    margin: 0 auto 40px;
+    margin: 0 auto 32px;
+    max-width: 600px;
   }
 
   .heroSection__actions {
     justify-content: center;
+    width: 100%;
   }
 
   .heroSection__stats {
     justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* На планшетах коллаж центрируется */
-  .heroSection__gallery {
-    transform: scale(1);
-    transform-origin: center;
-    max-width: 550px; /* Ограничиваем ширину */
+    width: 100%;
   }
 }
 
 @media (max-width: 600px) {
   .heroSection__title {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .heroSection__actions {
     flex-direction: column;
-    width: 100%;
-    gap: 16px;
+    gap: 12px;
   }
 
   .hero-btn {
     width: 100%;
   }
 
+  /* Сетка статистики 2х2 для компактности */
   .heroSection__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
 
-  .stat-number {
-    font-size: 20px;
-  }
-
   .stat-divider {
-    height: 30px;
+    display: none;
   }
 
-  /* Упрощаем коллаж для мобильных телефонов, чтобы он помещался */
-  .heroSection__gallery {
-    height: 400px;
-    max-width: 100%;
-  }
-
-  .hero-gallery__item--1 {
-    width: 160px; height: 200px;
-    left: 0;
-  }
-
-  .hero-gallery__item--2 {
-    width: 180px; height: 260px;
-    top: 40px;
-  }
-
-  .hero-gallery__item--3 {
-    width: 200px; height: 140px;
-    bottom: 20px; left: 10px;
-  }
-
-  .hero-gallery__deco--pill {
-    width: 90px; height: 46px;
-    bottom: 80px; right: 40px;
-  }
-  
-  .deco-circles span {
-      width: 12px; height: 12px;
+  .stat-item--icon {
+    grid-column: span 2;
   }
 }
