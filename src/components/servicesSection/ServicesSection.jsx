@@ -1,201 +1,242 @@
 // src/components/ServicesSection/ServicesSection.jsx
-import Link from 'next/link';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { CheckCircle2, Star, Info } from 'lucide-react'; // Добавили новые иконки
 import './ServicesSection.css';
 import { useModal } from '@/context/ModalContext';
 
-// Полные данные из твоего документа
+// Расширенные данные с результатами и доп. информацией
 const servicesData = [
   {
     id: 1,
-    title: 'КОНСУЛЬТАЦИЯ (ПЕРВЫЙ ЭТАП)',
-    suitableFor: [
-      'Появились первые запинки',
-      'Не понимаете, что делать',
-      'Хотите понять причину',
-      'Сомневаетесь в формате работы',
-      'Нужна диагностика речи'
-    ],
+    title: 'КОНСУЛЬТАЦИЯ',
+    subtitle: 'Первый этап. Разбор ситуации и подбор формата работы.',
     includes: [
-      'Разбор вашей ситуации',
-      'Анализ речи',
+      'Анализ речи и симптомов',
       'Определение причины заикания',
-      'Рекомендации и план работы',
-      'Подбор формата'
+      'Рекомендации и план работы'
     ],
+    result: 'Понятный пошаговый план действий и снятие родительской тревожности.',
+    note: 'Обязательный первый шаг перед началом любой работы.',
     format: 'Онлайн, 60 минут',
     buttonText: 'Записаться на консультацию',
-    // buttonLink: 'https://t.me/m/NXl4uiraZTE6', 
-    isPrimary: true // Выделим первую карточку как входную точку
   },
   {
     id: 2,
-    title: 'КУРС ДЛЯ РОДИТЕЛЕЙ “РЕЧЬ БЕЗ ЗАИКАНИЯ”',
-    suitableFor: [
-      'Ребёнок начал запинаться',
-      'Появляются повторы звуков',
-      'Ребёнок волнуется перед речью',
-      'Не знаете как реагировать',
-      'Боитесь закрепить заикание'
-    ],
+    title: 'КУРС ДЛЯ РОДИТЕЛЕЙ',
+    subtitle: '“Речь без заикания”. Для родителей детей с первыми запинками.',
     includes: [
-      'Почему возникает заикание',
+      'Понимание механизма заикания',
       'Как правильно реагировать',
-      'Что говорить ребёнку, а чего нельзя',
-      'Как снизить страх речи',
-      'Как помочь говорить спокойно'
+      'Что говорить, а чего нельзя'
     ],
-    result: 'Снижается напряжение у ребёнка, уменьшаются запинки, родители понимают как действовать.',
-    format: 'Онлайн. Подходит родителям детей любого возраста.',
+    result: 'Снижается напряжение у ребёнка, уменьшаются запинки, вы понимаете, как действовать.',
+    note: 'Подходит родителям детей любого возраста. Доступ навсегда.',
+    format: 'Самостоятельное изучение',
     buttonText: 'Хочу на курс',
-    // buttonLink: '#' 
   },
   {
     id: 3,
-    title: 'МИНИ-ИНТЕНСИВ ДЛЯ ШКОЛЬНИКОВ',
-    suitableFor: [
-      'Лёгкое заикание',
-      'Первые запинки',
-      'Нужна мягкая коррекция',
-      'Ребёнок волнуется перед речью'
-    ],
+    title: 'МИНИ-ИНТЕНСИВ',
+    subtitle: 'Для школьников с легким заиканием и первыми запинками.',
     includes: [
-      'Работа со страхом речи',
-      'Снижение напряжения',
-      'Работа с речью',
-      'Рекомендации родителям'
+      'Мягкая коррекция речи',
+      'Снижение речевого напряжения',
+      'Проработка страха перед ответом'
     ],
     result: 'Уменьшаются запинки, ребёнок говорит спокойнее, снижается тревога.',
+    note: 'Идеальный формат для бережного старта и мягкой коррекции.',
     format: '6–7 встреч (2 недели)',
     buttonText: 'Узнать подробнее',
-    // buttonLink: 'https://t.me/m/NXl4uiraZTE6'
   },
   {
     id: 4,
-    title: 'ИНТЕНСИВ ДЛЯ ШКОЛЬНИКОВ (ПОЛНЫЙ)',
-    suitableFor: [
-      'Заикание уже закрепилось',
-      'Ребёнок боится говорить',
-      'Запинки усиливаются',
-      'Есть страх школы',
-      'Ребёнок переживает'
-    ],
+    title: 'ПОЛНЫЙ ИНТЕНСИВ',
+    subtitle: 'Для школьников с закрепившимся заиканием и страхом школы.',
     includes: [
-      'Работа со страхом речи и напряжением',
-      'Работа с уверенностью и дыханием',
-      'Закрепление спокойной речи',
-      'Сопровождение и рекомендации'
+      'Глубокая работа со страхом речи',
+      'Настройка речевого дыхания',
+      'Закрепление спокойной речи'
     ],
-    result: 'Уменьшаются запинки, ребёнок говорит спокойнее, появляется уверенность.',
-    format: '10–12 встреч (2 недели), каждый будний день',
+    result: 'Свободная речь без ступоров, уверенность у доски и в общении со сверстниками.',
+    note: 'Глубокая проработка закрепившегося заикания и страхов.',
+    format: '10–12 встреч, будние дни',
     buttonText: 'Узнать подробнее',
-    // buttonLink: 'https://t.me/m/NXl4uiraZTE6'
   },
   {
     id: 5,
-    title: 'ИНТЕНСИВ ДЛЯ ВЗРОСЛЫХ',
-    suitableFor: [
-      'Заикание с детства',
-      'Страх общения и выступлений',
-      'Сложно говорить по телефону',
-      'Напряжённая речь'
-    ],
+    title: 'ДЛЯ ВЗРОСЛЫХ',
+    subtitle: 'Индивидуальная работа со страхом общения и звонков.',
     includes: [
-      'Работа со страхом речи',
-      'Работа с напряжением',
-      'Уверенность в общении',
-      'Спокойная речь и закрепление результата'
+      'Работа с телесным напряжением',
+      'Преодоление страха публичности',
+      'Свободное общение по телефону'
     ],
-    result: 'Уменьшаются запинки, появляется уверенность, легче говорить.',
-    format: 'От 10 встреч, индивидуальная работа',
+    result: 'Уверенность на публике, свободное общение по телефону, контроль над речью.',
+    note: 'Полная конфиденциальность и глубокое погружение в вашу проблему.',
+    format: 'От 10 встреч, индивидуально',
     buttonText: 'Узнать подробнее',
-    // buttonLink: 'https://t.me/m/NXl4uiraZTE6'
   }
 ];
 
+// Настройки анимации при скролле
+const scrollVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring", stiffness: 80, damping: 20, duration: 0.8 }
+  }
+};
+
 export default function ServicesSection() {
   const { openModal } = useModal();
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsToShow, setCardsToShow] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) setCardsToShow(1);
+      else if (window.innerWidth <= 1100) setCardsToShow(2);
+      else setCardsToShow(3);
+    };
+    
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const maxIndex = Math.max(0, servicesData.length - cardsToShow);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 15000); // 15 секунд
+
+    return () => clearTimeout(timer);
+  }, [currentIndex, maxIndex]);
+
+  const handleDotClick = (index) => {
+    setCurrentIndex(index);
+  };
+
   return (
     <section className="servicesSection" id='services'>
       <div className="servicesSection__container">
         
-        <div className="servicesSection__header">
+        {/* Анимированный заголовок */}
+        <motion.div 
+          className="servicesSection__header"
+          variants={scrollVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <h2 className="servicesSection__title">ФОРМАТЫ РАБОТЫ</h2>
           <p className="servicesSection__subtitle">
-            Вы можете выбрать формат в зависимости от ситуации, возраста и степени заикания.
+            Выберите подходящий формат в зависимости от вашей ситуации.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Сетка карточек услуг */}
-        <div className="servicesGrid">
-          {servicesData.map((item) => (
-            <div key={item.id} className={`serviceCard serviceCard--${item.type}`}>
-              
-              <div className="serviceCard__header">
-                <h3 className="serviceCard__title">{item.title}</h3>
-              </div>
+        {/* Анимированный слайдер */}
+        <motion.div 
+          className="slider-wrapper-animated"
+          variants={scrollVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          <div className="slider-viewport">
+            <div 
+              className="slider-track"
+              style={{ 
+                transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)` 
+              }}
+            >
+              {servicesData.map((item) => (
+                <div 
+                  key={item.id} 
+                  className="serviceCard-wrapper"
+                  style={{ flex: `0 0 ${100 / cardsToShow}%` }}
+                >
+                  <div className="serviceCard">
+                    
+                    <div className="serviceCard__top">
+                      <h3 className="serviceCard__title">{item.title}</h3>
+                      <p className="serviceCard__subtitle">{item.subtitle}</p>
+                    </div>
 
-              <div className="serviceCard__body">
-                
-                {/* Блок "Подойдет если" */}
-                {item.suitableFor && (
-                  <div className="serviceCard__block">
-                    <h4 className="serviceCard__block-title">Подойдёт если</h4>
-                    <ul className="serviceCard__list">
-                      {item.suitableFor.map((items, i) => (
-                        <li key={i}>{items}</li>
-                      ))}
-                    </ul>
+                    <hr className="serviceCard__divider" />
+
+                    <div className="serviceCard__body">
+                      {/* Список "Что входит" */}
+                      <ul className="serviceCard__list">
+                        {item.includes.map((feature, i) => (
+                          <li key={i}>
+                            <CheckCircle2 size={18} className="serviceCard__icon" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* НОВЫЙ БЛОК: РЕЗУЛЬТАТ */}
+                      <div className="serviceCard__result">
+                        <div className="serviceCard__result-title">
+                           <Star size={16} className="serviceCard__result-icon" />
+                           Результат:
+                        </div>
+                        <p>{item.result}</p>
+                      </div>
+
+                      {/* НОВЫЙ БЛОК: ДОП. ИНФО */}
+                      <div className="serviceCard__note">
+                        <Info size={14} className="serviceCard__note-icon" />
+                        <p>{item.note}</p>
+                      </div>
+                    </div>
+
+                    <div className="serviceCard__footer">
+                      <p className="serviceCard__format">{item.format}</p>
+                      <button 
+                        className="serviceCard__btn"
+                        onClick={() => openModal(`${item.title}`)} 
+                      >
+                        {item.buttonText}
+                      </button>
+                    </div>
+
                   </div>
-                )}
-
-                {/* Блок "Что входит/узнаете" */}
-                {item.includes && (
-                  <div className="serviceCard__block">
-                    <h4 className="serviceCard__block-title">Что входит</h4>
-                    <ul className="serviceCard__list">
-                      {item.includes.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Блок "Результат" (если есть) */}
-                {item.result && (
-                  <div className="serviceCard__block serviceCard__block--result">
-                    <h4 className="serviceCard__block-title">Результат</h4>
-                    <p className="serviceCard__text">{item.result}</p>
-                  </div>
-                )}
-                
-                {/* Формат */}
-                <div className="serviceCard__format">
-                   <span className="serviceCard__format-icon">🕒</span>
-                   {item.format}
                 </div>
-
-              </div>
-
-              <div className="serviceCard__footer">
-              {item.buttonLink ? (
-                  <Link href={item.buttonLink} className="serviceCard__btn">
-                    {item.buttonText}
-                  </Link>
-                ) : (
-                  
-                <button 
-        className="serviceCard__btn"
-       
-        onClick={() => openModal(`${item.title}`)} 
-      >
-        {item.buttonText}
-      </button>
-                )}
-              </div>
-
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+
+          <div className="slider-controls">
+            <div className="progress-bar-bg">
+              <motion.div 
+                key={currentIndex} 
+                className="progress-bar-fill"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 15, ease: "linear" }}
+              />
+            </div>
+            
+            <div className="slider-dots">
+              {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`slider-dot ${currentIndex === index ? 'active' : ''}`}
+                  onClick={() => handleDotClick(index)}
+                  aria-label={`Перейти к слайду ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
       </div>
     </section>

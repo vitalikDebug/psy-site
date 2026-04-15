@@ -3,9 +3,10 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react'; // Используем иконку стрелки вместо линий
 import './FAQSection.css';
 
-// Все вопросы из документа
+// Данные вопросов
 const faqData = [
   {
     id: 1,
@@ -49,8 +50,24 @@ const faqData = [
   }
 ];
 
+// --- НАСТРОЙКИ АНИМАЦИИ ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0, opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20 }
+  }
+};
+
 export default function FAQSection() {
-  // Храним ID открытого вопроса (если null, то все закрыты)
   const [openId, setOpenId] = useState(null);
 
   const toggleFAQ = (id) => {
@@ -61,37 +78,50 @@ export default function FAQSection() {
     <section className="faqSection" id='faq'>
       <div className="faqSection__container">
         
-        {/* Заголовок как на макете */}
-        <div className="faqSection__header">
-          <span className="faqSection__subtitle">ЧАСТЫЕ ВОПРОСЫ</span>
+        {/* ЛЕВАЯ КОЛОНКА: ЗАГОЛОВОК */}
+        <motion.div 
+            className="faqSection__left"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+        >
+          <span className="faqSection__badge">Частые вопросы</span>
           <h2 className="faqSection__title">Ответы на ваши вопросы</h2>
-        </div>
+          <p className="faqSection__desc">
+            Здесь собраны ответы на вопросы, которые чаще всего задают родители и взрослые клиенты перед началом работы.
+          </p>
+        </motion.div>
 
-        {/* Список вопросов */}
-        <div className="faqList">
+        {/* ПРАВАЯ КОЛОНКА: СПИСОК */}
+        <motion.div 
+            className="faqSection__right"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+        >
           {faqData.map((item) => {
             const isOpen = openId === item.id;
 
             return (
-              <div 
+              <motion.div 
                 key={item.id} 
                 className={`faqItem ${isOpen ? 'faqItem--open' : ''}`}
-                onClick={() => toggleFAQ(item.id)}
+                variants={itemVariants}
               >
-                {/* Верхняя часть: Вопрос и кнопка */}
-                <div className="faqItem__top">
+                {/* Заголовок вопроса */}
+                <div 
+                    className="faqItem__header"
+                    onClick={() => toggleFAQ(item.id)}
+                >
                   <h3 className="faqItem__question">{item.question}</h3>
-                  <button className="faqItem__toggle-btn" aria-label="Toggle question">
-                    {/* Иконка меняется в зависимости от состояния */}
-                    {isOpen ? (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    )}
+                  <button className={`faqItem__toggle-btn ${isOpen ? 'open' : ''}`} aria-label="Открыть ответ">
+                    <ChevronDown size={24} />
                   </button>
                 </div>
 
-                {/* Выпадающий ответ (анимируется через Framer Motion) */}
+                {/* Выпадающий ответ */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
@@ -105,10 +135,10 @@ export default function FAQSection() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>

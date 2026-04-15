@@ -50,6 +50,28 @@ const approachData = [
   }
 ];
 
+// --- НАСТРОЙКИ АНИМАЦИИ ПРИ СКРОЛЛЕ ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // Быстрое появление карточек друг за другом
+      delayChildren: 0.1,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20 }
+  }
+};
+
 export default function ApproachSection() {
   const [selectedId, setSelectedId] = useState(null);
   const selectedItem = selectedId ? approachData.find(item => item.id === selectedId) : null;
@@ -58,33 +80,39 @@ export default function ApproachSection() {
     <section className="approachSection" id='approach'>
       <div className="approachSection__container">
         
-        <h2 className="approachSection__title">
+        <motion.h2 
+          className="approachSection__title"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.8 }}
+          transition={{ duration: 0.6 }}
+        >
           ПОЧЕМУ ВЫБИРАЮТ <br/> ЭТУ РАБОТУ
-        </h2>
+        </motion.h2>
 
-        {/* СЕТКА БЛОКОВ */}
-        <div className="approachGrid">
+        {/* СЕТКА БЛОКОВ С АНИМАЦИЕЙ ПОЯВЛЕНИЯ */}
+        <motion.div 
+          className="approachGrid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {approachData.map((item) => (
             <motion.div
               key={item.id}
-              // ВАЖНО: Добавили prop 'layout'
+              variants={itemVariants}
               layout
-              // 'layoutId' связывает эту карточку с модальным окном
               layoutId={item.id}
               onClick={() => setSelectedId(item.id)}
               className={`approachItem approachItem--${item.type}`}
-              // Анимация при наведении (теперь не конфликтует с CSS)
               whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.98 }}
-              // Убираем скругление при открытии, чтобы оно плавно перешло в модалку
-              style={{ borderRadius: "10px" }} 
+              style={{ borderRadius: "24px" }} // Скруглили углы для современного вида
             >
               
-              {/* Внутренний контент, который исчезает при клике */}
-              {/* Оборачиваем все внутренности в один motion.div для синхронного исчезновения */}
               <motion.div
                 className="approachItem__inner-wrapper"
-                // Если карточка выбрана, её контент плавно исчезает
                 animate={{ opacity: selectedId === item.id ? 0 : 1 }}
                 transition={{ duration: 0.2 }}
                 style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
@@ -105,7 +133,7 @@ export default function ApproachSection() {
               </motion.div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
 
@@ -114,25 +142,19 @@ export default function ApproachSection() {
         {selectedId && selectedItem && (
           <motion.div 
             className="modalOverlay"
-            // Фон затемнения
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setSelectedId(null)}
           >
-            {/* САМО МОДАЛЬНОЕ ОКНО */}
             <motion.div 
               className="modalCard"
-              // ВАЖНО: 'layoutId' совпадает с ID карточки
               layoutId={selectedId}
-              // Настройки плавности трансформации "пружина"
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              style={{ borderRadius: "24px" }} 
+              style={{ borderRadius: "30px" }} 
             >
-              {/* КОНТЕНТ ВНУТРИ МОДАЛКИ (Появляется с задержкой) */}
-              
               <motion.button 
                 className="modalCloseBtn" 
                 onClick={() => setSelectedId(null)}
@@ -154,6 +176,7 @@ export default function ApproachSection() {
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 0.25, duration: 0.3 }}
               >
+      
                 {selectedItem.title}
               </motion.h3>
               

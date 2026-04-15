@@ -1,8 +1,10 @@
 // src/components/ProcessSection/ProcessSection.jsx
+'use client';
+
+import { motion } from 'framer-motion';
 import './ProcessSection.css';
 
 const processData = [
-  // ... (Твои данные для списка остаются без изменений)
   {
     number: '01',
     title: 'ВНИМАТЕЛЬНО СЛУШАЮ',
@@ -45,6 +47,27 @@ const processData = [
   }
 ];
 
+// --- НАСТРОЙКИ АНИМАЦИИ ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 30, opacity: 0 },
+  visible: {
+    y: 0, opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20, duration: 0.6 }
+  }
+};
+
+
 export default function ProcessSection() {
   return (
     <section className="processSection">
@@ -54,9 +77,16 @@ export default function ProcessSection() {
           КАК МЫ ДОБИВАЕМСЯ <br/> РЕЗУЛЬТАТА С КЛИЕНТАМИ
         </h2>
 
-        <div className="processList">
+        {/* Анимированный контейнер для списка */}
+        <motion.div 
+          className="processList"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {processData.map((item, index) => (
-            <div key={index} className="processItem">
+            <motion.div key={index} className="processItem" variants={itemVariants}>
               <div className="processItem__left">
                 <span className="processItem__number">{item.number}</span>
                 <h3 className="processItem__title">{item.title}</h3>
@@ -72,28 +102,30 @@ export default function ProcessSection() {
                   <p className="processItem__text">{item.description}</p>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* НОВЫЙ БЛОК: Итоговый результат с фото */}
-        <div className="processResult">
-          {/* Левая часть: Выступающее фото */}
+        {/* Анимированный контейнер для результата */}
+        <motion.div 
+          className="processResult"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           <div className="processResult__image-wrapper">
-            {/* Не забудь поменять путь на нужную тебе фотографию */}
             <img src="/photo_2025-11-28_14-58-34.jpg" alt="Юлия Шкаранда" className="processResult__img" />
           </div>
           
-          {/* Правая часть: Большой текст */}
           <div className="processResult__content">
             <p className="processResult__text">
               РЕЗУЛЬТАТОМ СТАНОВИТСЯ СВОБОДНАЯ РЕЧЬ, <br/>
-              {/* Спан для изменения оттенка текста */}
               <span className="processResult__highlight">КОТОРАЯ ЗВУЧИТ УВЕРЕННО, ЕСТЕСТВЕННО И СПОКОЙНО,</span> <br/>
               РАСКРЫВАЯ ВАШ ИСТИННЫЙ ПОТЕНЦИАЛ В ОБЩЕНИИ
             </p>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

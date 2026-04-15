@@ -1,5 +1,29 @@
 // src/components/CauseSection/CauseSection.jsx
+'use client';
+
+import { motion } from 'framer-motion';
 import './CauseSection.css';
+
+// --- НАСТРОЙКИ АНИМАЦИИ ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15, // Задержка между вылетом блоков
+      delayChildren: 0.1,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 30, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20 }
+  }
+};
 
 export default function CauseSection() {
   return (
@@ -10,61 +34,68 @@ export default function CauseSection() {
           ПОЧЕМУ ВОЗНИКАЕТ <br /> ЗАИКАНИЕ
         </h2>
 
-        <div className="causeGrid">
+        {/* Главный контейнер с анимацией при скролле */}
+        <motion.div 
+          className="causeGrid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           
           {/* Главная мысль (Широкий блок сверху) */}
-          <div className="causeItem causeItem--intro">
+          <motion.div className="causeItem causeItem--intro" variants={itemVariants}>
             <h3 className="causeItem__title">Это не проблема звуков</h3>
             <p className="causeItem__text">
               Заикание — это реакция нервной системы на напряжение. Когда появляется страх речи, мозг начинает гипертрофированно контролировать каждый звук, что приводит к физическому ступору.
             </p>
-          </div>
+          </motion.div>
 
           {/* Шаг 1 */}
-          <div className="causeItem causeItem--step">
+          <motion.div className="causeItem causeItem--step" variants={itemVariants}>
             <div className="causeItem__step-num">01</div>
             <h3 className="causeItem__title">Напряжение</h3>
             <p className="causeItem__text">
               Возникает волнение перед общением, звонком или сложной ситуацией. Тело мобилизуется, связки зажимаются.
             </p>
-          </div>
+          </motion.div>
 
           {/* Шаг 2 */}
-          <div className="causeItem causeItem--step">
+          <motion.div className="causeItem causeItem--step" variants={itemVariants}>
             <div className="causeItem__step-num">02</div>
             <h3 className="causeItem__title">Запинка</h3>
             <p className="causeItem__text">
               Из-за спазма мышц речевого аппарата происходит сбой. Слово «застревает», нарушается плавность дыхания.
             </p>
-          </div>
+          </motion.div>
 
           {/* Шаг 3 */}
-          <div className="causeItem causeItem--step">
+          <motion.div className="causeItem causeItem--step" variants={itemVariants}>
             <div className="causeItem__step-num">03</div>
             <h3 className="causeItem__title">Страх</h3>
             <p className="causeItem__text">
               Мозг моментально фиксирует неудачу. Формируется стойкий страх перед конкретными словами, звуками или людьми.
             </p>
-          </div>
+          </motion.div>
 
           {/* Шаг 4 */}
-          <div className="causeItem causeItem--step">
+          <motion.div className="causeItem causeItem--step" variants={itemVariants}>
             <div className="causeItem__step-num">04</div>
             <h3 className="causeItem__title">Контроль</h3>
             <p className="causeItem__text">
-              Попытка сказать «идеально правиильно» и избежать запинки приводит к колоссальному стрессу и... новому напряжению.
+              Попытка сказать «идеально правильно» и избежать запинки приводит к колоссальному стрессу и... новому напряжению.
             </p>
-          </div>
+          </motion.div>
 
           {/* Итог (Широкий блок снизу) */}
-          <div className="causeItem causeItem--outro">
+          <motion.div className="causeItem causeItem--outro" variants={itemVariants}>
              <h3 className="causeItem__title">Порочный круг замыкается</h3>
              <p className="causeItem__text">
               Одно цепляется за другое, усиливая симптом с каждым разом. Именно поэтому так важно работать с первопричиной — страхом и напряжением, а не только механически тренировать речь.
              </p>
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
       </div>
     </section>
   );

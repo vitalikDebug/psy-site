@@ -1,8 +1,9 @@
 /* src/components/AboutSection/AboutSection.css */
 
 .aboutSection {
-  padding: 100px 0;
-  background-color: var(--color-white); /* Делаем фон чисто белым */
+  padding: 120px 0;
+  background-color: var(--color-white);
+  overflow: hidden; /* Важно для анимации вылета фото */
 }
 
 .aboutSection__container {
@@ -10,23 +11,23 @@
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 20px;
-  
-  /* Разделяем экран на две колонки */
   display: flex;
-  align-items: center; /* Выравниваем по центру по вертикали */
+  align-items: center;
   justify-content: space-between;
-  gap: 60px;
+  gap: 80px;
 }
 
 /* --- ЛЕВАЯ КОЛОНКА (Текст) --- */
 .aboutSection__content {
-  flex: 0 0 45%; /* Текст занимает 45% ширины */
+  flex: 0 0 45%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
-.aboutSection .badge {
-  align-self: flex-start;
+/* Повторяющиеся стили бейджа и текста можно вынести в глобальные, но пока оставим тут */
+.badge--accent {
+  display: inline-block;
   background-color: var(--color-accent);
   color: var(--color-white);
   font-family: var(--font-family-body);
@@ -39,7 +40,7 @@
 
 .aboutSection__main-name {
   font-family: var(--font-family-headings);
-  font-size: 56px; /* Чуть уменьшил, чтобы влезло в колонку */
+  font-size: 56px;
   line-height: 1.1;
   color: var(--color-text-dark);
   font-weight: 800;
@@ -59,17 +60,17 @@
 
 .aboutSection__description {
   font-family: var(--font-family-body);
-  font-size: 20px;
-  line-height: 1.5;
+  font-size: 18px;
+  line-height: 1.6;
   color: var(--color-text-dark);
-  font-weight: 400;
   margin-bottom: 40px;
+  max-width: 500px;
 }
 
 .aboutSection__stats-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 40px 0;
+  margin: 0 0 30px 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -87,13 +88,40 @@
 .aboutSection__stats-list li::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 10px;
-  width: 8px;
-  height: 8px;
+  left: 0; top: 10px; width: 8px; height: 8px;
   border-radius: 50%;
   background-color: var(--color-accent);
   opacity: 0.6;
+}
+
+/* --- НОВЫЕ КНОПКИ --- */
+.about-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-family: var(--font-family-body);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.about-btn--diplomas {
+    background-color: transparent;
+    border: 2px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
+    color: var(--color-text-dark);
+    margin-bottom: 40px;
+}
+.about-btn--diplomas:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+.aboutSection__social-block {
+  margin-top: 20px;
 }
 
 .aboutSection__blog-title {
@@ -105,177 +133,237 @@
   margin-bottom: 16px;
 }
 
-.aboutSection__social-icons {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+.about-btn--social {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
-
-.social-icon-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-accent);
-  transition: all 0.3s ease;
-}
-
-.social-icon-link svg {
-  width: 36px;
-  height: 36px;
-}
-
-.social-icon-link:hover {
-  color: color-mix(in srgb, var(--color-accent) 80%, black);
-  transform: translateY(-3px);
-}
-
-/* --- ПРАВАЯ КОЛОНКА (ПАЗЛ ИЗ ФОТО) --- */
-.aboutSection__puzzle-container {
-  flex: 1;
-  /* Высота на десктопе, чтобы фото растянулись */
-  height: 600px; 
-}
-
-/* Обертка для слайдера (нужна для скролла на мобилках) */
-.puzzle-slider-wrapper {
-  height: 100%;
-  width: 100%;
-}
-
-.aboutSection__puzzle {
-  display: grid;
-  /* Сетка из двух колонок: левая чуть шире правой */
-  grid-template-columns: 5fr 4fr; 
-  /* Два одинаковых ряда по высоте */
-  grid-template-rows: 1fr 1fr; 
-  gap: 16px; /* Расстояние между "кусочками пазла" */
-  height: 100%; 
-}
-
-.puzzle-item {
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-.puzzle-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
-}
-
-.puzzle-item:hover img {
-  transform: scale(1.03); /* Легкий зум при наведении */
-}
-
-/* Настраиваем позиции для каждого "кусочка" на десктопе */
-.puzzle-item--tall { grid-column: 1 / 2; grid-row: 1 / 3; }
-.puzzle-item--top-right { grid-column: 2 / 3; grid-row: 1 / 2; }
-.puzzle-item--bottom-right { grid-column: 2 / 3; grid-row: 2 / 3; }
-
-/* Индикаторы слайдов (скрыты на десктопе) */
-.slider-dots {
-  display: none;
+.about-btn--social:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 85%, black);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 
-/* --- АДАПТИВ --- */
-@media (max-width: 1024px) {
-  .aboutSection__container {
-    flex-direction: column;
-    gap: 50px;
-  }
-  .aboutSection__content {
-    flex: auto;
-    width: 100%;
-  }
-  .aboutSection__main-name {
-    font-size: 48px;
-  }
-  .aboutSection__puzzle-container {
-    width: 100%;
-    height: 500px;
-  }
-}
-
-/* --- МОБИЛЬНАЯ ВЕРСИЯ (СЛАЙДЕР) --- */
-@media (max-width: 768px) {
-  .aboutSection {
-    padding: 60px 0;
-  }
-  .aboutSection__main-name {
-    font-size: 36px;
-  }
-  .aboutSection__description {
-    font-size: 18px;
-  }
-  
-  /* Контейнер для всего блока с фото */
-  .aboutSection__puzzle-container {
-    height: auto; /* Высота теперь автоматическая */
-    width: 100vw; /* На всю ширину экрана */
-    margin-left: -20px; /* Компенсируем паддинг родителя */
-    margin-right: -20px;
-  }
-
-  /* Обертка для скролла */
-  .puzzle-slider-wrapper {
-    /* Включаем горизонтальный скролл */
-    overflow-x: auto;
-    /* Магия Scroll Snap */
-    scroll-snap-type: x mandatory;
-    /* Скрываем скроллбар */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
-    
-    /* Паддинги, чтобы слайды не прилипали к краям и была видна тень */
-    padding: 20px 20px 30px 20px;
-  }
-  .puzzle-slider-wrapper::-webkit-scrollbar {
-      display: none; /* Chrome/Safari/Opera */
-  }
-
-  /* Сама сетка превращается в гибкую строку */
-  .aboutSection__puzzle {
-    display: flex;
-    gap: 16px;
-    height: 400px; /* Фиксированная высота для слайдов */
-  }
-
-  /* Слайды */
-  .puzzle-item {
-    /* Отключаем десктопную сетку */
-    grid-column: auto !important;
-    grid-row: auto !important;
-    
-    /* Делаем слайды фиксированной ширины */
-    flex: 0 0 85%; /* Ширина 85% от экрана, чтобы было видно следующий слайд */
-    
-    /* Магия Scroll Snap */
-    scroll-snap-align: center;
-  }
-  
-  /* --- ИНДИКАТОРЫ СЛАЙДОВ --- */
-  .slider-dots {
+/* =========================================
+   --- ПРАВАЯ КОЛОНКА: ГАЛЕРЕЯ "КНИГА" ---
+========================================= */
+.aboutSection__gallery {
+    flex: 1;
+    height: 600px;
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding-bottom: 20px;
-  }
+    align-items: center;
+    perspective: 1500px; /* Для 3D эффекта при перелистывании */
+}
 
-  .slider-dot {
-    width: 30px; /* Ширина прямоугольника */
-    height: 4px; /* Высота */
-    border-radius: 4px; /* Скругление */
-    background-color: color-mix(in srgb, var(--color-text-dark) 20%, transparent); /* Неактивный цвет (серый) */
+.photo-stack-container {
+    position: relative;
+    width: 450px;
+    height: 550px;
+    cursor: pointer;
+}
+
+/* Общие стили для карточек с фото */
+.photo-stack__active-card,
+.photo-stack__underlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    background-color: #fff; /* Белая рамка/подложка */
+}
+
+.photo-stack__img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    pointer-events: none; /* Чтобы не мешать перетаскиванию */
+}
+
+/* Активная карточка (верхняя) */
+.photo-stack__active-card {
+    z-index: 2;
+    /* Важно для Framer Motion drag */
+    touch-action: none; 
+}
+
+/* Подложка (нижняя) */
+.photo-stack__underlay {
+    z-index: 1;
+    transform: scale(0.95) translateY(15px) rotate(3deg); /* Чуть меньше, ниже и повернута */
+    opacity: 0.7;
+    transition: all 0.5s ease;
+}
+/* Эффект при наведении на стопку: подложка немного "выглядывает" */
+.photo-stack-container:hover .photo-stack__underlay {
+    transform: scale(0.97) translateY(25px) rotate(5deg);
+    opacity: 0.9;
+}
+
+.photo-stack__hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.photo-stack-container:hover .photo-stack__hint {
+    opacity: 1;
+}
+
+
+/* =========================================
+   --- ЛОКАЛЬНЫЕ МОДАЛЬНЫЕ ОКНА ---
+========================================= */
+.about-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 2000; /* Выше всего */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.about-modal-content {
+    background-color: var(--color-white);
+    padding: 40px;
+    border-radius: 30px;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.about-modal-content--wide {
+    max-width: 900px; /* Широкое окно для дипломов */
+}
+
+.modal-title {
+    font-family: var(--font-family-headings);
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: var(--color-text-dark);
+}
+
+.about-modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none; border: none;
+    color: var(--color-text-dark);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    transition: all 0.2s ease;
+}
+.about-modal-close:hover {
+    background-color: #e0e0e0;
+}
+
+/* Ссылки в модалке сообщества */
+.modal-social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.social-link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-family: var(--font-family-body);
+    font-size: 18px;
+    font-weight: 600;
     transition: all 0.3s ease;
-  }
+}
 
-  .slider-dot--active {
-    width: 45px; /* Активный прямоугольник чуть шире */
-    background-color: var(--color-accent); /* Активный цвет */
-  }
+.social-link-card.telegram {
+    background-color: #F0F6FF;
+    color: #2AABEE;
+}
+.social-link-card.telegram:hover {
+    background-color: #dbeafe;
+    transform: translateX(5px);
+}
+
+.social-link-card.website {
+    background-color: #F5F0FF;
+    color: #8C52FF;
+}
+.social-link-card.website:hover {
+    background-color: #ede9fe;
+    transform: translateX(5px);
+}
+
+/* Сетка дипломов */
+.diplomas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-height: 70vh; /* Ограничиваем высоту и добавляем скролл */
+    overflow-y: auto;
+    padding-right: 10px; /* Место для скроллбара */
+}
+
+.diploma-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+    cursor: zoom-in; /* Можно потом добавить открытие на весь экран */
+}
+.diploma-item:hover img {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+
+/* =========================================
+   --- АДАПТИВ ---
+========================================= */
+@media (max-width: 1024px) {
+    .aboutSection { padding: 80px 0; }
+    .aboutSection__container {
+        flex-direction: column;
+        gap: 60px;
+    }
+    .aboutSection__content { flex: auto; width: 100%; align-items: center; text-align: center; }
+    .aboutSection__main-name { font-size: 42px; }
+    .aboutSection__description { max-width: 100%; }
+    .aboutSection__stats-list { align-items: center; }
+    
+    .aboutSection__gallery { height: auto; width: 100%; }
+    .photo-stack-container { width: 90%; max-width: 450px; height: 500px; }
+}
+
+@media (max-width: 768px) {
+    .aboutSection { padding: 60px 0; }
+    .aboutSection__main-name { font-size: 32px; margin-bottom: 8px; }
+    .aboutSection__main-role { font-size: 16px; margin-bottom: 24px; }
+    .aboutSection__description { font-size: 16px; }
+
+    /* На мобилках фото поменьше */
+    .photo-stack-container { height: 400px; }
+
+    /* Кнопки на всю ширину */
+    .about-btn { width: 100%; justify-content: center; }
+    
+    .about-modal-content { padding: 30px 20px; }
+    .diplomas-grid { grid-template-columns: 1fr; }
 }
