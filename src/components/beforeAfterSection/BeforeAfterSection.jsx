@@ -1,3 +1,4 @@
+// src/components/BeforeAfterSection/BeforeAfterSection.jsx
 'use client';
 
 import { useState, useRef } from 'react';
@@ -10,17 +11,33 @@ const contentData = {
     id: 'before',
     title: "ДО: Скованность и страх",
     description: "Речь прерывистая, сильное волнение перед началом разговора. Заметны физические зажимы в области шеи и челюсти. Избегание зрительного контакта.",
-
-    // videoSrc: "https://github.com/vitalikDebug/psy-site/releases/download/v1.0-media/first_v_before.mp4" 
-    videoSrc: "/video/first_v_before.mp4"
+    videoSrc: "/video/before.mp4"
   },
   after: {
     id: 'after',
     title: "ПОСЛЕ: Свобода и уверенность",
     description: "Плавная, спокойная речь без видимых усилий. Уверенный зрительный контакт, отсутствие страха паузы. Человек получает удовольствие от общения.",
- 
-    // videoSrc: "https://github.com/vitalikDebug/psy-site/releases/download/v1.0-media/first_v_after.mp4" 
-    videoSrc: "/video/first_v_after.mp4"
+    videoSrc: "/video/after.mp4"
+  }
+};
+
+// --- НАСТРОЙКИ АНИМАЦИИ ПРИ СКРОЛЛЕ ---
+const scrollContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2, // Задержка между вылетом элементов
+      delayChildren: 0.1,
+    }
+  }
+};
+
+const scrollItemVariants = {
+  hidden: { y: 40, opacity: 0 },
+  visible: {
+    y: 0, opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20, duration: 0.6 }
   }
 };
 
@@ -39,7 +56,7 @@ export default function BeforeAfterSection() {
   };
 
   const togglePlay = (e) => {
-    e.stopPropagation(); // Чтобы клик не срабатывал дважды
+    e.stopPropagation();
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
@@ -52,26 +69,30 @@ export default function BeforeAfterSection() {
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted; // Принудительно меняем в DOM
+      videoRef.current.muted = !isMuted;
     }
-    setIsMuted(!isMuted); // Меняем состояние React
+    setIsMuted(!isMuted);
   };
 
   return (
-    <section className={`beforeAfterSection beforeAfterSection--${activeTab}`} id="results-video">
-      <div className="beforeAfterSection__container">
+    <section className="beforeAfterSection" id="results-video">
+      {/* Главный контейнер с анимацией при скролле */}
+      <motion.div 
+        className="beforeAfterSection__container"
+        variants={scrollContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         
-        <h2 className="beforeAfterSection__header">
+        <motion.h2 className="beforeAfterSection__header" variants={scrollItemVariants}>
           Результат — это не магия, а <span className="highlight">системная работа</span> с причиной
-        </h2>
+        </motion.h2>
 
         <div className="beforeAfterSection__content">
           
-          <div className="beforeAfterSection__video-wrapper">
-            {/* Обертка для позиционирования внешней кнопки звука */}
+          <motion.div className="beforeAfterSection__video-wrapper" variants={scrollItemVariants}>
             <div className="video-player-box">
-              
-              {/* Внешняя кнопка звука (в правом верхнем углу) */}
               <button className="video-mute-btn-external" onClick={toggleMute} aria-label={isMuted ? "Включить звук" : "Выключить звук"}>
                 {isMuted ? <VolumeX size={22} /> : <Volume2 size={22} />}
               </button>
@@ -90,14 +111,13 @@ export default function BeforeAfterSection() {
                     src={activeContent.videoSrc} 
                     className="telegram-video"
                     autoPlay 
-                    muted={isMuted} // Важно: привязываем к состоянию
+                    muted={isMuted}
                     loop 
                     playsInline
                     onPlay={() => setIsPlaying(true)}
                     onPause={() => setIsPlaying(false)}
                   /> 
 
-                  {/* Оверлей затемнения и кнопка Play/Pause по центру */}
                   <div className="video-overlay" onClick={togglePlay}>
                     <button 
                       className={`video-play-btn ${!isPlaying ? 'visible' : ''}`} 
@@ -114,27 +134,31 @@ export default function BeforeAfterSection() {
                 </motion.div>
               </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="beforeAfterSection__text-content">
-            <AnimatePresence mode='wait'>
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h3 className="beforeAfterSection__title">{activeContent.title}</h3>
-                <p className="beforeAfterSection__description">
-                  {activeContent.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          <motion.div className="beforeAfterSection__text-content" variants={scrollItemVariants}>
+            {/* НОВЫЙ БЛОК ДЛЯ ТЕКСТА С ГРАДИЕНТОМ */}
+            <div className="text-content-card">
+                <AnimatePresence mode='wait'>
+                <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <h3 className="beforeAfterSection__title">{activeContent.title}</h3>
+                    <p className="beforeAfterSection__description">
+                    {activeContent.description}
+                    </p>
+                </motion.div>
+                </AnimatePresence>
+            </div>
+          </motion.div>
+
         </div>
 
-        <div className="beforeAfterSection__controls">
+        <motion.div className="beforeAfterSection__controls" variants={scrollItemVariants}>
           <div className="toggle-container">
             <button 
               className={`toggle-btn ${activeTab === 'before' ? 'active' : ''}`}
@@ -157,9 +181,9 @@ export default function BeforeAfterSection() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             />
           </div>
-        </div>
+        </motion.div>
 
-      </div>
+      </motion.div>
     </section>
   );
 }

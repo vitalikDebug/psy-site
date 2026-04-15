@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CalendarDays, Menu, X, Users, ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion'; // ИМПОРТИРУЕМ FRAMER MOTION
 import './Header.css';
 
 import { useModal } from '@/context/ModalContext';
@@ -21,19 +22,14 @@ export default function Header() {
   const pathname = usePathname();
   const { openModal, selectedService } = useModal();
 
-  // Определяем, находимся ли мы на странице курса
   const isCoursePage = pathname === '/course';
 
-  // Блокируем прокрутку страницы при открытом мобильном меню
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      // Если меню закрыто (или компонент размонтируется), возвращаем скролл
       document.body.style.overflow = 'unset';
     }
-    
-    // Функция очистки при размонтировании компонента или изменении isMenuOpen
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -44,11 +40,16 @@ export default function Header() {
 
   return (
     <>
-      {/* --- HEADER (ОСТРОВОК) --- */}
-      <header className={`header ${isCoursePage ? 'header--course-mode' : ''}`}>
+      {/* --- HEADER (ОСТРОВОК) С АНИМАЦИЕЙ --- */}
+      {/* Используем motion.header для выезда сверху */}
+      <motion.header 
+        className={`header ${isCoursePage ? 'header--course-mode' : ''}`}
+        initial={{ y: -100, x: "-50%", opacity: 0 }} // Начинает выше экрана
+        animate={{ y: 0, x: "-50%", opacity: 1 }}    // Плавно опускается на место
+        transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
+      >
         <div className="header__container">
           
-          {/* --- ЛЕВАЯ ЧАСТЬ (Запись) --- */}
           <div className="header__left">
             <button 
               className="header__booking-btn" 
@@ -63,7 +64,6 @@ export default function Header() {
             </button>
           </div>
 
-          {/* --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация) --- */}
           <nav className="header__nav-desktop">
             <ul className="header__list">
               {navLinks.map((link) => (
@@ -79,14 +79,16 @@ export default function Header() {
             </ul>
           </nav>
 
-          {/* --- ПРАВАЯ ЧАСТЬ (Курс/Назад и Бургер) --- */}
           <div className="header__right">
-            
             {isCoursePage ? (
+              /* Кнопка НАЗАД (теперь такая же широкая) */
               <Link href="/" className="header__back-btn" aria-label="На главную">
-                <ArrowLeft size={22} />
+                <ArrowLeft size={18} className="header__course-icon-mob" />
+                <span className="course-text-desk">Назад на главную</span>
+                <span className="course-text-mob">Назад</span>
               </Link>
             ) : (
+              /* Кнопка КУРС */
               <Link href="/course" className="header__course-btn">
                 <Users size={18} className="header__course-icon-mob" />
                 <span className="course-text-desk">Курс для родителей</span>
@@ -94,15 +96,13 @@ export default function Header() {
               </Link>
             )}
 
-            {/* Бургер-меню */}
             <button className="header__burger-btn" onClick={toggleMenu} aria-label="Меню">
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
-      {/* --- МОБИЛЬНОЕ МЕНЮ (Вынесено наружу) --- */}
       <div className={`header__mobile-menu ${isMenuOpen ? 'header__mobile-menu--open' : ''}`}>
         <div className="header__mobile-menu-container">
           <ul className="header__mobile-list">

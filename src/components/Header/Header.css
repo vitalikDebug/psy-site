@@ -1,6 +1,8 @@
 /* src/components/Header/Header.css */
 
-/* --- ОСНОВНОЙ КОНТЕЙНЕР (ОСТРОВОК) --- */
+/* =========================================
+   --- 1. ОСНОВНОЙ КОНТЕЙНЕР (ОСТРОВОК) ---
+========================================= */
 .header {
   position: fixed;
   top: 10px;
@@ -9,11 +11,13 @@
   width: calc(100% - 40px);
   max-width: var(--container-width);
   z-index: 1002;
+  
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid color-mix(in srgb, var(--color-text-dark) 8%, transparent);
+  /* border: 1px solid color-mix(in srgb, var(--color-text-dark) 8%, transparent); */
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  
   padding: 10px 20px;
   transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
   overflow: hidden; 
@@ -23,48 +27,51 @@
 .header::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background-color: var(--color-accent);
   z-index: 0;
-  clip-path: circle(0px at calc(100% - 60px) 50%);
-  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Убираем прыгающую opacity. Пусть круг честно схлопывается в 0! */
+  opacity: 1; 
+  
+  /* ЦЕНТР КНОПКИ: так как кнопка стала широкой, сдвигаем центр анимации левее (примерно 120px от правого края) */
+  clip-path: circle(0px at calc(100% - 120px) 50%);
+  transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
-.header--course-mode {
+.header--course-mode::before {
+  clip-path: circle(150% at calc(100% - 120px) 50%);
+  transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* .header--course-mode {
   border-color: transparent;
   box-shadow: 0 10px 40px color-mix(in srgb, var(--color-accent) 40%, transparent);
-}
+} */
 
-.header--course-mode::before {
-  clip-path: circle(150% at calc(100% - 60px) 50%);
-}
 
-/* --- ВНУТРЕННИЙ КОНТЕЙНЕР --- */
+
+/* --- ВНУТРЕННИЙ КОНТЕЙНЕР (СЕТКА GRID) --- */
 .header__container {
   width: 100%;
-  display: flex;
-  /* Оставляем space-between, чтобы левый и правый блоки прижались к краям */
-  justify-content: space-between;
-  align-items: center;
   height: 100%;
-  /* ВАЖНО: position: relative нужен, чтобы абсолютно спозиционированный центр знал, от чего центрироваться */
+  /* ИСПОЛЬЗУЕМ СЕТКУ ИЗ 3 КОЛОНОК */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   position: relative;
   z-index: 1; 
 }
 
 
 /* =========================================
-   --- ЛЕВАЯ ЧАСТЬ (Кнопка Записи) ---
+   --- 2. ЛЕВАЯ ЧАСТЬ (Колонка 1) ---
 ========================================= */
 .header__left {
+  justify-self: start; /* Прижимаем к левому краю */
   display: flex;
   align-items: center;
-  flex-shrink: 0;
-  /* Добавляем z-index, чтобы кнопки были поверх центральной навигации, если экран узкий */
   z-index: 2; 
 }
 
@@ -109,16 +116,13 @@
   color: var(--color-white);
 }
 
-/* БЕЙДЖ */
 .header__booking-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -5px; right: -5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 18px; height: 18px;
   background-color: #FF4D4F;
   color: var(--color-white);
   font-family: var(--font-family-body);
@@ -137,22 +141,11 @@
 
 
 /* =========================================
-   --- ЦЕНТРАЛЬНАЯ ЧАСТЬ (Навигация Десктоп) - ИСПРАВЛЕНО ---
+   --- 3. ЦЕНТРАЛЬНАЯ ЧАСТЬ (Колонка 2) ---
 ========================================= */
 .header__nav-desktop {
-
-  /* ДОБАВЛЯЕМ абсолютное позиционирование */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* Сдвигаем точку отсчета в центр самого блока */
-  transform: translate(-50%, -50%);
-  
-  /* Убеждаемся, что блок не перекрывает боковые кнопки */
+  justify-self: center; /* Идеально по центру */
   z-index: 1; 
-  /* Ширина по контенту */
-  width: auto; 
-  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -161,8 +154,7 @@
 .header__list {
   display: flex;
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   gap: 24px;
 }
 
@@ -175,23 +167,18 @@
   transition: color 0.4s ease;
   position: relative;
   padding-bottom: 4px;
-  /* Важно: чтобы ссылки не переносились на новую строку, если места мало */
   white-space: nowrap;
 }
 
 .header__link::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
+  bottom: 0; left: 0; width: 0; height: 2px;
   background-color: var(--color-accent);
   transition: width 0.3s ease, background-color 0.4s ease;
   border-radius: 2px;
 }
 
-/* Стили ссылок в режиме курса */
 .header--course-mode .header__link {
   color: rgba(255, 255, 255, 0.8);
 }
@@ -205,7 +192,6 @@
   background-color: var(--color-white);
 }
 
-/* Обычные состояния ссылок */
 .header__link:hover {
   color: var(--color-accent);
 }
@@ -222,14 +208,13 @@
 
 
 /* =========================================
-   --- ПРАВАЯ ЧАСТЬ (Кнопки действий) ---
+   --- 4. ПРАВАЯ ЧАСТЬ (Колонка 3) ---
 ========================================= */
 .header__right {
+  justify-self: end; /* Прижимаем к правому краю */
   display: flex;
   align-items: center;
   gap: 20px;
-  flex-shrink: 0;
-  /* Добавляем z-index, чтобы кнопки были поверх центральной навигации */
   z-index: 2;
 }
 
@@ -248,8 +233,8 @@
   color: var(--color-white);
 }
 
-/* Кнопка "Курс" */
-.header__course-btn {
+.header__course-btn,
+.header__back-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -258,53 +243,56 @@
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 50px;
-  background-color: var(--color-accent);
-  color: var(--color-white);
+  border-radius: 50px; /* Одинаковая форма пилюли */
   transition: all 0.3s ease;
   gap: 8px; 
+  /* Минимальная ширина, чтобы кнопка не прыгала из-за разницы длин слов */
+  min-width: 210px; 
 }
 
+/* ЦВЕТА КНОПКИ КУРСА */
+.header__course-btn {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
 .header__course-btn:hover {
   background-color: color-mix(in srgb, var(--color-accent) 85%, black);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
-/* Кнопка "Назад" */
+/* ЦВЕТА КНОПКИ НАЗАД */
 .header__back-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.2);
   color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
-  flex-shrink: 0;
 }
-
 .header__back-btn:hover {
   background-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-.header__course-icon-mob { display: none; }
+/* Настройки иконок */
+/* Показываем стрелочку всегда, прячем иконку юзеров на десктопе */
+.header__course-btn .header__course-icon-mob { display: none; }
+.header__back-btn .header__course-icon-mob { display: block; }
+
 .course-text-mob { display: none; }
 .course-text-desk { display: inline; }
 
 
 /* =========================================
-   --- АДАПТИВ ---
+   --- 5. АДАПТИВ (МЕДИА-ЗАПРОСЫ) ---
 ========================================= */
 @media (max-width: 1024px) {
-  .header__nav-desktop {
-    display: none; /* Скрываем на планшетах */
+  .header__container {
+    /* На планшетах меню скрыто, поэтому возвращаем Flexbox */
+    display: flex;
+    justify-content: space-between;
   }
-
+  .header__nav-desktop {
+    display: none; 
+  }
   .header__burger-btn {
     display: block;
   }
@@ -317,15 +305,12 @@
       padding: 8px 16px;
       border-radius: 20px;
   }
-
   .header__container {
     padding: 0;
   }
-
   .header__right {
     gap: 12px;
   }
-  
   .header__course-btn {
     padding: 8px 16px;
     font-size: 14px;
@@ -334,20 +319,16 @@
     color: var(--color-accent);
     box-shadow: none;
   }
-  
   .header__course-btn:hover {
     background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
     transform: none;
   }
-
   .header__back-btn {
-    width: 38px;
-    height: 38px;
+    width: 38px; height: 38px;
     background-color: transparent;
     border: 1px solid rgba(255, 255, 255, 0.6);
     color: var(--color-white);
   }
-
   .header__course-icon-mob { display: block; }
   .course-text-mob { display: inline; }
   .course-text-desk { display: none; }
@@ -355,14 +336,11 @@
 
 
 /* =========================================
-   --- МОБИЛЬНОЕ МЕНЮ ---
+   --- 6. МОБИЛЬНОЕ МЕНЮ (ОВЕРЛЕЙ) ---
 ========================================= */
 .header__mobile-menu {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
+  top: 0; left: 0; width: 100%; height: 100vh;
   background-color: var(--color-white);
   z-index: 1001; 
   transform: translateY(-100%);
@@ -378,8 +356,7 @@
 }
 
 .header__mobile-menu-container {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -388,8 +365,7 @@
 
 .header__mobile-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 0; margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

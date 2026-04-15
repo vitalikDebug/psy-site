@@ -16,63 +16,47 @@
   margin-bottom: 60px;
 }
 
-/* Плашка "Отзывы" */
-.reviewsSection__badge {
-  display: inline-block;
-  background-color: var(--color-accent);
-  color: var(--color-white);
-  font-family: var(--font-family-body);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 6px 16px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-
 .reviewsSection__title {
   font-family: var(--font-family-headings);
-  font-size: 40px;
-  font-weight: 400;
+  font-size: 48px; /* Выровнял размер с другими заголовками H2 */
+  font-weight: 800;
   text-transform: uppercase;
   color: var(--color-text-dark);
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 /* --- СЕТКА (MASONRY) --- */
 .reviewsMasonry {
-  /* Разбиваем контент на 2 колонки */
   column-count: 2;
-  /* Расстояние между колонками */
   column-gap: 30px;
+  /* Добавляем плавность при изменении высоты контейнера */
+  transition: all 0.5s ease; 
 }
 
 /* --- КАРТОЧКА ОТЗЫВА --- */
 .reviewCard {
-  /* Чтобы карточка не разрывалась между колонками */
   break-inside: avoid;
-  /* Отступ снизу для каждой карточки */
   margin-bottom: 30px;
   background-color: var(--color-white);
-  border-radius: 16px;
-  padding: 40px; /* Делаем просторными */
-  /* Цвет бордера с прозрачностью */
+  border-radius: 24px; /* Скруглил углы в едином стиле */
+  padding: 40px;
   border: 1px solid color-mix(in srgb, var(--color-text-dark) 5%, transparent);
-  /* Тень с прозрачностью */
   box-shadow: 0 4px 20px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
   transition: all 0.3s ease;
+  /* Важно для корректной работы break-inside в некоторых браузерах */
+  display: inline-block; 
+  width: 100%; 
 }
 
 .reviewCard:hover {
-  /* Тень при наведении с прозрачностью */
-  box-shadow: 0 10px 30px color-mix(in srgb, var(--color-text-dark) 6%, transparent);
-  transform: translateY(-2px);
+  box-shadow: 0 15px 35px color-mix(in srgb, var(--color-text-dark) 6%, transparent);
+  transform: translateY(-4px);
 }
 
 .reviewCard__text {
   font-family: var(--font-family-body);
   font-size: 16px;
   line-height: 1.6;
-  /* Цвет текста с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
   margin-bottom: 30px;
 }
@@ -80,12 +64,12 @@
 .reviewCard__footer {
   display: flex;
   align-items: center;
-  position: relative; /* Для позиционирования иконки */
+  position: relative; 
 }
 
 .reviewCard__avatar {
-  width: 48px;
-  height: 48px;
+  width: 56px; /* Чуть увеличил аватарку */
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 16px;
@@ -106,23 +90,51 @@
 .reviewCard__role {
   font-family: var(--font-family-body);
   font-size: 14px;
-  /* Цвет роли с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
+/* Иконка цитаты */
 .reviewCard__icon {
   position: absolute;
   right: 0;
   bottom: 0;
-  /* Цвет иконки с прозрачностью */
-  color: color-mix(in srgb, var(--color-text-dark) 20%, transparent);
+  color: color-mix(in srgb, var(--color-accent) 20%, transparent); /* Легкий оттенок акцента */
 }
 
-/* --- АДАПТИВ --- */
+
+/* --- КНОПКА "ПОКАЗАТЬ ЕЩЕ" --- */
+.reviewsSection__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.reviewsSection__more-btn {
+  background-color: transparent;
+  color: var(--color-text-dark);
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px 40px;
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reviewsSection__more-btn:hover {
+  background-color: color-mix(in srgb, var(--color-text-dark) 5%, transparent);
+  border-color: var(--color-text-dark);
+}
+
+
+/* =========================================
+   --- АДАПТИВ ---
+========================================= */
 @media (max-width: 1024px) {
   .reviewsMasonry {
-    column-gap: 20px; /* Уменьшаем отступ между колонками на планшете */
+    column-gap: 20px; 
   }
   .reviewCard {
     padding: 30px;
@@ -130,8 +142,12 @@
 }
 
 @media (max-width: 768px) {
+  .reviewsSection {
+    padding: 60px 0;
+  }
+
   .reviewsSection__title {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .reviewsMasonry {
@@ -142,5 +158,9 @@
   .reviewCard {
     margin-bottom: 20px;
     padding: 24px;
+  }
+
+  .reviewsSection__more-btn {
+    width: 100%; /* На мобильном кнопка на всю ширину */
   }
 }

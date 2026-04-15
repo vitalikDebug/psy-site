@@ -7,26 +7,24 @@ import './ConsequencesSection.css';
 const consequencesData = [
   {
     id: 'stage-1',
-    type: 'start', // Маленький блок начала
+    type: 'start', 
     step: '01',
     title: 'НАЧАЛО',
     text: 'Сначала это просто легкие запинки, на которые часто не обращают внимания.'
   },
   {
     id: 'stage-2',
-    type: 'fear', // Маленький блок эмоций
+    type: 'fear', 
     step: '02',
     title: 'ПОЯВЛЯЕТСЯ СТРАХ',
     text: 'Ребёнок или взрослый начинает замечать свои трудности и эмоционально на них реагировать.'
   },
   {
     id: 'stage-3',
-    type: 'behavior', // Высокий блок с изменением поведения
+    type: 'behavior', 
     step: '03',
     title: 'ИЗМЕНЕНИЕ ПОВЕДЕНИЯ',
-    // Текст до списка
     textPrefix: 'Чтобы избежать неудачи, человек начинает менять свое поведение:',
-    // Список симптомов
     list: [
       'Избегать ответов и разговоров',
       'Говорить тише, «бубнить»',
@@ -36,12 +34,32 @@ const consequencesData = [
   },
   {
     id: 'stage-4',
-    type: 'final', // Широкий блок итога
+    type: 'final', 
     step: '04',
     title: 'ИТОГ: ЗАИКАНИЕ ЗАКРЕПЛЯЕТСЯ',
     text: 'Со временем формируется стойкий страх говорить. Мозг привыкает к этому паттерну, и заикание становится хроническим.'
   }
 ];
+
+// --- НАСТРОЙКИ АНИМАЦИИ ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 30, opacity: 0, scale: 0.95 },
+  visible: {
+    y: 0, opacity: 1, scale: 1,
+    transition: { type: "spring", stiffness: 100, damping: 20 }
+  }
+};
 
 export default function ConsequencesSection() {
   return (
@@ -52,15 +70,19 @@ export default function ConsequencesSection() {
           ЧТО ПРОИСХОДИТ, ЕСЛИ <br/> НЕ РАБОТАТЬ С ЗАИКАНИЕМ
         </h2>
 
-        {/* СЕТКА БЛОКОВ (аналог ApproachGrid) */}
-        <div className="consequencesGrid">
+        {/* СЕТКА БЛОКОВ С АНИМАЦИЕЙ */}
+        <motion.div 
+          className="consequencesGrid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {consequencesData.map((item) => (
             <motion.div
               key={item.id}
-              // Класс для расстановки в сетке и общие стили карточки
+              variants={itemVariants}
               className={`consequencesItem consequencesItem--${item.type}`}
-              whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
             >
               {/* Декоративный номер шага */}
               <span className="consequencesItem__step">{item.step}</span>
@@ -68,7 +90,6 @@ export default function ConsequencesSection() {
               <div className="consequencesItem__content">
                 <h3 className="consequencesItem__title">{item.title}</h3>
                 
-                {/* Если есть список, рендерим его, иначе просто текст */}
                 {item.list ? (
                   <>
                     <p className="consequencesItem__text">{item.textPrefix}</p>
@@ -84,14 +105,8 @@ export default function ConsequencesSection() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* ВАЖНЫЙ ВЫВОД ВНИЗУ */}
-        {/* <div className="consequencesSection__footer">
-          <p className="consequencesSection__footer-text">
-            Чем раньше начать, тем легче убрать страх речи.
-          </p>
-        </div> */}
       </div>
     </section>
   );
