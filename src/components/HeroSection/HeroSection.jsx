@@ -3,12 +3,12 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Play, Star, ShieldCheck, Sparkles } from 'lucide-react';
+import { ShieldCheck, Sparkles, Star } from 'lucide-react'; 
 import { useModal } from '@/context/ModalContext';
 import './HeroSection.css';
 
 // --- НАСТРОЙКИ АНИМАЦИИ ---
-const leftColumnVariants = {
+const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -24,18 +24,10 @@ const itemVariants = {
   }
 };
 
-const rightColumnVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.4 }
-  }
-};
-
 const photoVariants = {
-  hidden: { opacity: 0, scale: 0.8, y: 40 },
+  hidden: { opacity: 0, scale: 0.9, x: 20 },
   visible: { 
-    opacity: 1, scale: 1, y: 0, 
+    opacity: 1, scale: 1, x: 0, 
     transition: { type: "spring", stiffness: 70, damping: 15 } 
   }
 };
@@ -49,93 +41,102 @@ export default function HeroSection() {
       <div className="heroSection__bg-glow heroSection__bg-glow--left"></div>
       <div className="heroSection__bg-glow heroSection__bg-glow--right"></div>
 
-      <div className="heroSection__container">
+      <motion.div 
+        className="heroSection__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         
-        {/* --- ЛЕВАЯ КОЛОНКА (Контент) --- */}
-        <motion.div 
-          className="heroSection__content"
-          variants={leftColumnVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div variants={itemVariants} className="heroSection__badge">
-            <Sparkles size={16} />
-            <span>Психолог • Логопед • Заиколог</span>
+        {/* =========================================
+            ВЕРХНЯЯ ЧАСТЬ: Текст и Фото
+        ========================================= */}
+        <div className="heroTop">
+          
+          {/* Левая колонка: Текст */}
+          <div className="heroTop__left">
+            <motion.div variants={itemVariants} className="heroSection__badge">
+              <Sparkles size={16} />
+              <span>Психолог • Логопед • Заиколог</span>
+            </motion.div>
+
+            <motion.h1 variants={itemVariants} className="heroSection__title">
+              Свободная речь <br /> без страха <br /> и напряжения
+            </motion.h1>
+
+            <motion.p variants={itemVariants} className="heroSection__subtitle">
+              Помогаю детям и взрослым избавиться от заикания через глубокую работу с причиной, а не только с симптомами. Верните себе радость общения.
+            </motion.p>
+
+            <motion.div variants={itemVariants} className="heroSection__actions">
+              <button className="hero-btn hero-btn--primary" onClick={() => openModal('Консультация')}>
+                Начать работу
+              </button>
+              <Link href="#services" className="hero-btn hero-btn--outline">
+                Форматы работы
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Правая колонка: Большое фото с плашкой */}
+          <motion.div variants={photoVariants} className="heroTop__right">
+            <div className="hero-main-photo">
+              {/* ЗАМЕНИ на свою лучшую вертикальную фотографию */}
+              <img src="/photo_2025-11-28_14-58-17.jpg" alt="Юлия Шкаранда" />
+              
+              {/* Парящая плашка поверх фото */}
+              <div className="hero-floating-card">
+                <div className="floating-card-icon">
+                  <ShieldCheck size={24} />
+                </div>
+                <div className="floating-card-text">
+                  <span className="floating-card-title">Доказанный</span>
+                  <span className="floating-card-sub">научный подход</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
-          <motion.h1 variants={itemVariants} className="heroSection__title">
-            Свободная речь <br /> без страха <br /> и напряжения
-          </motion.h1>
+        </div>
 
-          <motion.p variants={itemVariants} className="heroSection__subtitle">
-            Помогаю детям и взрослым избавиться от заикания через глубокую работу с причиной, а не только с симптомами. Верните себе радость общения.
-          </motion.p>
-
-          <motion.div variants={itemVariants} className="heroSection__actions">
-            <button className="hero-btn hero-btn--primary" onClick={() => openModal('Консультация')}>
-              Начать работу
-            </button>
-            <Link href="#services" className="hero-btn hero-btn--outline">
-              Форматы работы
-            </Link>
-          </motion.div>
-
-          {/* Блок статистики как на референсе */}
-          <motion.div variants={itemVariants} className="heroSection__stats">
-            <div className="stat-item">
-              <span className="stat-number">15+ лет</span>
-              <span className="stat-label">Практики</span>
+        {/* =========================================
+            НИЖНЯЯ ЧАСТЬ: Карточки статистики
+        ========================================= */}
+        <motion.div variants={containerVariants} className="heroBottom">
+          
+          {/* Карточка 1: Темная (Клиенты) */}
+          <motion.div variants={itemVariants} className="statCard statCard--dark">
+            <div className="statCard__avatars">
+              {/* Имитация лиц клиентов (пересекающиеся кружки) */}
+              <div className="avatar-circle avatar-1"></div>
+              <div className="avatar-circle avatar-2"></div>
+              <div className="avatar-circle avatar-3"></div>
+              <div className="avatar-circle avatar-4"></div>
             </div>
-            <div className="stat-divider"></div>
-            <div className="stat-item">
-              <span className="stat-number">5000+</span>
-              <span className="stat-label">Часов работы</span>
-            </div>
-            <div className="stat-divider"></div>
-            <div className="stat-item stat-item--icon">
-              <ShieldCheck size={28} className="stat-icon" />
-              <span className="stat-label">Доказанный <br/> подход</span>
+            <div className="statCard__info">
+              <span className="statCard__number">1000+</span>
+              <span className="statCard__label">Счастливых клиентов<br/>и успешных результатов</span>
             </div>
           </motion.div>
+
+          {/* Карточка 2: Светлая (Часы) */}
+          <motion.div variants={itemVariants} className="statCard statCard--light">
+            <span className="statCard__number statCard__number--accent">5000+</span>
+            <span className="statCard__label">Часов работы</span>
+          </motion.div>
+
+          {/* Карточка 3: Лавандовая (Опыт) */}
+          <motion.div variants={itemVariants} className="statCard statCard--gradient">
+            <Star size={28} className="statCard__icon-top" />
+            <div className="statCard__info-bottom">
+              <span className="statCard__number">15+</span>
+              <span className="statCard__label">Лет успешной<br/>практики</span>
+            </div>
+          </motion.div>
+
         </motion.div>
 
-        {/* --- ПРАВАЯ КОЛОНКА (Коллаж) --- */}
-        <motion.div 
-          className="heroSection__gallery"
-          variants={rightColumnVariants}
-          initial="hidden"
-          animate="visible"
-        >
-    
-          <motion.div variants={photoVariants} className="hero-gallery__item hero-gallery__item--1">
-     
-            <img src="/photo_2025-11-28_14-58-17.jpg" alt="Юлия Шкаранда" />
-          </motion.div>
-
-          {/* Фото 2 (Правое, вытянутое) */}
-          <motion.div variants={photoVariants} className="hero-gallery__item hero-gallery__item--2">
-            <img src="/photo_2025-11-28_14-58-30.jpg" alt="Процесс работы" />
-          </motion.div>
-
-          {/* Фото 3 (Нижнее левое) */}
-          <motion.div variants={photoVariants} className="hero-gallery__item hero-gallery__item--3">
-            <img src="/photo3.jpg" alt="Улыбка" />
-          </motion.div>
-
-          {/* Декоративные элементы коллажа (Летающие плашки) */}
-          <motion.div variants={photoVariants} className="hero-gallery__deco hero-gallery__deco--pill">
-            <div className="deco-circles">
-              <span></span><span></span><span></span>
-            </div>
-          </motion.div>
-
-          <motion.div variants={photoVariants} className="hero-gallery__deco hero-gallery__deco--circle">
-            <Star size={24} fill="currentColor" />
-          </motion.div>
-
-        </motion.div>
-
-      </div>
+      </motion.div>
     </section>
   );
 }
