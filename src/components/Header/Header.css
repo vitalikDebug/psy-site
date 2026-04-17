@@ -18,28 +18,44 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   
   padding: 10px 20px;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
-  overflow: hidden; 
+  transition: border-color 0.4s ease, box-shadow 0.7s ease, background-color 0.4s ease;
 }
 
-/* АНИМИРОВАННЫЙ ФОН */
+/* --- МАГИЯ: АНИМИРОВАННАЯ ГРАДИЕНТНАЯ РАМКА --- */
 .header::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-color: var(--color-accent);
-  z-index: 0;
-  opacity: 1; 
+  inset: 0;
+  border-radius: 24px;
+  padding: 2px; /* Толщина рамки */
+  background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, black) 100%);
+  
+  /* Вырезаем серединку, оставляя только рамку */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  
+  /* ПЛАВНОЕ ЗАПОЛНЕНИЕ: Рамка "свернута" в невидимую точку в районе кнопки */
   clip-path: circle(0px at calc(100% - 120px) 50%);
-  transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
+  z-index: -1;
+  /* Убрали opacity: 0, так как теперь невидимость обеспечивает clip-path */
 }
 
+/* Включаем градиентную рамку и легкое свечение на странице курса */
 .header--course-mode::before {
   clip-path: circle(150% at calc(100% - 120px) 50%);
-  transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.header--course-mode {
+  /* Легкое свечение под шапкой тоже появляется плавно */
+  box-shadow: 0 10px 40px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  transition: box-shadow 0.7s ease; 
+}
+
+
+/* --- ВНУТРЕННИЙ КОНТЕЙНЕР (СЕТКА GRID) --- */
 .header__container {
   width: 100%;
   height: 100%;
@@ -83,11 +99,6 @@
   transition: all 0.4s ease;
 }
 
-.header--course-mode .header__booking-btn,
-.header--course-mode .header__booking-icon {
-  color: var(--color-white);
-}
-
 .header__booking-btn:hover {
   background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
   color: var(--color-accent);
@@ -95,11 +106,6 @@
 
 .header__booking-btn:hover .header__booking-icon {
   transform: scale(1.1);
-}
-
-.header--course-mode .header__booking-btn:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: var(--color-white);
 }
 
 .header__booking-badge {
@@ -118,11 +124,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 10;
   transition: all 0.4s ease;
-}
-
-.header--course-mode .header__booking-badge {
-  background-color: var(--color-white);
-  color: var(--color-accent);
 }
 
 
@@ -165,11 +166,6 @@
   border-radius: 2px;
 }
 
-.header--course-mode .header__link { color: rgba(255, 255, 255, 0.8); }
-.header--course-mode .header__link:hover,
-.header--course-mode .header__link--active { color: var(--color-white); }
-.header--course-mode .header__link::after { background-color: var(--color-white); }
-
 .header__link:hover { color: var(--color-accent); }
 .header__link:hover::after { width: 100%; }
 .header__link--active { color: var(--color-accent); font-weight: 600; }
@@ -198,11 +194,7 @@
   transition: color 0.4s ease;
 }
 
-.header--course-mode .header__burger-btn {
-  color: var(--color-white);
-}
-
-/* Общие стили для кнопок "Курс" и "Назад" */
+/* Общие стили для кнопок */
 .header__course-btn,
 .header__back-btn {
   display: inline-flex;
@@ -216,37 +208,36 @@
   border-radius: 50px; 
   transition: all 0.3s ease;
   gap: 8px; 
-  /* На десктопе фиксируем ширину, чтобы не прыгало */
   min-width: 210px; 
 }
 
-/* Цвета кнопки КУРС */
+/* --- ОБНОВЛЕННАЯ ГРАДИЕНТНАЯ КНОПКА "КУРС" --- */
 .header__course-btn {
-  background-color: var(--color-accent);
+  background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, black) 100%);
   color: var(--color-white);
+  box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  border: none;
 }
 .header__course-btn:hover {
-  background-color: color-mix(in srgb, var(--color-accent) 85%, black);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  box-shadow: 0 15px 30px color-mix(in srgb, var(--color-accent) 50%, transparent);
 }
 
-/* Цвета кнопки НАЗАД */
+/* Кнопка "НАЗАД" (теперь она должна быть темной, так как фон белый) */
 .header__back-btn {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: var(--color-white);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: transparent;
+  color: var(--color-text-dark);
+  border: 1px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
 }
 .header__back-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: color-mix(in srgb, var(--color-text-dark) 5%, transparent);
   transform: translateY(-2px);
 }
 
-/* Управление иконками и текстом по умолчанию (Десктоп) */
-.header__course-icon-mob { display: none; } /* Скрываем обе иконки на десктопе */
-.header__back-btn .header__course-icon-mob { display: block; } /* НО стрелку 'назад' показываем */
-.course-text-mob { display: none; } /* Скрываем короткий текст */
-.course-text-desk { display: inline; } /* Показываем длинный текст */
+.header__course-icon-mob { display: none; } 
+.header__back-btn .header__course-icon-mob { display: block; }
+.course-text-mob { display: none; }
+.course-text-desk { display: inline; }
 
 
 /* =========================================
@@ -301,6 +292,7 @@
   color: var(--color-accent);
 }
 
+
 /* =========================================
    --- 6. АДАПТИВ (МЕДИА-ЗАПРОСЫ) ---
 ========================================= */
@@ -325,57 +317,54 @@
       border-radius: 20px;
   }
   
+  .header::before {
+      border-radius: 20px; /* Рамка повторяет контур телефона */
+  }
+  
   .header__container {
     padding: 0;
   }
   
   .header__right {
-    gap: 12px; /* Уменьшаем расстояние до бургера */
+    gap: 12px;
   }
 
-  /* ИСПРАВЛЕНИЕ: Делаем кнопку компактной */
   .header__course-btn,
   .header__back-btn {
-    min-width: 0; /* ОТКЛЮЧАЕМ жесткую ширину! */
-    padding: 6px 14px; /* Меньше отступы */
+    min-width: 0; 
+    padding: 6px 14px; 
     font-size: 14px;   
     gap: 6px;         
   }
 
-  /* ИСПРАВЛЕНИЕ: Убираем эффекты hover на мобилках */
   .header__course-btn:hover {
     transform: none;
-    box-shadow: none;
+    /* На телефоне оставляем свечение, но не двигаем кнопку */
+    box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
+  
   .header__back-btn:hover {
     transform: none;
   }
 
-  /* ИСПРАВЛЕНИЕ: Показываем иконку "люди" в кнопке "Курс" */
   .header__course-icon-mob { 
     display: block; 
     width: 16px; 
     height: 16px;
   }
 
-  /* Переключаем тексты с длинных на короткие */
-  .course-text-desk {
-    display: none;
-  }
-  .course-text-mob {
-    display: inline;
-  }
+  .course-text-desk { display: none; }
+  .course-text-mob { display: inline; }
 }
 
-/* Дополнительный фикс для очень маленьких экранов (iPhone SE) */
 @media (max-width: 400px) {
   .header__booking-btn span {
-    display: none; /* Скрываем слово "Запись", оставляем только иконку календаря */
+    display: none; 
   }
   .header__booking-btn {
-    padding: 8px; /* Делаем кнопку записи квадратной */
+    padding: 8px; 
   }
   .header__right {
-    gap: 8px; /* Еще сильнее прижимаем бургер */
+    gap: 8px; 
   }
 }

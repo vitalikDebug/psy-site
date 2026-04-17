@@ -1,428 +1,339 @@
 /* src/app/course/CoursePage.css */
 
-/* --- ОБЩИЕ СТИЛИ СТРАНИЦЫ --- */
-.course-page {
-  background-color: #ffffff; /* Чистый белый фон */
+.coursePage {
   min-height: 100vh;
-  font-family: var(--font-family-body);
-  overflow-x: hidden; /* На всякий случай */
+  background-color: var(--color-white);
+  position: relative;
+  overflow: hidden;
+  padding-top: 120px; /* Отступ под шапку */
 }
 
-/* Общий контейнер для секций (кроме Hero) */
-.course-container {
-  max-width: 1000px; /* Чуть уже, чем основной контейнер, для лучшей читаемости текста */
+/* Декоративные свечения */
+.coursePage__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.coursePage__glow--1 {
+  top: -5%; left: -10%; width: 600px; height: 600px;
+  background-color: rgba(229, 213, 242, 0.6); /* Светло-лавандовый */
+}
+
+.coursePage__glow--2 {
+  bottom: 20%; right: -5%; width: 500px; height: 500px;
+  background-color: rgba(160, 120, 196, 0.15); /* Темно-лавандовый */
+}
+
+.courseHero__container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 40px 20px 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
 }
 
-/* Общие стили для заголовков секций */
-.course-section {
-  padding: 100px 0;
+/* =========================================
+   --- ЛЕВАЯ КОЛОНКА (Текст) ---
+========================================= */
+.courseHero__left {
+  display: flex;
+  flex-direction: column;
 }
 
-.course-section__title {
+.courseHero__title {
   font-family: var(--font-family-headings);
-  font-size: 42px;
-  text-align: center;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+.courseHero__title-accent {
+  color: var(--color-accent);
+}
+
+.courseHero__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  margin-bottom: 30px;
+  max-width: 90%;
+}
+
+/* СПИСОК РЕЗУЛЬТАТОВ */
+.courseHero__results {
+  margin-bottom: 40px;
+}
+
+.courseHero__results-title {
+  font-family: var(--font-family-headings);
+  font-size: 20px;
+  font-weight: 700;
   color: var(--color-text-dark);
   margin-bottom: 16px;
 }
 
-.course-section__subtitle {
-  text-align: center;
-  font-size: 20px;
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-  max-width: 700px;
-  margin: 0 auto 60px;
-}
-
-
-/* =========================================
-   1. HERO SECTION (Заглавный блок)
-========================================= */
-.course-hero {
-  padding-top: 140px; /* Отступ под фиксированный хедер */
-  padding-bottom: 100px;
-}
-
-.course-hero__container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  gap: 80px;
-}
-
-.course-hero__content {
-  flex: 1;
-}
-
-.course-badge {
-  display: inline-block;
-  background-color: #F5EEFA; /* Очень светлый лавандовый */
-  color: #8C62B0; /* Фиолетовый текст */
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-}
-
-.course-hero__title {
-  font-family: var(--font-family-headings);
-  font-size: 56px;
-  line-height: 1.1;
-  font-weight: 800;
-  margin-bottom: 24px;
-}
-
-.highlight-text {
-  display: inline-block;
-  /* Градиентный фон для выделения, как на референсе */
-  background: linear-gradient(135deg, #CBA5DF 0%, #A078C4 100%);
-  color: #ffffff;
-  padding: 2px 16px;
-  border-radius: 12px;
-  /* Небольшой наклон для динамики */
-  transform: skewX(-5deg);
-}
-
-.course-hero__subtitle {
-  font-size: 20px;
-  line-height: 1.6;
-  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
-  margin-bottom: 40px;
-  max-width: 90%;
-}
-
-/* Основная кнопка курса */
-.course-btn {
-  display: inline-block;
-  background-color: #A078C4; /* Основной лавандовый */
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 18px 40px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 24px rgba(160, 120, 196, 0.3);
-}
-
-.course-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(160, 120, 196, 0.5);
-  background-color: #8C62B0;
-}
-
-/* Правая часть с фото */
-.course-hero__image-wrapper {
-  flex: 0 0 45%; /* Фиксируем ширину */
-  position: relative;
-  border-radius: 40px;
-  /* Важно для обрезки картинки по скругленным углам */
-  overflow: hidden;
-  aspect-ratio: 4 / 5; /* Вертикальный формат */
-  box-shadow: 0 20px 40px rgba(160, 120, 196, 0.15);
-  /* Фон-заглушка, если картинка не прогрузилась */
-  background: linear-gradient(135deg, #F5EEFA 0%, #E5D5F2 100%);
-}
-
-.course-hero__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Картинка заполняет блок, не искажаясь */
-}
-
-
-/* =========================================
-   2. VIDEO SECTION (Видео-заглушка)
-========================================= */
-.course-video-section {
-  background-color: #FBFAFD; /* Едва заметный серый фон для контраста */
-}
-
-.video-placeholder {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, #CBA5DF 0%, #A078C4 100%); /* Градиент вместо видео */
-  border-radius: 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 20px 40px rgba(160, 120, 196, 0.2);
-  overflow: hidden;
-  cursor: pointer;
-}
-
-/* Если будет обложка */
-.video-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-}
-
-.video-play-button {
-  width: 80px;
-  height: 80px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #A078C4;
-  z-index: 2;
-  transition: all 0.3s ease;
-}
-
-.video-placeholder:hover .video-play-button {
-  transform: scale(1.1);
-  background-color: #ffffff;
-}
-
-
-/* =========================================
-   3. SUITABLE FOR (Секция "Когда нужен курс")
-========================================= */
-.suitable-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.suitable-card {
-  background-color: #ffffff;
-  border: 2px solid #F0E6F7; /* Лавандовая рамка */
-  padding: 30px;
-  border-radius: 24px;
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  transition: all 0.3s ease;
-}
-
-.suitable-card:hover {
-    border-color: #CBA5DF;
-    box-shadow: 0 10px 30px rgba(160, 120, 196, 0.1);
-    transform: translateY(-5px);
-}
-
-.suitable-card__icon {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background-color: #F5EEFA;
-  color: #8C62B0;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 20px;
-}
-
-.suitable-card__text {
-  font-size: 18px;
-  line-height: 1.5;
-  color: var(--color-text-dark);
-}
-
-
-/* =========================================
-   4. INCLUDES (Секция "Программа")
-========================================= */
-.course-includes {
-    background-color: #FBFAFD;
-}
-
-.includes-list {
+.courseHero__list {
+  list-style: none;
+  padding: 0; margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  gap: 12px;
 }
 
-.includes-item {
-  background-color: #ffffff;
-  padding: 30px 40px;
-  border-radius: 30px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px 30px;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-.includes-item:hover {
-    box-shadow: 0 10px 30px rgba(160, 120, 196, 0.1);
-    transform: translateX(10px);
-}
-
-.includes-item__number {
-  grid-row: 1 / 3;
-  font-family: var(--font-family-headings);
+.courseHero__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-family-body);
   font-size: 16px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #A078C4;
-  background-color: #F5EEFA;
-  padding: 8px 16px;
-  border-radius: 16px;
-  align-self: start;
-}
-
-.includes-item__title {
-  font-family: var(--font-family-headings);
-  font-size: 22px;
-  font-weight: 700;
+  line-height: 1.4;
   color: var(--color-text-dark);
-  margin: 0;
 }
 
-.includes-item__desc {
-  font-size: 17px;
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-  margin: 0;
+.list-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
 }
-
 
 /* =========================================
-   5. FINAL SECTION (Результат и Формат)
+   --- БЛОК ПОКУПКИ С ТАЙМЕРОМ ---
 ========================================= */
-.course-final {
-  /* Красивый лавандовый градиент для финала */
-  background: linear-gradient(135deg, #F5EEFA 0%, #E5D5F2 100%);
-  padding: 120px 0;
-  text-align: center;
+.courseHero__cta-box {
+  background: linear-gradient(135deg, #f5eefa 0%, #e5d5f2 100%);
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 15px 35px rgba(160, 120, 196, 0.15);
 }
 
-.course-final__container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
+.cta-box__timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
 }
 
-.final-block {
-  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый */
-  backdrop-filter: blur(10px);
-  padding: 50px;
-  border-radius: 40px;
-  margin-bottom: 40px;
+.timer-icon {
+  color: #FF4D4F;
+  animation: pulse 2s infinite;
 }
 
-.final-block--result {
-    border: 3px solid #ffffff;
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-.final-block__title {
+.timer-countdown {
+  background-color: #FF4D4F;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums; /* Цифры не будут "прыгать" */
+  letter-spacing: 1px;
+}
+
+.cta-box__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.cta-box__price {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-old {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  text-decoration: line-through;
+  margin-bottom: -4px;
+}
+
+.price-new {
   font-family: var(--font-family-headings);
   font-size: 36px;
+  font-weight: 800;
   color: var(--color-text-dark);
-  margin-bottom: 24px;
+  line-height: 1;
 }
 
-.final-block__subtitle {
-    font-family: var(--font-family-headings);
-    font-size: 24px;
-    color: #8C62B0;
-    margin-bottom: 16px;
-    text-transform: uppercase;
+.cta-box__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  padding: 18px 32px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
-.final-block__text {
-  font-size: 20px;
-  line-height: 1.6;
-  color: var(--color-text-dark);
-}
-
-.course-btn--large {
-  font-size: 22px;
-  padding: 22px 60px;
-  /* Тень более выраженная для финальной кнопки */
-  box-shadow: 0 15px 40px rgba(160, 120, 196, 0.4);
-}
-
-.course-btn--large:hover {
-    box-shadow: 0 20px 50px rgba(160, 120, 196, 0.6);
+.cta-box__btn:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 85%, black);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px color-mix(in srgb, var(--color-accent) 50%, transparent);
 }
 
 
 /* =========================================
-   --- АДАПТИВ (MEDIA QUERIES) ---
+   --- ПРАВАЯ КОЛОНКА (Галерея-Аккордеон) ---
 ========================================= */
-@media (max-width: 992px) {
-  .course-hero__container {
-    flex-direction: column;
-    text-align: center;
-    gap: 50px;
-  }
-  
-  .course-hero__image-wrapper {
-    width: 100%;
-    max-width: 500px;
-  }
-
-  .course-section__title {
-    font-size: 36px;
-  }
-
-  .includes-item {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 16px;
-  }
-  .includes-item__number {
-    justify-self: center;
-  }
+.courseHero__right {
+  height: 550px;
+  width: 100%;
 }
 
-@media (max-width: 768px) {
-  .course-hero {
-    padding-top: 120px;
-  }
-  
-  .course-hero__title {
-    font-size: 40px;
-  }
-  
-  .course-section {
-    padding: 60px 0;
-  }
-  
-  .course-section__subtitle {
-    font-size: 18px;
-    margin-bottom: 40px;
-  }
+.course-accordion {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+}
 
-  .suitable-grid {
+.accordion-item {
+  position: relative;
+  flex: 1; /* По умолчанию все карточки узкие */
+  border-radius: 40px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+  cursor: pointer;
+  /* Плавная анимация изменения ширины */
+  transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Разная высота для динамики, как на референсе */
+.accordion-item--1 { height: 100%; align-self: center; }
+.accordion-item--2 { height: 85%; align-self: flex-start; }
+.accordion-item--3 { height: 95%; align-self: flex-end; }
+
+.accordion-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Легкий зум внутри карточки для красоты */
+  transition: transform 0.6s ease;
+}
+
+/* --- МАГИЯ НАВЕДЕНИЯ --- */
+/* 1. Если мы НЕ навели мышку на галерею, первая карточка широкая */
+.course-accordion:not(:hover) .accordion-item--1 {
+  flex: 3;
+}
+
+/* 2. При наведении на ЛЮБУЮ карточку, именно она становится широкой */
+.course-accordion .accordion-item:hover {
+  flex: 3;
+}
+
+.course-accordion .accordion-item:hover img {
+  transform: scale(1.05); /* Картинка чуть приближается */
+}
+
+/* --- ТЕКСТОВЫЕ ПЛАШКИ --- */
+.accordion-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  
+  /* Прячем текст по умолчанию (для узких карточек) */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+/* Показываем текст только у широкой карточки */
+.course-accordion:not(:hover) .accordion-item--1 .accordion-label,
+.course-accordion .accordion-item:hover .accordion-label {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s; /* Текст появляется с небольшой задержкой после расширения */
+}
+@media (max-width: 1024px) {
+  .courseHero__title { font-size: 36px; }
+  .courseHero__right { height: 450px; }
+  .cta-box__bottom { flex-direction: column; align-items: stretch; }
+  .cta-box__btn { justify-content: center; }
+}
+
+@media (max-width: 900px) {
+  .courseHero__container {
     grid-template-columns: 1fr;
-  }
-
-  .final-block {
-    padding: 30px 20px;
-    border-radius: 30px;
+    gap: 40px;
+    padding: 20px 20px 60px;
   }
   
-  .final-block__title {
-    font-size: 28px;
-  }
+  /* На планшете и телефоне выводим текст по центру, а фото скрываем (или показываем только одно) */
+  .courseHero__left { align-items: center; text-align: center; }
+  .courseHero__subtitle { margin: 0 auto 30px; }
   
-  .final-block__text {
-    font-size: 18px;
+  .courseHero__list li {
+    justify-content: center;
+    text-align: left;
   }
 
-  .course-btn--large {
+  /* На мобильных оставляем только главную фотографию, узкие скрываем, чтобы не мельчить */
+  .courseHero__right {
+    height: 350px;
+    max-width: 500px;
+    margin: 0 auto;
     width: 100%;
-    font-size: 20px;
   }
+  .photo-side-group { display: none; }
+}
+
+@media (max-width: 600px) {
+  .coursePage { padding-top: 100px; }
+  .courseHero__title { font-size: 28px; }
+  .courseHero__results-title { font-size: 18px; }
+  .courseHero__list li { font-size: 14px; }
+  
+  .courseHero__cta-box {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .cta-box__timer {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .cta-box__price { align-items: center; }
 }
