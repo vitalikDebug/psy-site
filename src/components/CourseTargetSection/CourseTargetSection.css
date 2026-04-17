@@ -1,0 +1,164 @@
+/* src/components/CourseTargetSection/CourseTargetSection.css */
+
+.targetSection {
+  position: relative;
+  padding: 100px 0;
+  background-color: var(--color-white);
+  overflow: hidden; /* Чтобы фоновая линия не вылезала за края экрана */
+}
+
+/* --- Фоновая декоративная линия --- */
+.targetSection__bg-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.targetSection__bg-line svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Контейнер --- */
+.targetSection__container {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- Заголовок --- */
+.targetSection__header {
+  max-width: 500px; /* Ограничиваем ширину, чтобы текст был слева, как на референсе */
+  margin-bottom: 40px;
+}
+
+.targetSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.targetSection__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  line-height: 1.5;
+}
+
+/* --- Сетка карточек --- */
+.targetSection__cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 колонки одинаковой ширины */
+  gap: 24px;
+  align-items: flex-start;
+  padding-bottom: 60px; /* Место для смещенных карточек */
+}
+
+/* --- Сама карточка --- */
+.targetCard {
+  background: var(--color-white);
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.targetCard:hover {
+  box-shadow: 0 20px 50px color-mix(in srgb, var(--color-accent) 15%, transparent);
+  transform: translateY(-5px); /* Легкий прыжок при наведении поверх лесенки */
+}
+
+/* Делаем лесенку через смещение (как на фото) */
+.targetCard--step-1 { transform: translateY(120px); }
+.targetCard--step-2 { transform: translateY(80px); }
+.targetCard--step-3 { transform: translateY(40px); }
+.targetCard--step-4 { transform: translateY(0); }
+
+/* Чтобы при :hover лесенка не ломалась, нужно комбинировать трансформации.
+   Для надежности лучше использовать margin-top, а translateY оставить для hover. 
+   Исправим лесенку на margin: */
+.targetCard--step-1 { margin-top: 120px; transform: none; }
+.targetCard--step-2 { margin-top: 80px; transform: none; }
+.targetCard--step-3 { margin-top: 40px; transform: none; }
+.targetCard--step-4 { margin-top: 0; transform: none; }
+
+/* Иконка в карточке */
+.targetCard__icon-wrapper {
+  width: 56px;
+  height: 56px;
+  background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  color: var(--color-accent);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+/* Текст в карточке */
+.targetCard__title {
+  font-family: var(--font-family-headings);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 12px;
+}
+
+.targetCard__text {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+/* --- АДАПТИВ --- */
+@media (max-width: 1024px) {
+  /* На планшетах делаем сетку 2x2 */
+  .targetSection__cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Меняем лесенку для 2x2 */
+  .targetCard--step-1 { margin-top: 40px; }
+  .targetCard--step-2 { margin-top: 0; }
+  .targetCard--step-3 { margin-top: 40px; }
+  .targetCard--step-4 { margin-top: 0; }
+}
+
+@media (max-width: 600px) {
+  .targetSection { padding: 60px 0; }
+  .targetSection__title { font-size: 32px; }
+  
+  .targetSection__header {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  /* На телефонах выстраиваем все карточки в одну колонку без лесенки */
+  .targetSection__cards {
+    grid-template-columns: 1fr;
+    padding-bottom: 0;
+  }
+
+  .targetCard--step-1,
+  .targetCard--step-2,
+  .targetCard--step-3,
+  .targetCard--step-4 {
+    margin-top: 0; 
+  }
+}

@@ -5,17 +5,33 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CalendarDays, Menu, X, Users, ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion'; // ИМПОРТИРУЕМ FRAMER MOTION
+import { motion, AnimatePresence } from 'framer-motion'; // Добавили AnimatePresence
 import './Header.css';
 
 import { useModal } from '@/context/ModalContext';
 
-const navLinks = [
+// --- ССЫЛКИ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ---
+const mainNavLinks = [
   { name: 'Обо мне', href: '/#about' },
   { name: 'Подход', href: '/#approach' },
   { name: 'Отзывы', href: '/#reviews' },
   { name: 'Контакты', href: '/#contacts' },
 ];
+
+// --- ССЫЛКИ ДЛЯ СТРАНИЦЫ КУРСА ---
+const courseNavLinks = [
+  { name: 'Для кого', href: '#target' },
+  { name: 'Программа', href: '#modules' },
+  { name: 'Тарифы', href: '#pricing' },
+  { name: 'Автор', href: '#author' },
+];
+
+// --- АНИМАЦИИ СМЕНЫ КОНТЕНТА ---
+const fadeVariants = {
+  hidden: { opacity: 0, y: -10 }, // Выезжают чуть сверху
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+  exit: { opacity: 0, y: 10, transition: { duration: 0.2, ease: 'easeIn' } } // Уезжают чуть вниз
+};
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +39,7 @@ export default function Header() {
   const { openModal, selectedService } = useModal();
 
   const isCoursePage = pathname === '/course';
+  const activeNavLinks = isCoursePage ? courseNavLinks : mainNavLinks;
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -40,12 +57,11 @@ export default function Header() {
 
   return (
     <>
-      {/* --- HEADER (ОСТРОВОК) С АНИМАЦИЕЙ --- */}
-      {/* Используем motion.header для выезда сверху */}
+      {/* ОСТРОВОК ШАПКИ */}
       <motion.header 
         className={`header ${isCoursePage ? 'header--course-mode' : ''}`}
-        initial={{ y: -100, x: "-50%", opacity: 0 }} // Начинает выше экрана
-        animate={{ y: 0, x: "-50%", opacity: 1 }}    // Плавно опускается на место
+        initial={{ y: -100, x: "-50%", opacity: 0 }}
+        animate={{ y: 0, x: "-50%", opacity: 1 }}
         transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
       >
         <div className="header__container">
@@ -65,36 +81,55 @@ export default function Header() {
           </div>
 
           <nav className="header__nav-desktop">
-            <ul className="header__list">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href}
-                    className={`header__link ${pathname === link.href ? 'header__link--active' : ''}`}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {/* AnimatePresence с mode="wait" ждет, пока старое меню исчезнет, прежде чем показать новое */}
+            <AnimatePresence mode="wait">
+              <motion.ul 
+                key={isCoursePage ? 'course-nav' : 'main-nav'} // Ключ заставляет React перерисовать блок при смене страницы
+                className="header__list"
+                variants={fadeVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                {activeNavLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link 
+                      href={link.href}
+                      className={`header__link ${pathname === link.href ? 'header__link--active' : ''}`}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </motion.ul>
+            </AnimatePresence>
           </nav>
 
           <div className="header__right">
-            {isCoursePage ? (
-              /* Кнопка НАЗАД (теперь такая же широкая) */
-              <Link href="/" className="header__back-btn" aria-label="На главную">
-                <ArrowLeft size={18} className="header__course-icon-mob" />
-                <span className="course-text-desk">Назад на главную</span>
-                <span className="course-text-mob">Назад</span>
-              </Link>
-            ) : (
-              /* Кнопка КУРС */
-              <Link href="/course" className="header__course-btn">
-                <Users size={18} className="header__course-icon-mob" />
-                <span className="course-text-desk">Курс для родителей</span>
-                <span className="course-text-mob">Курс</span>
-              </Link>
-            )}
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={isCoursePage ? 'course-btn' : 'main-btn'}
+                variants={fadeVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                style={{ display: 'flex' }} // Чтобы не ломалась верстка flexbox
+              >
+                {isCoursePage ? (
+                  <Link href="/" className="header__back-btn" aria-label="На главную">
+                    <ArrowLeft size={18} className="header__course-icon-mob" />
+                    <span className="course-text-desk">Назад на главную</span>
+                    <span className="course-text-mob">Назад</span>
+                  </Link>
+                ) : (
+                  <Link href="/course" className="header__course-btn">
+                    <Users size={18} className="header__course-icon-mob" />
+                    <span className="course-text-desk">Курс для родителей</span>
+                    <span className="course-text-mob">Курс</span>
+                  </Link>
+                )}
+              </motion.div>
+            </AnimatePresence>
 
             <button className="header__burger-btn" onClick={toggleMenu} aria-label="Меню">
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -103,21 +138,31 @@ export default function Header() {
         </div>
       </motion.header>
 
+      {/* МОБИЛЬНОЕ МЕНЮ (Его тоже можно анимировать при смене ссылок) */}
       <div className={`header__mobile-menu ${isMenuOpen ? 'header__mobile-menu--open' : ''}`}>
         <div className="header__mobile-menu-container">
-          <ul className="header__mobile-list">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link 
-                  href={link.href}
-                  className={`header__mobile-link ${pathname === link.href ? 'header__mobile-link--active' : ''}`}
-                  onClick={closeMenu} 
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <AnimatePresence mode="wait">
+            <motion.ul 
+              key={isCoursePage ? 'course-mob' : 'main-mob'}
+              className="header__mobile-list"
+              variants={fadeVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              {activeNavLinks.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className={`header__mobile-link ${pathname === link.href ? 'header__mobile-link--active' : ''}`}
+                    onClick={closeMenu} 
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </motion.ul>
+          </AnimatePresence>
         </div>
       </div>
     </>

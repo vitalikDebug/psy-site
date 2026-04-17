@@ -1,0 +1,231 @@
+/* src/components/CourseModulesSection/CourseModulesSection.css */
+
+.modulesSection {
+  padding: 100px 0;
+  background-color: #fafafa;
+}
+
+.modulesSection__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.modulesSection__header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.modulesSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 16px;
+}
+
+.modulesSection__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+}
+
+/* --- СЕТКА: Лево (Аккордеон) | Право (Иллюстрация) --- */
+.modulesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+/* --- ЛЕВАЯ КОЛОНКА (Аккордеон) --- */
+.modulesAccordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accordionItem {
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: all 0.3s ease;
+}
+
+/* Активный модуль выделяем легкой тенью и цветной границей */
+.accordionItem--active {
+  box-shadow: 0 15px 35px rgba(160, 120, 196, 0.1);
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.accordionItem__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordionItem__title {
+  font-family: var(--font-family-headings);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  padding-right: 20px;
+  transition: color 0.3s ease;
+}
+
+.accordionItem--active .accordionItem__title {
+  color: var(--color-accent);
+}
+
+.accordionItem__icon {
+  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+.accordionItem--active .accordionItem__icon {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.accordionItem__body {
+  overflow: hidden;
+}
+
+.accordionItem__content {
+  padding: 0 30px 30px 30px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+/* Картинка для мобильных по умолчанию скрыта */
+.accordionItem__mobile-illus {
+  display: none;
+}
+
+
+/* --- ПРАВАЯ КОЛОНКА (Иллюстрация) --- */
+.modulesVisual {
+  position: relative;
+  height: 100%;
+}
+
+/* Делаем ее липкой, чтобы она ехала за нами при скролле */
+.modulesVisual__sticky {
+  position: sticky;
+  top: 120px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 550px; /* Увеличили высоту стенда, чтобы вместить картинку 450x450 */
+  
+  /* НОВЫЙ ФОН: Нежная карточка для разграничения */
+  background: linear-gradient(145deg, #ffffff 0%, #fcf9ff 100%);
+  border-radius: 40px; /* Большие скругления как у современных Apple-устройств */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+  border: 1px solid rgba(255,255,255,0.8);
+  overflow: hidden; /* Чтобы свечение не вылезало за края стенда */
+}
+
+.modulesVisual__image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 450px; /* УВЕЛИЧИЛИ РАЗМЕР КАРТИНКИ */
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.modulesVisual__image-wrapper img {
+  width: 100%;
+  height: auto;
+  max-height: 450px; /* Ограничиваем высоту */
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1)); 
+}
+
+/* Мягкое свечение сзади картинки */
+.modulesVisual__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; /* Увеличили свечение */
+  height: 400px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 15%, transparent) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* --- АДАПТИВ --- */
+@media (max-width: 1024px) {
+  .modulesGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  /* На планшетах и телефонах прячем правую липкую колонку */
+  .modulesVisual {
+    display: none;
+  }
+
+  /* Вместо этого показываем картинку прямо внутри аккордеона! */
+  .accordionItem__mobile-illus {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+  }
+
+  .accordionItem__mobile-illus img {
+    max-width: 200px;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+  }
+}
+
+@media (max-width: 600px) {
+  .modulesSection { padding: 60px 0; }
+  .modulesSection__title { font-size: 32px; }
+  
+  .accordionItem__header {
+    padding: 20px;
+  }
+  .accordionItem__title {
+    font-size: 16px;
+  }
+  .accordionItem__content {
+    padding: 0 20px 20px 20px;
+    font-size: 15px;
+  }
+}
+
+.module-svg-icon {
+  width: 100%;
+  max-width: 450px; 
+  height: auto;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08)); 
+}
+
+@media (max-width: 1024px) {
+  .module-svg-icon {
+    max-width: 250px;
+  }
+}

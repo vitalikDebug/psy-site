@@ -1,0 +1,245 @@
+/* src/components/CoursePricingSection/CoursePricingSection.css */
+
+.pricingSection {
+  padding: 100px 0;
+  background-color: #f7f7f8; /* Очень легкий серый фон для контраста с белыми карточками */
+}
+
+.pricingSection__container {
+  max-width: 1000px; /* Делаем сетку чуть уже, чтобы карточки смотрелись аккуратно */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.pricingSection__header {
+  margin-bottom: 40px;
+}
+
+.pricingSection__title {
+  font-family: var(--font-family-headings);
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.pricingSection__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+}
+
+/* --- СЕТКА --- */
+.pricingGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* --- КАРТОЧКИ --- */
+.priceCard {
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.priceCard:hover {
+  transform: translateY(-5px);
+}
+
+/* Светлая карточка */
+.priceCard--light {
+  background-color: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+}
+
+/* Темная карточка */
+.priceCard--dark {
+  background-color: #1a1a1c; /* Глубокий темный цвет как на референсе */
+  color: var(--color-white);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Широкая карточка */
+.priceCard--wide {
+  grid-column: 1 / -1; /* Растягиваем на обе колонки */
+  background-color: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+}
+
+/* --- ВНУТРЕННОСТИ КАРТОЧКИ --- */
+.priceCard__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.priceCard__name {
+  font-family: var(--font-family-headings);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.priceCard__tag {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+.priceCard__tag--light { background-color: #fce8e8; color: #d94545; }
+.priceCard__tag--dark { background-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
+.priceCard__tag--accent { background-color: color-mix(in srgb, var(--color-accent) 20%, transparent); color: var(--color-accent); }
+
+.priceCard__catchphrase {
+  font-family: var(--font-family-headings);
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 40px;
+  flex-grow: 1;
+}
+
+/* Специфично для светлой карточки */
+.priceCard--light .priceCard__catchphrase { color: var(--color-text-dark); }
+.priceCard--light .priceCard__name { color: var(--color-text-dark); }
+
+/* --- БЛОК С ЦЕНОЙ И КНОПКОЙ --- */
+.priceCard__price-block {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.priceCard--dark .priceCard__price-block {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.priceCard__price {
+  font-family: var(--font-family-headings);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.priceCard__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.priceCard__btn--dark { background-color: #1a1a1c; color: var(--color-white); }
+.priceCard__btn--dark:hover { background-color: #333; }
+
+.priceCard__btn--light { background-color: var(--color-white); color: #1a1a1c; }
+.priceCard__btn--light:hover { background-color: #f0f0f0; }
+
+.priceCard__btn--accent { background-color: var(--color-accent); color: var(--color-white); }
+.priceCard__btn--accent:hover { background-color: color-mix(in srgb, var(--color-accent) 80%, black); }
+
+
+/* --- СПИСКИ ОПЦИЙ --- */
+.priceCard__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.priceCard__features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+.priceCard--dark .priceCard__features li {
+  color: rgba(255,255,255,0.7);
+}
+
+.priceCard__features li.disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.priceCard__features li svg {
+  flex-shrink: 0;
+  color: var(--color-accent); /* Цвет галочек */
+}
+
+/* --- СПЕЦИАЛЬНО ДЛЯ ШИРОКОЙ КАРТОЧКИ --- */
+.priceCard__wide-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.priceCard__price-block--wide {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  align-items: flex-end; /* Кнопка и цена справа */
+}
+
+.priceCard__features--wide {
+  grid-template-columns: 1fr 1fr; /* Две колонки для фич в широкой карточке */
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+
+/* --- АДАПТИВ --- */
+@media (max-width: 850px) {
+  .pricingGrid {
+    grid-template-columns: 1fr; /* На планшетах и телефонах все карточки друг под другом */
+  }
+  
+  .priceCard--wide {
+    grid-column: auto;
+  }
+  
+  .priceCard__wide-content {
+    flex-direction: column;
+  }
+  
+  .priceCard__price-block--wide {
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  
+  .priceCard__features--wide {
+    grid-template-columns: 1fr; /* Одна колонка для фич */
+  }
+}
+
+@media (max-width: 600px) {
+  .pricingSection { padding: 60px 0; }
+  .pricingSection__title { font-size: 36px; }
+  .priceCard { padding: 24px; }
+  .priceCard__catchphrase { font-size: 22px; }
+  .priceCard__price { font-size: 32px; }
+}

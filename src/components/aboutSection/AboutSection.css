@@ -226,7 +226,7 @@
 /* --- СТИЛИ ДЛЯ БЕЛЫХ ТЕКСТОВЫХ КАРТОЧЕК (ГРАДИЕНТНАЯ РАМКА) --- */
 .bento-card--text {
     background-color: var(--color-white);
-    padding: 30px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end; 
