@@ -3,7 +3,7 @@
 .aboutSection {
   padding: 120px 0;
   background-color: var(--color-white);
-  overflow: hidden; /* Важно для анимации вылета фото */
+  overflow: hidden;
 }
 
 .aboutSection__container {
@@ -12,20 +12,21 @@
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 80px;
+  gap: 60px;
 }
 
-/* --- ЛЕВАЯ КОЛОНКА (Текст) --- */
+/* =========================================
+   --- ЛЕВАЯ КОЛОНКА (Текст) ---
+========================================= */
 .aboutSection__content {
-  flex: 0 0 45%;
+  flex: 0 0 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-/* Повторяющиеся стили бейджа и текста можно вынести в глобальные, но пока оставим тут */
 .badge--accent {
   display: inline-block;
   background-color: var(--color-accent);
@@ -74,6 +75,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .aboutSection__stats-list li {
@@ -94,34 +96,45 @@
   opacity: 0.6;
 }
 
-/* --- НОВЫЕ КНОПКИ --- */
+/* --- КНОПКИ (ОДИНАКОВОЙ ШИРИНЫ) --- */
+.aboutSection__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 320px; /* Контейнер кнопок ограничен */
+}
+
+.aboutSection__social-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .about-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    padding: 12px 24px;
+    padding: 14px 24px;
     border-radius: 50px;
     font-family: var(--font-family-body);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%; /* Занимают 100% от контейнера, поэтому всегда равны */
 }
 
 .about-btn--diplomas {
     background-color: transparent;
     border: 2px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
     color: var(--color-text-dark);
-    margin-bottom: 40px;
 }
 .about-btn--diplomas:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
     background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
-}
-
-.aboutSection__social-block {
-  margin-top: 20px;
 }
 
 .aboutSection__blog-title {
@@ -147,78 +160,123 @@
 
 
 /* =========================================
-   --- ПРАВАЯ КОЛОНКА: ГАЛЕРЕЯ "КНИГА" ---
+   --- ПРАВАЯ КОЛОНКА: BENTO GRID ---
 ========================================= */
-.aboutSection__gallery {
+.aboutSection__gallery.bento-grid {
     flex: 1;
-    height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1500px; /* Для 3D эффекта при перелистывании */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 200px); 
+    gap: 20px;
 }
 
-.photo-stack-container {
+.bento-card {
     position: relative;
-    width: 450px;
-    height: 550px;
-    cursor: pointer;
-}
-
-/* Общие стили для карточек с фото */
-.photo-stack__active-card,
-.photo-stack__underlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border-radius: 30px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-    background-color: #fff; /* Белая рамка/подложка */
+    transition: all 0.4s ease;
+    cursor: default;
 }
 
-.photo-stack__img {
-    width: 100%; height: 100%;
+/* --- Стили для фото-карточек --- */
+.bento-card--photo { 
+    background-color: #f0f0f0; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.bento-card__img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    pointer-events: none; /* Чтобы не мешать перетаскиванию */
+    display: block;
+    transition: transform 0.4s ease;
 }
 
-/* Активная карточка (верхняя) */
-.photo-stack__active-card {
-    z-index: 2;
-    /* Важно для Framer Motion drag */
-    touch-action: none; 
-}
-
-/* Подложка (нижняя) */
-.photo-stack__underlay {
-    z-index: 1;
-    transform: scale(0.95) translateY(15px) rotate(3deg); /* Чуть меньше, ниже и повернута */
-    opacity: 0.7;
-    transition: all 0.5s ease;
-}
-/* Эффект при наведении на стопку: подложка немного "выглядывает" */
-.photo-stack-container:hover .photo-stack__underlay {
-    transform: scale(0.97) translateY(25px) rotate(5deg);
-    opacity: 0.9;
-}
-
-.photo-stack__hint {
+.bento-card__info {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0,0,0,0.5);
-    color: #fff;
-    font-size: 14px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 10px 16px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
-.photo-stack-container:hover .photo-stack__hint {
-    opacity: 1;
+
+.bento-card__name {
+    font-family: var(--font-family-headings);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
+
+.verified-icon { color: var(--color-accent); }
+
+.bento-card__role {
+    font-family: var(--font-family-body);
+    font-size: 12px;
+    color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+/* --- СТИЛИ ДЛЯ БЕЛЫХ ТЕКСТОВЫХ КАРТОЧЕК (ГРАДИЕНТНАЯ РАМКА) --- */
+.bento-card--text {
+    background-color: var(--color-white);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    align-items: flex-start;
+    /* Указанная тобой тень */
+    box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 30%, transparent);
+    z-index: 1; 
+}
+
+/* Создаем градиентную рамку через псевдоэлемент mask */
+.bento-card--text::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 3px; /* Толщина рамки */
+    background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, black) 100%);
+    
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    z-index: -1;
+    pointer-events: none;
+}
+
+.bento-card__title {
+    font-family: var(--font-family-headings);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--color-text-dark);
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.bento-card__text {
+    font-family: var(--font-family-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+    margin: 0;
+}
+
+/* Координаты сетки 3x3 на десктопе */
+.bento-card--1 { grid-column: 1 / 3; grid-row: 1 / 3; }
+.bento-card--2 { grid-column: 3 / 4; grid-row: 1 / 2; }
+.bento-card--3 { grid-column: 3 / 4; grid-row: 2 / 3; }
+.bento-card--4 { grid-column: 1 / 2; grid-row: 3 / 4; }
+.bento-card--5 { grid-column: 2 / 3; grid-row: 3 / 4; }
+.bento-card--6 { grid-column: 3 / 4; grid-row: 3 / 4; }
 
 
 /* =========================================
@@ -229,7 +287,7 @@
     top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
-    z-index: 2000; /* Выше всего */
+    z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -246,9 +304,7 @@
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.2);
 }
-.about-modal-content--wide {
-    max-width: 900px; /* Широкое окно для дипломов */
-}
+.about-modal-content--wide { max-width: 900px; }
 
 .modal-title {
     font-family: var(--font-family-headings);
@@ -268,70 +324,30 @@
     background-color: #f5f5f5;
     transition: all 0.2s ease;
 }
-.about-modal-close:hover {
-    background-color: #e0e0e0;
-}
+.about-modal-close:hover { background-color: #e0e0e0; }
 
-/* Ссылки в модалке сообщества */
-.modal-social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+.modal-social-links { display: flex; flex-direction: column; gap: 16px; }
 
 .social-link-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-family: var(--font-family-body);
-    font-size: 18px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px; border-radius: 20px;
+    text-decoration: none; font-family: var(--font-family-body);
+    font-size: 18px; font-weight: 600; transition: all 0.3s ease;
 }
+.social-link-card.telegram { background-color: #F0F6FF; color: #2AABEE; }
+.social-link-card.telegram:hover { background-color: #dbeafe; transform: translateX(5px); }
+.social-link-card.website { background-color: #F5F0FF; color: #8C52FF; }
+.social-link-card.website:hover { background-color: #ede9fe; transform: translateX(5px); }
 
-.social-link-card.telegram {
-    background-color: #F0F6FF;
-    color: #2AABEE;
-}
-.social-link-card.telegram:hover {
-    background-color: #dbeafe;
-    transform: translateX(5px);
-}
-
-.social-link-card.website {
-    background-color: #F5F0FF;
-    color: #8C52FF;
-}
-.social-link-card.website:hover {
-    background-color: #ede9fe;
-    transform: translateX(5px);
-}
-
-/* Сетка дипломов */
 .diplomas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    max-height: 70vh; /* Ограничиваем высоту и добавляем скролл */
-    overflow-y: auto;
-    padding-right: 10px; /* Место для скроллбара */
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px; max-height: 70vh; overflow-y: auto; padding-right: 10px;
 }
-
 .diploma-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    border: 1px solid #eee;
-    transition: transform 0.3s ease;
-    cursor: zoom-in; /* Можно потом добавить открытие на весь экран */
+    width: 100%; height: auto; border-radius: 12px; border: 1px solid #eee;
+    transition: transform 0.3s ease; cursor: zoom-in;
 }
-.diploma-item:hover img {
-    transform: scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
+.diploma-item:hover img { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
 
 
 /* =========================================
@@ -339,17 +355,26 @@
 ========================================= */
 @media (max-width: 1024px) {
     .aboutSection { padding: 80px 0; }
-    .aboutSection__container {
-        flex-direction: column;
-        gap: 60px;
-    }
+    .aboutSection__container { flex-direction: column; gap: 60px; }
     .aboutSection__content { flex: auto; width: 100%; align-items: center; text-align: center; }
     .aboutSection__main-name { font-size: 42px; }
     .aboutSection__description { max-width: 100%; }
     .aboutSection__stats-list { align-items: center; }
+    .aboutSection__buttons { align-items: center; }
     
-    .aboutSection__gallery { height: auto; width: 100%; }
-    .photo-stack-container { width: 90%; max-width: 450px; height: 500px; }
+    .aboutSection__gallery.bento-grid {
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr); 
+        grid-template-rows: auto; 
+    }
+    
+    .bento-card--1 { grid-column: span 2; height: 300px; }
+    .bento-card--2 { grid-column: 1; height: 200px; }
+    .bento-card--3 { grid-column: 2; height: 200px; }
+    .bento-card--4 { grid-column: 1; height: 250px; }
+    .bento-card--5 { grid-column: 2; height: 250px; }
+    .bento-card--6 { grid-column: span 2; height: 200px; flex-direction: row; align-items: center; gap: 20px; }
+    .bento-card--6 .bento-card__content { justify-content: center; }
 }
 
 @media (max-width: 768px) {
@@ -358,12 +383,36 @@
     .aboutSection__main-role { font-size: 16px; margin-bottom: 24px; }
     .aboutSection__description { font-size: 16px; }
 
-    /* На мобилках фото поменьше */
-    .photo-stack-container { height: 400px; }
-
-    /* Кнопки на всю ширину */
-    .about-btn { width: 100%; justify-content: center; }
+    /* ФИКС СЕТКИ: На мобильном отключаем Grid и делаем колонку (чтобы не наезжали) */
+    .aboutSection__gallery.bento-grid { 
+        display: flex;
+        flex-direction: column;
+    }
     
+    .bento-card {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        width: 100%;
+        min-height: 220px;
+    }
+    .bento-card--photo { height: 320px; }
+    .bento-card--6 { flex-direction: column; align-items: flex-start; }
+
+    /* СПИСОК ВПРАВО */
+    .aboutSection__stats-list {
+        align-items: flex-end; /* Текст к правому краю */
+    }
+    .aboutSection__stats-list li {
+        text-align: right;
+        padding-left: 0;
+        padding-right: 24px; /* Отступ справа для кружочка */
+    }
+    .aboutSection__stats-list li::before {
+        left: auto;
+        right: 0;
+    }
+
+    .about-btn { max-width: 100%; }
     .about-modal-content { padding: 30px 20px; }
     .diplomas-grid { grid-template-columns: 1fr; }
 }
