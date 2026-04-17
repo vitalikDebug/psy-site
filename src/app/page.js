@@ -20,6 +20,7 @@ import Footer from "@/components/footer/Footer";
 import ContactModal from "@/components/ContactModal/ContactModal";
 import CauseSection from '@/components/causeSection/CauseSection';
 import BeforeAfterSection from '@/components/beforeAfterSection/BeforeAfterSection';
+import CourseAuthorSection from '@/components/CourseAuthorSection/CourseAuthorSection';
 
 export default function Home() {
   // 2. Достаем всё состояние и функции из глобального контекста
@@ -32,6 +33,7 @@ export default function Home() {
       {/* Секции теперь сами используют useModal(), им не нужны пропсы */}
       <HeroSection />
       <AboutSection />
+      <CourseAuthorSection />
       <ProblemSection />
       <CauseSection />
       <ConsequencesSection />

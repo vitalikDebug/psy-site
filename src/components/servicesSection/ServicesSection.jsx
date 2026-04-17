@@ -3,11 +3,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Star, Info } from 'lucide-react'; // Добавили новые иконки
+import { CheckCircle2, Star, Info } from 'lucide-react';
 import './ServicesSection.css';
 import { useModal } from '@/context/ModalContext';
 
-// Расширенные данные с результатами и доп. информацией
 const servicesData = [
   {
     id: 1,
@@ -81,7 +80,6 @@ const servicesData = [
   }
 ];
 
-// Настройки анимации при скролле
 const scrollVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: { 
@@ -111,6 +109,7 @@ export default function ServicesSection() {
 
   const maxIndex = Math.max(0, servicesData.length - cardsToShow);
 
+  // Авто-перелистывание
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -123,11 +122,20 @@ export default function ServicesSection() {
     setCurrentIndex(index);
   };
 
+  // Логика свайпа (Drag)
+  const handleDragEnd = (e, { offset, velocity }) => {
+    const swipeThreshold = 50; // Минимальный сдвиг в пикселях для перелистывания
+    if (offset.x < -swipeThreshold && currentIndex < maxIndex) {
+      setCurrentIndex((prev) => prev + 1); // Свайп влево -> следующий слайд
+    } else if (offset.x > swipeThreshold && currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1); // Свайп вправо -> предыдущий слайд
+    }
+  };
+
   return (
     <section className="servicesSection" id='services'>
       <div className="servicesSection__container">
         
-        {/* Анимированный заголовок */}
         <motion.div 
           className="servicesSection__header"
           variants={scrollVariants}
@@ -141,7 +149,6 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        {/* Анимированный слайдер */}
         <motion.div 
           className="slider-wrapper-animated"
           variants={scrollVariants}
@@ -150,11 +157,14 @@ export default function ServicesSection() {
           viewport={{ once: true, amount: 0.1 }}
         >
           <div className="slider-viewport">
-            <div 
+            <motion.div 
               className="slider-track"
-              style={{ 
-                transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)` 
-              }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }} // Ограничиваем свободный полет, чтобы он возвращался
+              dragElastic={0.2} // Упругость при натяжении
+              onDragEnd={handleDragEnd}
+              animate={{ x: `-${currentIndex * (100 / cardsToShow)}%` }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               {servicesData.map((item) => (
                 <div 
@@ -172,7 +182,6 @@ export default function ServicesSection() {
                     <hr className="serviceCard__divider" />
 
                     <div className="serviceCard__body">
-                      {/* Список "Что входит" */}
                       <ul className="serviceCard__list">
                         {item.includes.map((feature, i) => (
                           <li key={i}>
@@ -182,7 +191,6 @@ export default function ServicesSection() {
                         ))}
                       </ul>
 
-                      {/* НОВЫЙ БЛОК: РЕЗУЛЬТАТ */}
                       <div className="serviceCard__result">
                         <div className="serviceCard__result-title">
                            <Star size={16} className="serviceCard__result-icon" />
@@ -191,7 +199,6 @@ export default function ServicesSection() {
                         <p>{item.result}</p>
                       </div>
 
-                      {/* НОВЫЙ БЛОК: ДОП. ИНФО */}
                       <div className="serviceCard__note">
                         <Info size={14} className="serviceCard__note-icon" />
                         <p>{item.note}</p>
@@ -211,28 +218,30 @@ export default function ServicesSection() {
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
+          {/* НОВЫЙ БЛОК КОНТРОЛЛОВ (Прямоугольные точки-пилюли с таймером) */}
           <div className="slider-controls">
-            <div className="progress-bar-bg">
-              <motion.div 
-                key={currentIndex} 
-                className="progress-bar-fill"
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 15, ease: "linear" }}
-              />
-            </div>
-            
             <div className="slider-dots">
               {Array.from({ length: maxIndex + 1 }).map((_, index) => (
                 <button
                   key={index}
-                  className={`slider-dot ${currentIndex === index ? 'active' : ''}`}
+                  className={`slider-dot-pill ${currentIndex === index ? 'active' : ''}`}
                   onClick={() => handleDotClick(index)}
                   aria-label={`Перейти к слайду ${index + 1}`}
-                />
+                >
+                  {/* Заполняющийся ползунок внутри активной точки */}
+                  {currentIndex === index && (
+                    <motion.div 
+                      key={`fill-${currentIndex}`} // Ключ заставляет анимацию перезапускаться
+                      className="slider-dot-fill"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 15, ease: "linear" }}
+                    />
+                  )}
+                </button>
               ))}
             </div>
           </div>

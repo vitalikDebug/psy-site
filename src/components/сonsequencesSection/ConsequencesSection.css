@@ -189,7 +189,7 @@
     min-height: 240px;
   }
 
-  /* Сбрасываем сетку для обычных блоков */
+  /* Сбрасываем десктопную сетку */
   .consequencesItem--start,
   .consequencesItem--fear,
   .consequencesItem--final {
@@ -200,7 +200,63 @@
   /* Высокий блок на всю ширину на планшете */
   .consequencesItem--behavior {
     grid-column: 1 / -1;
+    grid-row: auto;
     min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .consequencesSection {
+      padding: 60px 0;
+  }
+
+  .consequencesSection__title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  
+  .consequencesSection__title br {
+    display: none;
+  }
+
+  /* ПЕРЕВОДИМ В ОБЫЧНУЮ КОЛОНКУ ДЛЯ ТЕЛЕФОНОВ */
+  .consequencesGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ПРИНУДИТЕЛЬНО СБРАСЫВАЕМ ВСЕ ПРИВЯЗКИ К СЕТКЕ */
+  .consequencesItem--start,
+  .consequencesItem--fear,
+  .consequencesItem--behavior,
+  .consequencesItem--final {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .consequencesItem {
+    min-height: auto;
+    padding: 30px 24px;
+    justify-content: flex-start; /* Текст начинается сверху */
+  }
+  
+  .consequencesItem--behavior {
+      padding-top: 30px;
+  }
+
+  .consequencesItem__step {
+    font-size: 48px;
+    top: 15px;
+    right: 20px;
+  }
+  
+  .consequencesItem__title {
+      font-size: 20px;
+  }
+  
+  .consequencesItem--final .consequencesItem__text {
+      font-size: 16px;
   }
 }
 
