@@ -2,36 +2,92 @@
 
 .footer {
   background-color: var(--color-white);
-  padding: 80px 0 20px; /* Отступ сверху перед градиентной карточкой */
+  padding: 80px 0 20px; 
   position: relative;
+  overflow: hidden; /* Обрезаем эффекты размытия, чтобы не вылезали за края */
+  z-index: 1;
 }
 
 /* =========================================
-   --- CTA КАРТОЧКА ---
+   --- РАДУЖНЫЙ ГРАДИЕНТ ДЛЯ НИЖНЕЙ ПОЛОВИНЫ ---
+========================================= */
+.footer::before {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 120%;
+  height: 60%; /* Охватывает только нижнюю часть с меню и логотипом */
+  /* Тот самый радужный градиент из отзывов */
+  background: linear-gradient(90deg, #fde047 0%, #fda4af 33%, #d8b4fe 66%, #7dd3fc 100%);
+  filter: blur(100px); /* Сильнейшее размытие создает эффект мягкой цветной ауры */
+  z-index: -1;
+  opacity: 0.55; /* Достаточно ярко, но текст остается читаемым */
+  pointer-events: none;
+}
+
+
+/* =========================================
+   --- CTA КАРТОЧКА (РАДУЖНАЯ АУРА) ---
 ========================================= */
 .footer__cta-wrapper {
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 20px;
-  margin-bottom: 100px; /* Большой отступ до самого футера */
+  margin-bottom: 100px; 
 }
 
 .footer__cta-card {
-  /* НОВЫЙ СОЧНЫЙ ФИОЛЕТОВЫЙ ГРАДИЕНТ */
-  background: linear-gradient(135deg, #b042ff 0%, #5e00d1 100%);
-  color: var(--color-white);
-  /* Тень тоже делаем с легким фиолетовым отливом для объема */
-  box-shadow: 0 15px 35px rgba(94, 0, 209, 0.3);
+  position: relative;
+  overflow: hidden;
+  /* Белый полупрозрачный фон с размытием (эффект матового стекла) */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   
+  color: var(--color-text-dark); /* Темный текст для читаемости */
   border-radius: 40px;
   padding: 80px 40px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Легкая белая рамка */
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.05); /* Мягкая тень */
+}
+
+/* Создаем 4 цветных пятна по углам, как в отзывах */
+.footer__cta-card::before,
+.footer__cta-card::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(80px); /* Сильное размытие */
+  z-index: -1; /* Прячем под контент */
+  opacity: 0.6;
+}
+
+/* Желтое и розовое пятна */
+.footer__cta-card::before {
+  top: -100px;
+  left: -50px;
+  background: radial-gradient(circle, #fde047 0%, transparent 70%);
+  box-shadow: 400px 100px 0 50px #fda4af; /* Добавляем розовое пятно через тень */
+}
+
+/* Синее и фиолетовое пятна */
+.footer__cta-card::after {
+  bottom: -100px;
+  right: -50px;
+  background: radial-gradient(circle, #7dd3fc 0%, transparent 70%);
+  box-shadow: -400px -100px 0 50px #d8b4fe; /* Добавляем фиолетовое пятно через тень */
 }
 
 .footer__cta-title {
+  position: relative;
+  z-index: 1; /* Поверх цветных пятен */
   font-family: var(--font-family-headings);
   font-size: 56px;
   font-weight: 800;
@@ -41,18 +97,22 @@
 }
 
 .footer__cta-text {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-family-body);
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.85); /* Делаем текст чуть ярче для читаемости */
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
   max-width: 600px;
   margin: 0 auto 40px;
   line-height: 1.6;
 }
 
-/* Кнопка на фоне градиента должна быть контрастной (белой) */
+/* Кнопка на светлом фоне */
 .footer__cta-btn {
-  background-color: var(--color-white);
-  color: #5e00d1; /* Темно-фиолетовый текст, чтобы связать с фоном */
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-text-dark); /* Темная контрастная кнопка */
+  color: var(--color-white);
   border: none;
   padding: 16px 40px;
   border-radius: 50px;
@@ -61,17 +121,17 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .footer__cta-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 25px rgba(0,0,0,0.2);
-  background-color: #f0f0f0;
+  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+  background-color: #333; 
 }
 
 /* =========================================
-   --- ОСНОВНОЙ ФУТЕР (Белый) ---
+   --- ОСНОВНОЙ ФУТЕР ---
 ========================================= */
 .footer__main {
   max-width: var(--container-width);
@@ -91,13 +151,15 @@
   display: flex;
   gap: 60px;
   flex-wrap: wrap;
-  flex: 1; /* Колонки занимают оставшееся место */
+  flex: 1; 
 }
 
 .footerCol {
   display: flex;
   flex-direction: column;
   min-width: 150px;
+  position: relative;
+  z-index: 2; /* Чтобы текст был поверх аур */
 }
 
 .footerCol__title {
@@ -112,13 +174,13 @@
   font-family: var(--font-family-body);
   font-size: 15px;
   line-height: 1.6;
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
   text-decoration: none;
 }
 
 .footerCol__link {
   margin-top: 10px;
-  font-weight: 600;
+  font-weight: 700;
   transition: color 0.3s;
 }
 
@@ -141,21 +203,28 @@
   gap: 6px;
   font-family: var(--font-family-body);
   font-size: 15px;
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
   text-decoration: none;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .footerCol__list a:hover {
-  color: var(--color-accent);
+  color: var(--color-text-dark);
   transform: translateX(3px);
 }
 
 /* =========================================
-   --- БЛОК ЛОГОТИПА СПРАВА ---
+   --- БЛОК ЛОГОТИПА СПРАВА (ГЛАССМОРФИЗМ) ---
 ========================================= */
 .footer__logo-block {
-  background-color: #f7f7f8; /* Мягкий серый фон для выделения блока */
+  /* Делаем блок полупрозрачным стеклом, чтобы сквозь него была видна радуга */
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  
   padding: 30px;
   border-radius: 24px;
   display: flex;
@@ -163,10 +232,12 @@
   align-items: center;
   justify-content: center;
   min-width: 280px;
+  position: relative;
+  z-index: 2;
 }
 
 .footer__logo-img {
-  max-width: 140px; /* Размер твоего логотипа logo.png */
+  max-width: 140px; 
   height: auto;
   margin-bottom: 16px;
 }
@@ -174,7 +245,8 @@
 .footer__logo-desc {
   font-family: var(--font-family-body);
   font-size: 14px;
-  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  font-weight: 500;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
   text-align: center;
 }
 
@@ -186,10 +258,12 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 30px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1); /* Темная полоска на светлом фоне */
+  border-top: 1px solid rgba(0, 0, 0, 0.05); /* Полупрозрачная граница */
   flex-wrap: wrap;
   gap: 20px;
   padding-bottom: 30px;
+  position: relative;
+  z-index: 2;
 }
 
 .footer__legal-info {
@@ -201,7 +275,7 @@
 .footer__legal-info span {
   font-family: var(--font-family-body);
   font-size: 13px;
-  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
 }
 
 .footer__legal-links {
@@ -214,14 +288,14 @@
 .footer__legal-links span {
   font-family: var(--font-family-body);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .footer__legal-links a:hover {
-  color: var(--color-accent);
+  color: var(--color-text-dark);
 }
 
 /* =========================================
@@ -229,7 +303,7 @@
 ========================================= */
 @media (max-width: 900px) {
   .footer__grid {
-    flex-direction: column-reverse; /* Логотип уходит наверх */
+    flex-direction: column-reverse; 
     gap: 40px;
   }
   .footer__logo-block {

@@ -416,3 +416,116 @@
     .about-modal-content { padding: 30px 20px; }
     .diplomas-grid { grid-template-columns: 1fr; }
 }
+
+/* =========================================
+   --- БЛОК СО СТАТЬЕЙ (ИСТОРИЯ МЕТОДА) ---
+========================================= */
+.about-story-wrapper {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 100px auto 0;
+  padding: 0 20px;
+}
+
+.about-story {
+  background: linear-gradient(135deg, #fdfbfb 0%, #f3f4f6 100%);
+  border-radius: 40px;
+  padding: 80px;
+  border: 1px solid rgba(0,0,0,0.03);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.03);
+}
+
+.about-story__title {
+  font-family: var(--font-family-headings);
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  text-align: center;
+  margin-bottom: 50px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+/* Разделяем текст на две журнальные колонки на ПК */
+.about-story__text-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.about-story__column p {
+  font-family: var(--font-family-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
+  margin-bottom: 20px;
+}
+
+.about-story__column strong {
+  color: var(--color-text-dark);
+}
+
+/* Фирменная цитата */
+.about-story__quote {
+  margin: 0 0 50px 0;
+  padding: 40px;
+  background: linear-gradient(135deg, #f5eefa 0%, #e5d5f2 100%);
+  border-radius: 24px;
+  font-family: var(--font-family-headings);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-accent);
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(160, 120, 196, 0.15);
+}
+
+.about-story__footer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.about-story__footer p {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+/* АДАПТИВ ДЛЯ БЛОКА СО СТАТЬЕЙ */
+@media (max-width: 1024px) {
+  .about-story {
+    padding: 60px 40px;
+  }
+  .about-story__title {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-story-wrapper {
+    margin-top: 60px;
+  }
+  .about-story {
+    padding: 40px 20px;
+    border-radius: 24px;
+  }
+  .about-story__title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  .about-story__text-grid {
+    grid-template-columns: 1fr; /* На мобильном в одну колонку */
+    gap: 0;
+  }
+  .about-story__quote {
+    font-size: 18px;
+    padding: 24px;
+    border-radius: 16px;
+  }
+}
