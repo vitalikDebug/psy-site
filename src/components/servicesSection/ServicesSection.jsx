@@ -2,43 +2,55 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { CheckCircle2, Star, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, ChevronRight, Star, X, CheckCircle2, Info } from 'lucide-react'; // Добавили X, CheckCircle2 и Info
 import './ServicesSection.css';
 import { useModal } from '@/context/ModalContext';
 
 const servicesData = [
   {
     id: 1,
-    title: 'КОНСУЛЬТАЦИЯ',
-    subtitle: 'Первый этап. Разбор ситуации и подбор формата работы.',
+    title: 'Консультация',
+    subtitle: 'Разбор вашей ситуации и подбор формата работы.',
     includes: [
       'Анализ речи и симптомов',
       'Определение причины заикания',
       'Рекомендации и план работы'
     ],
     result: 'Понятный пошаговый план действий и снятие родительской тревожности.',
-    note: 'Обязательный первый шаг перед началом любой работы.',
-    format: 'Онлайн, 60 минут',
-    buttonText: 'Записаться на консультацию',
+    tags: ['#анализ_речи', '#план_действий', '#снятие_тревоги'],
+    format: 'Онлайн',
+    duration: '60 минут',
+    note: 'Обязательный первый шаг',
+    buttonText: 'Записаться',
+    topTags: ['Онлайн', 'С чего начать'],
+    image: '/a6ad3d85-3a4b-458a-8506-4571583d3640.png', 
+    // emoji: '💬', 
+    bgColor: 'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)'
   },
   {
     id: 2,
-    title: 'КУРС ДЛЯ РОДИТЕЛЕЙ',
-    subtitle: '“Речь без заикания”. Для родителей детей с первыми запинками.',
+    title: 'Курс для родителей',
+    subtitle: '«Речь без заикания». Для родителей детей с первыми запинками.',
     includes: [
       'Понимание механизма заикания',
       'Как правильно реагировать',
       'Что говорить, а чего нельзя'
     ],
     result: 'Снижается напряжение у ребёнка, уменьшаются запинки, вы понимаете, как действовать.',
-    note: 'Подходит родителям детей любого возраста. Доступ навсегда.',
-    format: 'Самостоятельное изучение',
-    buttonText: 'Хочу на курс',
+    tags: ['#механизм_заикания', '#реакция_родителя', '#без_паники'],
+    format: 'Самостоятельно',
+    duration: 'Доступ навсегда',
+    note: 'Для любого возраста',
+    buttonText: 'Записаться',
+    topTags: ['Онлайн', 'Хит продаж 🔥'],
+    image: '/ChatGPT_Image_19_._2026_._00_31_40.png', 
+  
+    bgColor: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)'
   },
   {
     id: 3,
-    title: 'МИНИ-ИНТЕНСИВ',
+    title: 'Мини-интенсив',
     subtitle: 'Для школьников с легким заиканием и первыми запинками.',
     includes: [
       'Мягкая коррекция речи',
@@ -46,13 +58,19 @@ const servicesData = [
       'Проработка страха перед ответом'
     ],
     result: 'Уменьшаются запинки, ребёнок говорит спокойнее, снижается тревога.',
-    note: 'Идеальный формат для бережного старта и мягкой коррекции.',
-    format: '6–7 встреч (2 недели)',
-    buttonText: 'Узнать подробнее',
+    tags: ['#мягкая_коррекция', '#снятие_напряжения', '#уверенность'],
+    format: 'Онлайн',
+    duration: '2 недели (6-7 встреч)',
+    note: 'Бережный старт',
+    buttonText: 'Записаться',
+    topTags: ['Специалисту', 'Практика'],
+    image: '/ChatGPT_Image_19_._2026_._00_32_08.png',
+    emoji: '🌱',
+    bgColor: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'
   },
   {
     id: 4,
-    title: 'ПОЛНЫЙ ИНТЕНСИВ',
+    title: 'Полный интенсив',
     subtitle: 'Для школьников с закрепившимся заиканием и страхом школы.',
     includes: [
       'Глубокая работа со страхом речи',
@@ -60,13 +78,19 @@ const servicesData = [
       'Закрепление спокойной речи'
     ],
     result: 'Свободная речь без ступоров, уверенность у доски и в общении со сверстниками.',
-    note: 'Глубокая проработка закрепившегося заикания и страхов.',
-    format: '10–12 встреч, будние дни',
-    buttonText: 'Узнать подробнее',
+    tags: ['#страх_речи', '#речевое_дыхание', '#свободное_общение'],
+    format: 'Онлайн / Офлайн',
+    duration: '10–12 встреч',
+    note: 'Глубокая проработка',
+    buttonText: 'Записаться',
+    topTags: ['Глубокая работа', 'VIP'],
+    image: '/ChatGPT_Image_19_._2026_._00_31_52.png', 
+    emoji: '🚀',
+    bgColor: 'linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%)'
   },
   {
     id: 5,
-    title: 'ДЛЯ ВЗРОСЛЫХ',
+    title: 'Для взрослых',
     subtitle: 'Индивидуальная работа со страхом общения и звонков.',
     includes: [
       'Работа с телесным напряжением',
@@ -74,9 +98,15 @@ const servicesData = [
       'Свободное общение по телефону'
     ],
     result: 'Уверенность на публике, свободное общение по телефону, контроль над речью.',
-    note: 'Полная конфиденциальность и глубокое погружение в вашу проблему.',
-    format: 'От 10 встреч, индивидуально',
-    buttonText: 'Узнать подробнее',
+    tags: ['#телесные_блоки', '#публичность', '#телефонные_звонки'],
+    format: 'Индивидуально',
+    duration: 'От 10 встреч',
+    note: 'Конфиденциально',
+    buttonText: 'Записаться',
+    topTags: ['18+', 'Индивидуально'],
+    image: '/ChatGPT_Image_19_._2026_._00_31_48.png',
+    emoji: '🎯',
+    bgColor: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)'
   }
 ];
 
@@ -94,6 +124,7 @@ export default function ServicesSection() {
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsToShow, setCardsToShow] = useState(3);
+  const [selectedService, setSelectedService] = useState(null); // Стейт для модалки подробностей
 
   useEffect(() => {
     const handleResize = () => {
@@ -109,28 +140,28 @@ export default function ServicesSection() {
 
   const maxIndex = Math.max(0, servicesData.length - cardsToShow);
 
-  // Авто-перелистывание
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }, 15000); // 15 секунд
-
-    return () => clearTimeout(timer);
-  }, [currentIndex, maxIndex]);
-
   const handleDotClick = (index) => {
     setCurrentIndex(index);
   };
 
-  // Логика свайпа (Drag)
-  const handleDragEnd = (e, { offset, velocity }) => {
-    const swipeThreshold = 50; // Минимальный сдвиг в пикселях для перелистывания
+  const handleDragEnd = (e, { offset }) => {
+    const swipeThreshold = 50; 
     if (offset.x < -swipeThreshold && currentIndex < maxIndex) {
-      setCurrentIndex((prev) => prev + 1); // Свайп влево -> следующий слайд
+      setCurrentIndex((prev) => prev + 1); 
     } else if (offset.x > swipeThreshold && currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1); // Свайп вправо -> предыдущий слайд
+      setCurrentIndex((prev) => prev - 1); 
     }
   };
+
+  // Блокируем скролл сайта при открытой модалке
+  useEffect(() => {
+    if (selectedService) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [selectedService]);
 
   return (
     <section className="servicesSection" id='services'>
@@ -143,10 +174,7 @@ export default function ServicesSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <h2 className="servicesSection__title">ФОРМАТЫ РАБОТЫ</h2>
-          <p className="servicesSection__subtitle">
-            Выберите подходящий формат в зависимости от вашей ситуации.
-          </p>
+          <h2 className="servicesSection__title">Форматы работы</h2>
         </motion.div>
 
         <motion.div 
@@ -160,8 +188,8 @@ export default function ServicesSection() {
             <motion.div 
               className="slider-track"
               drag="x"
-              dragConstraints={{ left: 0, right: 0 }} // Ограничиваем свободный полет, чтобы он возвращался
-              dragElastic={0.2} // Упругость при натяжении
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
               onDragEnd={handleDragEnd}
               animate={{ x: `-${currentIndex * (100 / cardsToShow)}%` }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -172,47 +200,71 @@ export default function ServicesSection() {
                   className="serviceCard-wrapper"
                   style={{ flex: `0 0 ${100 / cardsToShow}%` }}
                 >
-                  <div className="serviceCard">
+                  {/* Клик по карточке открывает подробности (selectedService) */}
+                  <div 
+                    className="serviceCard" 
+                    onClick={() => setSelectedService(item)}
+                  >
                     
-                    <div className="serviceCard__top">
-                      <h3 className="serviceCard__title">{item.title}</h3>
-                      <p className="serviceCard__subtitle">{item.subtitle}</p>
-                    </div>
-
-                    <hr className="serviceCard__divider" />
-
-                    <div className="serviceCard__body">
-                      <ul className="serviceCard__list">
-                        {item.includes.map((feature, i) => (
-                          <li key={i}>
-                            <CheckCircle2 size={18} className="serviceCard__icon" />
-                            <span>{feature}</span>
-                          </li>
+                    <div className="serviceCard__cover" style={{ background: item.bgColor }}>
+                      <div className="serviceCard__top-tags">
+                        {item.topTags.map((tag, i) => (
+                          <span key={i} className={`serviceCard__badge ${tag.includes('Хит') ? 'serviceCard__badge--hot' : ''}`}>
+                            {tag}
+                          </span>
                         ))}
-                      </ul>
-
-                      <div className="serviceCard__result">
-                        <div className="serviceCard__result-title">
-                           <Star size={16} className="serviceCard__result-icon" />
-                           Результат:
-                        </div>
-                        <p>{item.result}</p>
                       </div>
-
-                      <div className="serviceCard__note">
-                        <Info size={14} className="serviceCard__note-icon" />
-                        <p>{item.note}</p>
-                      </div>
+                      
+ 
+                      <img 
+    src={item.image} 
+    className="serviceCard__illustration-img" 
+    alt={item.title} 
+  />
+                      {/* <div className="serviceCard__illustration">{item.emoji}</div> */}
                     </div>
 
-                    <div className="serviceCard__footer">
-                      <p className="serviceCard__format">{item.format}</p>
-                      <button 
-                        className="serviceCard__btn"
-                        onClick={() => openModal(`${item.title}`)} 
-                      >
-                        {item.buttonText}
-                      </button>
+                    <div className="serviceCard__content">
+                      <h3 className="serviceCard__title">{item.title}</h3>
+                      <div className="serviceCard__rating">
+                        {/* <Star size={14} className="star-icon" fill="currentColor" /> */}
+                        {/* <span>5.0 <span>(отлично)</span></span> */}
+                      </div>
+                      <p className="serviceCard__subtitle">{item.subtitle}</p>
+
+                      <div className="serviceCard__tags">
+                        {item.tags.map((tag, i) => (
+                          <span key={i} className={`serviceCard__hashtag color-${i}`}>{tag}</span>
+                        ))}
+                      </div>
+
+                      <div className="serviceCard__features-grid">
+                        <div className="feature-item">
+                          <span className="feature-label">Формат</span>
+                          <span className="feature-val">{item.format}</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-label">Длительность</span>
+                          <span className="feature-val">{item.duration}</span>
+                        </div>
+                      </div>
+
+                      <div className="serviceCard__footer">
+                        <div className="serviceCard__author">
+                          <User size={14} /> <span>Юлия Шкаранда</span>
+                        </div>
+                        
+                        {/* Кнопка "Записаться" открывает форму. e.stopPropagation() не дает открыться окну подробностей */}
+                        <button 
+                          className="serviceCard__btn"
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            openModal(item.title);
+                          }} 
+                        >
+                          {item.buttonText} <ChevronRight size={16} />
+                        </button>
+                      </div>
                     </div>
 
                   </div>
@@ -221,7 +273,6 @@ export default function ServicesSection() {
             </motion.div>
           </div>
 
-          {/* НОВЫЙ БЛОК КОНТРОЛЛОВ (Прямоугольные точки-пилюли с таймером) */}
           <div className="slider-controls">
             <div className="slider-dots">
               {Array.from({ length: maxIndex + 1 }).map((_, index) => (
@@ -230,24 +281,87 @@ export default function ServicesSection() {
                   className={`slider-dot-pill ${currentIndex === index ? 'active' : ''}`}
                   onClick={() => handleDotClick(index)}
                   aria-label={`Перейти к слайду ${index + 1}`}
-                >
-                  {/* Заполняющийся ползунок внутри активной точки */}
-                  {currentIndex === index && (
-                    <motion.div 
-                      key={`fill-${currentIndex}`} // Ключ заставляет анимацию перезапускаться
-                      className="slider-dot-fill"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 15, ease: "linear" }}
-                    />
-                  )}
-                </button>
+                />
               ))}
             </div>
           </div>
         </motion.div>
 
       </div>
+
+      {/* =========================================
+          МОДАЛЬНОЕ ОКНО С ПОДРОБНОСТЯМИ КУРСА
+      ========================================= */}
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div 
+            className="serviceDetails__overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedService(null)} // Закрыть по клику на фон
+          >
+            <motion.div 
+              className="serviceDetails__card"
+              initial={{ y: 50, scale: 0.95, opacity: 0 }}
+              animate={{ y: 0, scale: 1, opacity: 1, transition: { type: "spring", stiffness: 100, damping: 20 } }}
+              exit={{ y: 20, scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()} // Клик внутри окна не закрывает его
+            >
+              <button className="serviceDetails__close" onClick={() => setSelectedService(null)}>
+                <X size={24} />
+              </button>
+
+              {/* Красивая обложка внутри модалки */}
+              <div className="serviceDetails__cover" style={{ background: selectedService.bgColor }}>
+                <img src={selectedService.image} alt={selectedService.title} className="serviceDetails__img" />
+              </div>
+
+              <div className="serviceDetails__scroll-area">
+                <h3 className="serviceDetails__title">{selectedService.title}</h3>
+                <p className="serviceDetails__subtitle">{selectedService.subtitle}</p>
+
+                <hr className="serviceDetails__divider" />
+
+                <h4 className="serviceDetails__section-title">Что входит:</h4>
+                <ul className="serviceDetails__list">
+                  {selectedService.includes.map((feature, i) => (
+                    <li key={i}>
+                      <CheckCircle2 size={20} className="serviceDetails__icon" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="serviceDetails__result">
+                  <div className="serviceDetails__result-title">
+                    <Star size={16} className="serviceDetails__result-icon" /> Результат:
+                  </div>
+                  <p>{selectedService.result}</p>
+                </div>
+
+                <div className="serviceDetails__note">
+                  <Info size={16} className="serviceDetails__note-icon" />
+                  <p>{selectedService.note}</p>
+                </div>
+
+                {/* Главная кнопка действия внутри модалки */}
+                <button 
+                  className="serviceDetails__btn-main"
+                  onClick={() => {
+                    setSelectedService(null); // Закрываем детали
+                    openModal(selectedService.title); // И сразу открываем форму заявки
+                  }}
+                >
+                  Записаться на {selectedService.title.toLowerCase()}
+                </button>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }

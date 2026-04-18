@@ -2,241 +2,270 @@
 
 .servicesSection {
   padding: 100px 0;
-  background-color: var(--color-white);
+  background-color: #f7f7f9; /* Светло-серый фон секции, чтобы карточки выделялись */
   overflow: hidden;
 }
 
 .servicesSection__container {
   width: 100%;
-  max-width: var(--container-width);
+  max-width: 1300px; /* Немного расширил, чтобы 3 карточки смотрелись свободно */
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .servicesSection__header {
-  text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .servicesSection__title {
   font-family: var(--font-family-headings);
   font-size: 48px;
   font-weight: 800;
-  text-transform: uppercase;
   color: var(--color-text-dark);
-  margin-bottom: 20px;
   line-height: 1.1;
-}
-
-.servicesSection__subtitle {
-  font-family: var(--font-family-body);
-  font-size: 18px;
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-  max-width: 600px;
-  margin: 0 auto;
+  letter-spacing: -1px;
 }
 
 /* =========================================
    --- СЛАЙДЕР ---
 ========================================= */
-.slider-wrapper-animated {
+.servicesSection .slider-wrapper-animated {
   width: 100%;
 }
 
-.slider-viewport {
+.servicesSection .slider-viewport {
   width: 100%;
   overflow: hidden;
   margin: 0 -20px;
   padding: 20px;
 }
 
-/* Настраиваем курсоры для ПК и запрещаем скролл браузера при свайпе */
-.slider-track {
+.servicesSection .slider-track {
   display: flex;
   cursor: grab;
-  touch-action: pan-y; /* Позволяет скроллить страницу вниз на телефоне, но свайпать слайдер вбок */
+  touch-action: pan-y;
+  /* ЖЕСТКО СБРАСЫВАЕМ СТИЛИ, КОТОРЫЕ УТЕКЛИ ИЗ БЛОКА СТАТЕЙ */
+  width: 100%; 
+  gap: 0;
+  padding: 0;
 }
 
-.slider-track:active {
+.servicesSection .slider-track:active {
   cursor: grabbing;
 }
 
-.serviceCard-wrapper {
+.servicesSection .serviceCard-wrapper {
   padding: 0 15px; 
 }
 
 /* =========================================
-   --- КАРТОЧКА УСЛУГИ ---
+   --- КАРТОЧКА КУРСА/УСЛУГИ ---
 ========================================= */
 .serviceCard {
-  background: linear-gradient(135deg, #f5eefa 0%, #e5d5f2 100%);
-  border-radius: 24px;
-  padding: 36px 30px;
+  background-color: var(--color-white);
+  border-radius: 28px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(160, 120, 196, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.8); 
-  /* Чтобы карточка не выделялась при свайпе */
   user-select: none; 
+  overflow: hidden; 
+  cursor: pointer; 
 }
 
 .serviceCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(160, 120, 196, 0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
-.serviceCard__top { margin-bottom: 16px; }
+
+/* --- ОБЛОЖКА --- */
+.serviceCard__cover {
+  height: 220px; 
+  width: 100%;
+  position: relative;
+  overflow: hidden; 
+  /* Фон удален, так как картинка перекроет всё */
+  background-color: #f0f0f0; /* Цвет-заглушка на долю секунды, пока грузится картинка */
+}
+
+/* ТЕГИ ПОВЕРХ КАРТИНКИ */
+.serviceCard__top-tags {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  z-index: 2; 
+}
+
+.serviceCard__badge {
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.serviceCard__badge--hot {
+  background-color: #1a1a1c;
+  color: var(--color-white);
+}
+
+/* САМА ФОТОГРАФИЯ - РАСТЯГИВАЕМ НА 100% */
+.serviceCard__illustration-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Обрезает края, если пропорции не совпадают, но заполняет всё без искажений */
+  position: absolute; 
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block; /* Убираем дефолтные отступы у img */
+}
+
+
+/* --- КОНТЕНТ КАРТОЧКИ --- */
+.serviceCard__content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
 
 .serviceCard__title {
   font-family: var(--font-family-headings);
   font-size: 22px;
-  font-weight: 800;
-  text-transform: uppercase;
+  font-weight: 700;
   color: var(--color-text-dark);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   line-height: 1.2;
+}
+
+.serviceCard__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 12px;
+}
+
+.star-icon {
+  color: #ffc107;
+}
+
+.serviceCard__rating span span {
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  font-weight: 500;
 }
 
 .serviceCard__subtitle {
   font-family: var(--font-family-body);
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
   color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  margin-bottom: 20px;
+  min-height: 42px; 
 }
 
-.serviceCard__divider {
-  border: none;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.6);
-  margin: 16px 0;
-}
-
-.serviceCard__body {
-  flex: 1; 
+/* --- ХЕШТЕГИ --- */
+.serviceCard__tags {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.serviceCard__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.serviceCard__list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-family: var(--font-family-body);
-  font-size: 14px;
-  line-height: 1.4;
-  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
-  margin-bottom: 10px;
-}
-
-.serviceCard__icon {
-  color: var(--color-accent);
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.serviceCard__result {
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 12px;
-  padding: 16px;
-  border-left: 3px solid var(--color-accent);
-}
-
-.serviceCard__result-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-family-headings);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--color-text-dark);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-}
-
-.serviceCard__result-icon {
-  color: #FFA500;
-}
-
-.serviceCard__result p {
-  font-family: var(--font-family-body);
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--color-text-dark);
-  margin: 0;
-}
-
-.serviceCard__note {
-  display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 8px;
-  background-color: transparent;
-  padding: 0 4px;
+  margin-bottom: 24px;
+}
+
+.serviceCard__hashtag {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.serviceCard__hashtag.color-0 { background-color: #fee2e2; color: #e11d48; } 
+.serviceCard__hashtag.color-1 { background-color: #e0f2fe; color: #0284c7; } 
+.serviceCard__hashtag.color-2 { background-color: #dcfce7; color: #059669; } 
+
+/* --- СЕТКА ХАРАКТЕРИСТИК --- */
+.serviceCard__features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 30px;
   margin-top: auto; 
 }
 
-.serviceCard__note-icon {
-  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
-  flex-shrink: 0;
-  margin-top: 2px;
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.serviceCard__note p {
+.feature-label {
   font-family: var(--font-family-body);
-  font-size: 13px;
-  line-height: 1.4;
-  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
-  font-style: italic;
-  margin: 0;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
 }
 
-.serviceCard__footer {
-  margin-top: 24px;
-}
-
-.serviceCard__format {
+.feature-val {
   font-family: var(--font-family-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  color: var(--color-accent);
-  text-align: center;
-  margin-bottom: 12px;
-  text-transform: uppercase;
+  color: var(--color-text-dark);
+}
+
+/* --- ПОДВАЛ КАРТОЧКИ --- */
+.serviceCard__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 20px;
+}
+
+.serviceCard__author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-dark);
 }
 
 .serviceCard__btn {
-  display: block;
-  width: 100%;
-  text-align: center;
-  background-color: var(--color-text-dark); 
-  border: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--color-accent); 
   color: var(--color-white);
-  padding: 16px 20px;
-  border-radius: 50px;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
   font-family: var(--font-family-body);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  transition: all 0.3s ease;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .serviceCard__btn:hover {
-  background-color: var(--color-accent); 
+  background-color: color-mix(in srgb, var(--color-accent) 85%, black);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
-
 /* =========================================
-   --- КОНТРОЛЛЫ СЛАЙДЕРА (Точки-пилюли) ---
+   --- КОНТРОЛЛЫ СЛАЙДЕРА ---
 ========================================= */
 .slider-controls {
   margin-top: 40px;
@@ -247,44 +276,244 @@
 
 .slider-dots {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
 .slider-dot-pill {
-  /* Базовый размер неактивной точки */
-  width: 24px;
-  height: 6px;
-  border-radius: 6px;
-  background-color: color-mix(in srgb, var(--color-text-dark) 15%, transparent);
+  width: 12px; 
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.1);
   border: none;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
   padding: 0;
-  transition: width 0.4s ease, background-color 0.4s ease;
+  transition: all 0.3s ease;
 }
 
 .slider-dot-pill:hover {
-  background-color: color-mix(in srgb, var(--color-text-dark) 30%, transparent);
+  background-color: rgba(0,0,0,0.2);
 }
 
 .slider-dot-pill.active {
-  /* Активная точка становится длинной для вмещения таймера */
-  width: 60px;
-  background-color: color-mix(in srgb, var(--color-text-dark) 10%, transparent);
+  width: 32px; 
+  border-radius: 12px;
+  background-color: var(--color-accent); 
 }
 
-/* Заполняющаяся полоска внутри активной точки */
-.slider-dot-fill {
-  position: absolute;
+
+/* =========================================
+   --- МОДАЛЬНОЕ ОКНО ПОДРОБНОСТЕЙ УСЛУГИ ---
+========================================= */
+.serviceDetails__overlay {
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  background-color: var(--color-accent);
-  border-radius: 6px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
+.serviceDetails__card {
+  position: relative;
+  background-color: var(--color-white);
+  border-radius: 32px;
+  width: 100%;
+  max-width: 550px; 
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceDetails__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255, 0.8);
+  backdrop-filter: blur(10px);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--color-text-dark);
+  transition: background-color 0.3s;
+}
+
+.serviceDetails__close:hover {
+  background-color: var(--color-white);
+}
+
+.serviceDetails__cover {
+  width: 100%;
+  height: 280px; /* Высота обложки в открытом окне (можно сделать больше или меньше) */
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #f0f0f0; /* Серый фон-заглушка, пока грузится фото */
+  /* Обязательно убираем padding, чтобы фото прилипло к краям */
+  padding: 0; 
+}
+
+/* ФОТОГРАФИЯ В МОДАЛЬНОМ ОКНЕ */
+.serviceDetails__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Идеально кадрирует фото, заполняя весь прямоугольник */
+  position: absolute; 
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+}
+.serviceDetails__scroll-area {
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.serviceDetails__title {
+  font-family: var(--font-family-headings);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.serviceDetails__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+.serviceDetails__divider {
+  border: none;
+  height: 1px;
+  background-color: rgba(0,0,0,0.05);
+  margin: 30px 0;
+}
+
+.serviceDetails__section-title {
+  font-family: var(--font-family-headings);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+.serviceDetails__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.serviceDetails__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-dark);
+}
+
+.serviceDetails__icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.serviceDetails__result {
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  border-radius: 16px;
+  padding: 24px;
+  border-left: 4px solid var(--color-accent);
+  margin-bottom: 24px;
+}
+
+.serviceDetails__result-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family-headings);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.serviceDetails__result-icon {
+  color: #FFA500;
+}
+
+.serviceDetails__result p {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+.serviceDetails__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.serviceDetails__note-icon {
+  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.serviceDetails__note p {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  font-style: italic;
+  margin: 0;
+}
+
+.serviceDetails__btn-main {
+  width: 100%;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  padding: 18px 24px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  text-align: center;
+}
+
+.serviceDetails__btn-main:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 80%, black);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
 
 /* =========================================
    --- АДАПТИВ ---
@@ -299,30 +528,29 @@
   .servicesSection {
     padding: 60px 0;
   }
-  
   .servicesSection__title {
     font-size: 32px;
   }
-
-  .serviceCard {
-    padding: 30px 20px;
+  .serviceCard__cover {
+    height: 180px;
   }
-  
   .serviceCard__title {
-      font-size: 20px;
+    font-size: 20px;
   }
-  
-  /* Чуть уменьшаем навигацию на мобилке */
-  .slider-controls {
-      margin-top: 30px;
+  .serviceCard__features-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  
-  .slider-dot-pill {
-      width: 20px;
-      height: 5px;
+}
+
+@media (max-width: 600px) {
+  .serviceDetails__card {
+    border-radius: 24px;
   }
-  
-  .slider-dot-pill.active {
-      width: 50px;
+  .serviceDetails__scroll-area {
+    padding: 30px 24px;
+  }
+  .serviceDetails__title {
+    font-size: 28px;
   }
 }

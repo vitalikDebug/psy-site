@@ -1,78 +1,180 @@
 /* src/components/ReviewsSection/ReviewsSection.css */
 
 .reviewsSection {
-  padding: 100px 0;
-  background-color: #fff;
+  padding: 120px 0;
+  background-color: #f7f7f9; 
+  overflow: hidden; 
 }
 
 .reviewsSection__container {
   width: 100%;
-  max-width: var(--container-width);
+  max-width: 1000px; 
   margin: 0 auto;
   padding: 0 20px;
 }
 
+/* Заголовок и стрелки выстраиваем в одну линию */
 .reviewsSection__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 60px;
 }
 
 .reviewsSection__title {
   font-family: var(--font-family-headings);
-  font-size: 48px; /* Выровнял размер с другими заголовками H2 */
+  font-size: 56px;
   font-weight: 800;
-  text-transform: uppercase;
   color: var(--color-text-dark);
   line-height: 1.1;
+  letter-spacing: -1px;
 }
 
-/* --- СЕТКА (MASONRY) --- */
-.reviewsMasonry {
-  column-count: 2;
-  column-gap: 30px;
-  /* Добавляем плавность при изменении высоты контейнера */
-  transition: all 0.5s ease; 
+/* --- НАВИГАЦИЯ (СТРЕЛКИ) --- */
+.reviewsSection__nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.reviewsSection__nav-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.reviewsSection__nav-btn:hover:not(:disabled) {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+}
+
+.reviewsSection__nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* --- СЛАЙДЕР И СЕТКА --- */
+.reviewsSection__slider-wrapper {
+  min-height: 400px; 
+}
+
+.reviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 30px;
 }
 
 /* --- КАРТОЧКА ОТЗЫВА --- */
 .reviewCard {
-  break-inside: avoid;
-  margin-bottom: 30px;
   background-color: var(--color-white);
-  border-radius: 24px; /* Скруглил углы в едином стиле */
+  border-radius: 32px; 
   padding: 40px;
-  border: 1px solid color-mix(in srgb, var(--color-text-dark) 5%, transparent);
-  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-text-dark) 2%, transparent);
-  transition: all 0.3s ease;
-  /* Важно для корректной работы break-inside в некоторых браузерах */
-  display: inline-block; 
-  width: 100%; 
+  border: none;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+  position: relative;
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; 
+  cursor: pointer; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .reviewCard:hover {
-  box-shadow: 0 15px 35px color-mix(in srgb, var(--color-text-dark) 6%, transparent);
   transform: translateY(-4px);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+}
+
+/* --- ЦВЕТНЫЕ АУРЫ --- */
+.reviewCard::before {
+  content: '';
+  position: absolute;
+  bottom: -30%; 
+  left: -20%;
+  width: 140%;
+  height: 80%; 
+  filter: blur(50px); 
+  z-index: 0;
+  opacity: 0.6;
+  border-radius: 50%;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(ellipse at bottom, var(--aura-color) 0%, transparent 60%);
+}
+
+.reviewCard:hover::before {
+  opacity: 0.9;
+}
+
+/* --- КОНТЕНТ КАРТОЧКИ --- */
+.reviewCard__content {
+  flex-grow: 1; /* Прижимает блок с автором к низу */
 }
 
 .reviewCard__text {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-family-body);
-  font-size: 16px;
-  line-height: 1.6;
-  color: color-mix(in srgb, var(--color-text-dark) 80%, transparent);
-  margin-bottom: 30px;
+  font-size: 20px; 
+  font-weight: 500;
+  line-height: 1.5;
+  color: #1a1a1c; 
+  margin-bottom: 12px;
+  
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* Показываем максимум 5 строк */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.reviewCard__footer {
+.reviewCard__read-more {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-accent);
+  display: inline-block;
+  margin-bottom: 30px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.reviewCard:hover .reviewCard__read-more {
+  opacity: 1;
+}
+
+/* --- АВТОР И ЭМОДЗИ --- */
+.reviewCard__author {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  position: relative; 
 }
 
-.reviewCard__avatar {
-  width: 56px; /* Чуть увеличил аватарку */
-  height: 56px;
+.reviewCard__emoji {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  object-fit: cover;
+  background-color: #f0f0f5; /* Мягкий фон под эмодзи */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
   margin-right: 16px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); /* Легкий внутренний объем */
 }
 
 .reviewCard__author-info {
@@ -81,86 +183,149 @@
 }
 
 .reviewCard__name {
-  font-family: var(--font-family-headings);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--color-text-dark);
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1c;
 }
 
 .reviewCard__role {
   font-family: var(--font-family-body);
-  font-size: 14px;
+  font-size: 13px;
   color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
-/* Иконка цитаты */
-.reviewCard__icon {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: color-mix(in srgb, var(--color-accent) 20%, transparent); /* Легкий оттенок акцента */
-}
-
-
-/* --- КНОПКА "ПОКАЗАТЬ ЕЩЕ" --- */
-.reviewsSection__actions {
+/* =========================================
+   --- МОДАЛЬНОЕ ОКНО ПОЛНОГО ОТЗЫВА ---
+========================================= */
+.reviewModal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px); 
+  z-index: 9999;
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  padding: 20px;
 }
 
-.reviewsSection__more-btn {
-  background-color: transparent;
-  color: var(--color-text-dark);
-  font-family: var(--font-family-body);
-  font-size: 16px;
-  font-weight: 600;
-  padding: 16px 40px;
-  border: 1px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
-  border-radius: 50px;
+.reviewModal__card {
+  position: relative;
+  background-color: var(--color-white);
+  border-radius: 40px;
+  width: 100%;
+  max-width: 700px; 
+  max-height: 90vh; 
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+}
+
+.reviewModal__card::before {
+  content: '';
+  position: absolute;
+  bottom: -30%; 
+  left: -20%;
+  width: 140%;
+  height: 80%; 
+  filter: blur(60px); 
+  z-index: 0;
+  opacity: 0.5;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at bottom, var(--aura-color) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.reviewModal__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.05);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  z-index: 10;
+  color: var(--color-text-dark);
+  transition: background-color 0.3s;
 }
 
-.reviewsSection__more-btn:hover {
-  background-color: color-mix(in srgb, var(--color-text-dark) 5%, transparent);
-  border-color: var(--color-text-dark);
+.reviewModal__close:hover {
+  background-color: rgba(0,0,0,0.1);
 }
 
+.reviewModal__scroll-area {
+  position: relative;
+  z-index: 1;
+  padding: 60px 50px 50px;
+  max-height: 90vh;
+  overflow-y: auto; 
+}
+
+.reviewModal__text {
+  font-family: var(--font-family-body);
+  font-size: 22px; 
+  font-weight: 500;
+  line-height: 1.6;
+  color: #1a1a1c; 
+  margin-bottom: 40px;
+}
+
+.reviewModal__author {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
 
 /* =========================================
    --- АДАПТИВ ---
 ========================================= */
-@media (max-width: 1024px) {
-  .reviewsMasonry {
-    column-gap: 20px; 
+@media (max-width: 900px) {
+  .reviewsGrid {
+    grid-template-columns: 1fr; 
   }
-  .reviewCard {
-    padding: 30px;
+  .reviewsSection__slider-wrapper {
+    min-height: 600px; 
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .reviewsSection {
-    padding: 60px 0;
+    padding: 80px 0;
   }
-
+  .reviewsSection__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
   .reviewsSection__title {
     font-size: 36px;
   }
-
-  .reviewsMasonry {
-    /* На мобилках выстраиваем отзывы в одну колонку */
-    column-count: 1;
-  }
-
   .reviewCard {
-    margin-bottom: 20px;
-    padding: 24px;
+    padding: 28px;
   }
-
-  .reviewsSection__more-btn {
-    width: 100%; /* На мобильном кнопка на всю ширину */
+  .reviewCard__text {
+    font-size: 18px; 
+  }
+  .reviewModal__card {
+    border-radius: 24px;
+  }
+  .reviewModal__scroll-area {
+    padding: 50px 24px 30px;
+  }
+  .reviewModal__text {
+    font-size: 18px;
+  }
+  .reviewModal__close {
+    top: 16px;
+    right: 16px;
   }
 }
