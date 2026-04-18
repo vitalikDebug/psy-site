@@ -44,7 +44,7 @@ export default function Home() {
       <ReviewsSection />
       <ProcessSection />
       <FAQSection />
-      <FinalCTASection />
+      {/* <FinalCTASection /> */}
       <Footer />
 
       {/* 3. Модалка теперь получает данные напрямую из контекста */}

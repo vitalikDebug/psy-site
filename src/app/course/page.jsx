@@ -10,6 +10,7 @@ import CourseAuthorSection from '@/components/CourseAuthorSection/CourseAuthorSe
 import CourseHeroSection from '@/components/CourseHeroSection/CourseHeroSection';
 import CourseModulesSection from '@/components/CourseModuleSection/CourseModulesSection';
 import CoursePricingSection from '@/components/CoursePricingSection/CoursePricingSection';
+import Footer from '@/components/footer/Footer';
 
 export default function CoursePage() {
   return (
@@ -25,6 +26,7 @@ export default function CoursePage() {
       <CourseModulesSection />
       <CourseAuthorSection />
       <CoursePricingSection/>
+      <Footer/>
     </main>
   );
 }
