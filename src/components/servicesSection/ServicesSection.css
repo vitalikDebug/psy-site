@@ -29,33 +29,34 @@
 /* =========================================
    --- СЛАЙДЕР ---
 ========================================= */
-.servicesSection .slider-wrapper-animated {
-  width: 100%;
-}
-
-.servicesSection .slider-viewport {
+.servicesSection__slider-viewport {
   width: 100%;
   overflow: hidden;
-  margin: 0 -20px;
-  padding: 20px;
+  padding: 20px 0; /* Отступы для теней карточек */
 }
 
-.servicesSection .slider-track {
+.servicesSection__slider-track {
   display: flex;
+  gap: 30px;
   cursor: grab;
-  touch-action: pan-y;
-  /* ЖЕСТКО СБРАСЫВАЕМ СТИЛИ, КОТОРЫЕ УТЕКЛИ ИЗ БЛОКА СТАТЕЙ */
-  width: 100%; 
-  gap: 0;
-  padding: 0;
+  /* Важно: заставляем трек растягиваться под контент, чтобы его можно было тянуть */
+  width: max-content; 
+  padding: 0 20px; /* Чтобы крайние карточки не прилипали к краям экрана */
 }
 
-.servicesSection .slider-track:active {
+.servicesSection__slider-track:active {
   cursor: grabbing;
 }
 
-.servicesSection .serviceCard-wrapper {
-  padding: 0 15px; 
+.serviceCard-wrapper {
+  /* Фиксированная ширина карточки (как в статьях) */
+  width: 380px; 
+  flex-shrink: 0; 
+}
+
+/* Старые контроллы-точки можно удалить или скрыть */
+.slider-controls {
+  display: none;
 }
 
 /* =========================================
@@ -267,38 +268,34 @@
 /* =========================================
    --- КОНТРОЛЛЫ СЛАЙДЕРА ---
 ========================================= */
-.slider-controls {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
+.servicesSection__slider-viewport {
   width: 100%;
+  overflow: hidden;
+  margin: 0 -20px;
+  padding: 20px;
 }
 
-.slider-dots {
+.servicesSection__slider-track {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 30px; /* Отступы между карточками */
+  cursor: grab;
+  touch-action: pan-y;
+  width: max-content; /* Позволяет треку быть шире экрана */
+  padding: 0 20px; /* Чтобы крайние карточки не прилипали к краям экрана */
 }
 
-.slider-dot-pill {
-  width: 12px; 
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(0,0,0,0.1);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.3s ease;
+.servicesSection__slider-track:active {
+  cursor: grabbing;
 }
 
-.slider-dot-pill:hover {
-  background-color: rgba(0,0,0,0.2);
+.serviceCard-wrapper {
+  width: 400px; /* Фиксированная ширина карточки на ПК */
+  flex-shrink: 0; /* Запрещаем карточкам сжиматься */
 }
 
-.slider-dot-pill.active {
-  width: 32px; 
-  border-radius: 12px;
-  background-color: var(--color-accent); 
+/* Скрываем старые точки, так как у нас теперь свободный свайп */
+.slider-controls {
+  display: none;
 }
 
 
@@ -531,6 +528,15 @@
   .servicesSection__title {
     font-size: 32px;
   }
+  
+  /* Уменьшаем карточки на мобильных устройствах */
+  .serviceCard-wrapper {
+    width: 300px;
+  }
+  .servicesSection__slider-track {
+    gap: 20px;
+  }
+  
   .serviceCard__cover {
     height: 180px;
   }
@@ -552,5 +558,9 @@
   }
   .serviceDetails__title {
     font-size: 28px;
+  }
+  /* Делаем еще компактнее для узких экранов (iPhone SE) */
+  .serviceCard-wrapper {
+    width: 280px;
   }
 }

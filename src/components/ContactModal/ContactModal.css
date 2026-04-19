@@ -1,14 +1,14 @@
 /* src/components/ContactModal/ContactModal.css */
 
-/* Оверлей (затемненный фон) */
-.modalOverlay {
+.contactModal__overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -16,179 +16,460 @@
   padding: 20px;
 }
 
-.contactModal {
-  background-color: var(--color-white);
-  width: 100%;
-  max-width: 480px;
-  padding: 40px;
-  border-radius: 24px;
+.contactModal__card {
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  background-color: var(--color-white);
+  border-radius: 32px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .contactModal__close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 24px;
+  right: 24px;
   background: none;
   border: none;
-  font-size: 24px;
-  cursor: pointer;
-  /* Цвет с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
-  transition: color 0.3s;
+  cursor: pointer;
+  z-index: 10;
+  padding: 4px;
+  transition: color 0.2s;
 }
 
 .contactModal__close:hover {
   color: var(--color-text-dark);
 }
 
+/* =========================================
+   --- PROGRESS BAR ---
+========================================= */
+.contactModal__progress-container {
+  padding: 30px 40px 0 40px;
+}
+
+.contactModal__progress-header {
+  margin-bottom: 12px;
+}
+
+.contactModal__step-text {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contactModal__progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.contactModal__progress-fill {
+  height: 100%;
+  background-color: #A078C4; /* Акцентный лавандовый */
+  border-radius: 6px;
+  transition: width 0.4s ease-in-out;
+}
+
+/* =========================================
+   --- БОДИ И СЛАЙДЫ ---
+========================================= */
+.contactModal__body {
+  position: relative;
+  padding: 30px 40px 40px 40px;
+  min-height: 400px; /* Чтобы высота окна сильно не прыгала */
+}
+
+.contactModal__step {
+  width: 100%;
+}
+
 .contactModal__title {
   font-family: var(--font-family-headings);
   font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 16px;
+  font-weight: 800;
   color: var(--color-text-dark);
-  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
 
 .contactModal__subtitle {
   font-family: var(--font-family-body);
-  font-size: 16px;
-  /* Цвет с прозрачностью */
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-  text-align: center;
-  margin-bottom: 32px;
+  font-size: 15px;
   line-height: 1.5;
-}
-
-/* --- ФОРМА --- */
-.contactForm {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.contactForm__field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* Стили для поля ввода, доступного только для чтения */
-.contactForm__field input.contactForm__input--readonly {
-  background-color: #f5f5f5;
-  /* Цвет с прозрачностью */
   color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-  border-color: transparent;
-  cursor: default;
+  margin-bottom: 30px;
+}
+
+/* =========================================
+   --- ЭЛЕМЕНТЫ ФОРМЫ (ШАГ 1) ---
+========================================= */
+.contactModal__type-selector {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.contactModal__type-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 16px;
+  border-radius: 20px;
+  background-color: var(--color-white);
+  border: 2px solid #eaeaea;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+}
+
+.contactModal__type-btn span {
+  font-family: var(--font-family-body);
+  font-size: 15px;
   font-weight: 600;
 }
 
-.contactForm__field input.contactForm__input--readonly:focus {
-  border-color: transparent;
-  outline: none;
+.contactModal__type-btn:hover {
+  border-color: #d1c4e9;
 }
 
-.contactForm__field label {
+.contactModal__type-btn.active {
+  border-color: #A078C4;
+  background-color: rgba(160, 120, 196, 0.05);
+  color: #A078C4;
+}
+
+/* =========================================
+   --- ИНПУТЫ ---
+========================================= */
+.contactModal__grid-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contactModal__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.contactModal__input-group label {
   font-family: var(--font-family-body);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--color-text-dark);
 }
 
-.contactForm__field input {
-  padding: 14px 16px;
-  /* Бордер с прозрачностью */
-  border: 1px solid color-mix(in srgb, var(--color-text-dark) 20%, transparent);
-  border-radius: 8px;
+.contactModal__input-group input,
+.contactModal__input-group textarea,
+.contactModal__input-group select {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid #eaeaea;
+  background-color: #fcfcfc;
   font-family: var(--font-family-body);
-  font-size: 16px;
-  transition: border-color 0.3s;
+  font-size: 15px;
+  color: var(--color-text-dark);
+  transition: all 0.2s ease;
+  appearance: none; /* Убираем дефолтные стрелки у select */
 }
 
-.contactForm__field input:focus {
+.contactModal__input-group input:focus,
+.contactModal__input-group textarea:focus,
+.contactModal__input-group select:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: #A078C4;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 4px rgba(160, 120, 196, 0.1);
 }
 
-.contactForm__field input::placeholder {
-  /* Плейсхолдер с прозрачностью */
-  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+.contactModal__input-group textarea {
+  resize: vertical;
+  min-height: 100px;
 }
 
-.contactForm__btn {
-  margin-top: 10px;
-  padding: 16px;
+/* Обертка для селекта с кастомной стрелкой */
+.contactModal__select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.contactModal__select-icon {
+  flex-shrink: 0; /* Чтобы иконка не сплющивалась, если текст длинный */
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  transition: transform 0.3s ease;
+}
+
+.contactModal__select-header.open .contactModal__select-icon {
+  transform: rotate(180deg); /* Теперь тут только поворот, без translateY */
+}
+/* =========================================
+   --- ШАГ 3 (ТЕГИ) ---
+========================================= */
+.contactModal__tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contactModal__tag {
+  background-color: var(--color-white);
+  border: 1px solid #eaeaea;
+  padding: 10px 16px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contactModal__tag:hover {
+  border-color: #d1c4e9;
+}
+
+.contactModal__tag.active {
+  background-color: #A078C4;
+  border-color: #A078C4;
+  color: var(--color-white);
+}
+
+/* =========================================
+   --- КНОПКИ УПРАВЛЕНИЯ ---
+========================================= */
+.contactModal__footer {
+  margin-top: 30px;
+  display: flex;
+  gap: 16px;
+}
+
+.contactModal__footer.two-cols {
+  justify-content: space-between;
+}
+
+.contactModal__btn-next,
+.contactModal__btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background-color: var(--color-accent);
   color: var(--color-white);
   border: none;
-  border-radius: 8px;
+  padding: 16px 24px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1; /* Растягивается на доступное место */
+}
+
+.contactModal__btn-next.full-width {
+  width: 100%;
+}
+
+.contactModal__btn-next:hover:not(:disabled),
+.contactModal__btn-submit:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 80%, black);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(160, 120, 196, 0.3);
+}
+
+.contactModal__btn-next:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.contactModal__btn-back {
+  background-color: #f5f5f5;
+  color: var(--color-text-dark);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 50px;
   font-family: var(--font-family-body);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.2s;
 }
 
-.contactForm__btn:hover {
-  /* Затемнение цвета при наведении (аналог darken) */
-  background-color: color-mix(in srgb, var(--color-accent) 95%, black);
+.contactModal__btn-back:hover {
+  background-color: #eaeaea;
 }
 
-.contactForm__btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.contactForm__policy {
-  font-family: var(--font-family-body);
-  font-size: 12px;
-  /* Цвет с прозрачностью */
-  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
-  text-align: center;
-  line-height: 1.4;
-}
-
-/* --- УСПЕШНАЯ ОТПРАВКА --- */
-.contactModal__success {
-  text-align: center;
-  padding: 40px 0;
-}
-
-.contactModal__success .success-icon {
-  width: 64px;
-  height: 64px;
-  background-color: #E8F5E9;
-  color: #2E7D32;
-  font-size: 32px;
-  border-radius: 50%;
+/* =========================================
+   --- ЭКРАН УСПЕХА ---
+========================================= */
+.success-step {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 24px;
+  text-align: center;
+  padding-top: 20px;
 }
 
-.contactModal__success h3 {
-  font-family: var(--font-family-headings);
-  font-size: 24px;
-  margin-bottom: 16px;
+.contactModal__success-icon {
+  color: #4caf50;
+  margin-bottom: 24px;
+  background-color: rgba(76, 175, 80, 0.1);
+  padding: 24px;
+  border-radius: 50%;
 }
 
-.contactModal__success p {
-  font-family: var(--font-family-body);
-  font-size: 16px;
-  /* Цвет с прозрачностью */
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-}
-
-/* Адаптив для мобилок */
-@media (max-width: 480px) {
-  .contactModal {
-    padding: 30px 20px;
+/* =========================================
+   --- АДАПТИВ ---
+========================================= */
+@media (max-width: 600px) {
+  .contactModal__progress-container {
+    padding: 24px 24px 0 24px;
   }
-
+  .contactModal__body {
+    padding: 24px;
+  }
   .contactModal__title {
     font-size: 24px;
   }
+  .contactModal__grid-inputs {
+    grid-template-columns: 1fr; /* На телефоне в одну колонку */
+    gap: 0;
+  }
+  .contactModal__footer {
+    flex-direction: column-reverse; /* Кнопка "Назад" внизу на телефоне */
+  }
+  .contactModal__btn-back {
+    width: 100%;
+  }
+}
+
+
+.contactModal__custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.contactModal__select-header {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid #eaeaea;
+  background-color: #fcfcfc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.contactModal__select-header:hover {
+  background-color: var(--color-white);
+  border-color: #d1c4e9;
+}
+
+/* Состояние открытого селекта (подсвечиваем рамку) */
+.contactModal__select-header.open {
+  outline: none;
+  border-color: #A078C4;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 4px rgba(160, 120, 196, 0.1);
+}
+
+.contactModal__select-header span.placeholder {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  color: #a0a0a0; /* Серый цвет для плейсхолдера */
+}
+
+.contactModal__select-header span.selected {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-dark); /* Темный цвет для выбранного пункта */
+}
+
+.contactModal__select-icon {
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
+  transition: transform 0.3s ease;
+}
+
+.contactModal__select-header.open .contactModal__select-icon {
+  transform: rotate(180deg); /* Стрелочка переворачивается при открытии */
+}
+
+/* Выпадающий список */
+.contactModal__select-dropdown {
+  position: absolute;
+  top: calc(100% + 8px); 
+  left: 0;
+  width: 100%;
+  background-color: var(--color-white);
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15); /* Сделали тень чуть мягче и больше */
+  border: 1px solid rgba(0,0,0,0.05);
+  list-style: none;
+  padding: 8px;
+  margin: 0;
+  z-index: 9999; /* Сильно увеличили, чтобы список был поверх всего */
+  
+  /* МЫ УДАЛИЛИ max-height и overflow-y, чтобы убрать скролл! */
+}
+
+/* Стилизация скроллбара внутри списка */
+.contactModal__select-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.contactModal__select-dropdown::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.contactModal__select-option {
+  padding: 14px 16px;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  color: var(--color-text-dark);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.contactModal__select-option:hover {
+  background-color: #f7f7f9;
+}
+
+/* Активный (выбранный) пункт в списке */
+.contactModal__select-option.active {
+  background-color: rgba(160, 120, 196, 0.1);
+  color: #A078C4;
+  font-weight: 600;
+}
+
+.contactModal__select-check {
+  color: #A078C4;
+}
+
+.contactModal__card.dropdown-open {
+  overflow: visible;
 }

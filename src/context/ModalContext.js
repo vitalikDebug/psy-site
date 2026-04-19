@@ -2,16 +2,15 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
+// ИМПОРТИРУЕМ МОДАЛКУ СЮДА (проверь, правильный ли путь)
+import ContactModal from '@/components/ContactModal/ContactModal';
 
 const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // Здесь хранится название выбранной услуги
     const [selectedService, setSelectedService] = useState('');
 
-    // Функция 1: Открыть модалку (и опционально запомнить услугу)
-    // Если serviceName не передан, откроется с тем, что было выбрано ранее
     const openModal = (serviceName = null) => {
         if (serviceName) {
             setSelectedService(serviceName);
@@ -19,13 +18,10 @@ export function ModalProvider({ children }) {
         setIsModalOpen(true);
     };
 
-    // Функция 2: Просто закрыть модалку (услуга ЗАПОМИНАЕТСЯ)
     const closeModal = () => {
         setIsModalOpen(false);
-        // ВАЖНО: Мы НЕ сбрасываем selectedService здесь, чтобы в хедере осталась "1"
     };
 
-    // Функция 3: Полностью очистить выбор (для сброса после отправки)
     const clearSelection = () => {
         setSelectedService('');
     };
@@ -35,12 +31,20 @@ export function ModalProvider({ children }) {
         selectedService,
         openModal,
         closeModal,
-        clearSelection, // <-- Добавили новую функцию в экспорт
+        clearSelection,
     };
 
     return (
         <ModalContext.Provider value={value}>
+            {/* Здесь рендерятся все твои страницы (Главная, Курс, Блог) */}
             {children}
+
+            {/* А модалка теперь висит глобально над всем сайтом! */}
+            <ContactModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                initialService={selectedService}
+            />
         </ModalContext.Provider>
     );
 }
