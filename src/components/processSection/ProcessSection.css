@@ -1,234 +1,190 @@
 /* src/components/ProcessSection/ProcessSection.css */
 
 .processSection {
-  padding: 100px 0;
-  /* НОВЫЙ ГРАДИЕНТНЫЙ ФОН */
-  background: linear-gradient(135deg, #f5eefa 0%, #e5d5f2 100%);
-  overflow: hidden; /* Важно для анимации */
+  padding: 120px 0;
+  /* Мягкий белый градиент с переходом в легкий лавандовый оттенок внизу */
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbfe 50%, #f4eaff 100%);
+  overflow: hidden; 
 }
 
 .processSection__container {
   width: 100%;
-  max-width: var(--container-width);
+  max-width: 1000px; /* Контейнер чуть уже, чтобы список смотрелся плотнее */
   margin: 0 auto;
   padding: 0 20px;
 }
 
+/* --- ШАПКА --- */
+.processSection__header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
 .processSection__title {
   font-family: var(--font-family-headings);
-  font-size: 48px; /* Чуть увеличил для соответствия другим блокам */
+  font-size: 56px;
   font-weight: 800;
-  text-transform: uppercase;
   color: var(--color-text-dark);
-  margin-bottom: 60px; 
-  letter-spacing: 0.02em;
   line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
 }
 
-/* --- СПИСОК ШАГОВ --- */
-.processList {
+.processSection__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* =========================================
+   --- ЧЕКЛИСТ И КАРТОЧКИ ---
+========================================= */
+.processChecklist {
   display: flex;
   flex-direction: column;
-  /* Линия сверху. Сделал ее белой с прозрачностью, чтобы хорошо смотрелась на градиенте */
-  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  gap: 20px; /* Расстояние между строками */
 }
 
-.processItem {
+/* Строка чеклиста */
+.processRow {
   display: flex;
-  align-items: flex-start;
-  padding: 32px 0; 
-  /* Линия снизу. Также белая полупрозрачная */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  align-items: stretch;
+  width: 85%; /* Не на всю ширину, чтобы было видно чередование */
+  position: relative;
 }
 
-/* ЛЕВАЯ ЧАСТЬ (Номер + Заголовок) */
-.processItem__left {
-  flex: 0 0 40%; 
+/* Выравнивание строк (шахматный порядок) */
+.processRow--right {
+  align-self: flex-end; /* Прижимаем вправо */
+  flex-direction: row; /* Сначала текст, потом цифра */
+}
+
+.processRow--left {
+  align-self: flex-start; /* Прижимаем влево */
+  flex-direction: row-reverse; /* Сначала цифра, потом текст */
+}
+
+/* --- БЕЛАЯ КАРТОЧКА С ТЕКСТОМ --- */
+.processCard {
+  background-color: var(--color-white);
+  border-radius: 30px;
+  padding: 30px 40px;
   display: flex;
-  align-items: flex-start;
-  gap: 30px; 
-  padding-right: 40px; 
+  align-items: center;
+  gap: 24px;
+  flex: 1; /* Занимает все свободное место в строке */
+  z-index: 2; /* Лежит поверх цветной плашки */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05); /* Красивая мягкая тень */
+  border: 1px solid rgba(0,0,0,0.02);
 }
 
-.processItem__number {
-  font-family: var(--font-family-body);
-  font-size: 14px;
-  font-weight: 700; /* Сделал жирнее */
-  /* Цвет акцента для номера */
-  color: var(--color-accent);
-  margin-top: 2px; 
+.processCard__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f9;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
 }
 
-.processItem__title {
-  font-family: var(--font-family-body);
-  font-size: 16px;
+.processCard__text h3 {
+  font-family: var(--font-family-headings);
+  font-size: 20px;
   font-weight: 700;
-  text-transform: uppercase;
-  line-height: 1.4;
   color: var(--color-text-dark);
-  letter-spacing: 0.02em;
+  margin-bottom: 8px;
 }
 
-/* ПРАВАЯ ЧАСТЬ (Описание) */
-.processItem__right {
-  flex: 1; 
-}
-
-.processItem__text {
+.processCard__text p {
   font-family: var(--font-family-body);
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-text-dark); /* Сделал чуть темнее для лучшей читаемости на фоне */
-  font-weight: 400;
-}
-
-/* Стили для вложенного списка */
-.processItem__list {
-  list-style: none;
-  padding: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
   margin: 0;
 }
 
-.processItem__list li {
-  position: relative;
-  font-family: var(--font-family-body);
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-text-dark);
-  margin-bottom: 12px;
-  padding-left: 20px; 
-}
-
-.processItem__list li:last-child {
-  margin-bottom: 0;
-}
-
-/* Кастомная точка (буллит) */
-.processItem__list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px; 
-  width: 6px; /* Чуть увеличил буллит */
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-accent);
-  opacity: 0.6;
-}
-
-/* --- БЛОК РЕЗУЛЬТАТА --- */
-.processResult {
-  /* ТЕПЕРЬ ФОН БЕЛЫЙ для контраста с градиентом секции */
-  background-color: #ffffff;
+/* --- ЦВЕТНАЯ ПЛАШКА С ЦИФРОЙ --- */
+.processNumber {
+  width: 120px;
   border-radius: 30px;
-  margin-top: 120px;
-  margin-bottom: 40px;
   display: flex;
   align-items: center;
-  padding: 40px 60px;
-  gap: 60px;
-  box-shadow: 0 15px 40px rgba(160, 120, 196, 0.15); /* Мягкая лавандовая тень */
-}
-
-.processResult__image-wrapper {
-  flex-shrink: 0;
-  width: 280px;
-  height: 360px; 
-  /* МАГИЯ: Тянем фото вверх за пределы белого фона */
-  margin-top: -100px;
-  margin-bottom: -20px; 
-  border-radius: 20px; /* Увеличил скругление */
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(160, 120, 196, 0.2);
-}
-
-.processResult__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.processResult__content {
-  flex: 1;
-}
-
-.processResult__text {
+  justify-content: center;
   font-family: var(--font-family-headings);
-  font-size: 32px; 
-  line-height: 1.3;
-  text-transform: uppercase;
-  color: var(--color-text-dark);
-  font-weight: 700;
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--color-white);
+  z-index: 1; /* Прячем ПОД белую карточку */
+  box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1); /* Внутренняя тень для объема */
 }
 
-.processResult__highlight {
-  /* Делаем среднюю часть текста цвета акцента */
-  color: var(--color-accent);
+/* --- МАГИЯ НАЛОЖЕНИЯ --- */
+/* Если карточка справа, смещаем ее влево, чтобы она налезла на цифру */
+.processRow--right .processCard {
+  margin-right: -50px;
+}
+/* Сдвигаем саму цифру чуть правее внутри ее блока, чтобы ее не перекрыло полностью */
+.processRow--right .processNumber {
+  padding-left: 30px; 
+}
+
+/* То же самое для левой стороны */
+.processRow--left .processCard {
+  margin-left: -50px;
+}
+.processRow--left .processNumber {
+  padding-right: 30px; 
 }
 
 
-/* --- АДАПТИВ --- */
+/* =========================================
+   --- АДАПТИВ ---
+========================================= */
 @media (max-width: 1024px) {
-  .processResult {
-    padding: 40px;
-    gap: 40px;
+  .processSection__title {
+    font-size: 48px;
   }
-  .processResult__image-wrapper {
-    width: 220px;
-    height: 300px;
-    margin-top: -80px;
+  .processRow {
+    width: 95%; /* На планшетах делаем строки шире */
   }
-  .processResult__text {
-    font-size: 26px;
+}
+
+/* На телефонах отключаем шахматный порядок и делаем прямой список */
+@media (max-width: 768px) {
+  .processSection {
+    padding: 80px 0;
   }
   .processSection__title {
     font-size: 36px;
   }
-}
-
-@media (max-width: 900px) {
-  .processItem {
-    flex-direction: column; 
-    gap: 16px; 
-  }
-  .processItem__left {
-    flex: auto; 
+  
+  .processRow {
     width: 100%;
-    padding-right: 0;
-  }
-  .processItem__right {
-    /* Отступ слева убираем, чтобы текст не был слишком узким на телефоне */
-    padding-left: 0;
+    /* Все карточки становятся "Левыми" (Сначала цифра, потом текст) */
+    flex-direction: row-reverse !important; 
+    align-self: flex-start !important;
   }
 
-  /* На телефонах и планшетах ставим фото НАД текстом */
-  .processResult {
-    flex-direction: column;
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 100px;
+  .processCard {
+    margin-left: -30px !important;
+    margin-right: 0 !important;
+    padding: 24px;
+    gap: 16px;
   }
-  .processResult__image-wrapper {
-    /* Сбрасываем отрицательные марджины по вертикали */
-    margin-top: -80px;
-    margin-bottom: 0;
-  }
-  .processResult__text {
-    font-size: 22px;
-  }
-  .processResult__text br {
-    display: none; 
-  }
-}
 
-@media (max-width: 600px) {
-  .processSection__title {
-    font-size: 32px;
+  .processCard__icon {
+    display: none; /* Прячем иконки на телефоне для экономии места */
   }
-  .processSection__title br {
-    display: none;
-  }
-  .processItem__left {
-    gap: 16px; 
+
+  .processNumber {
+    padding-right: 16px !important;
+    padding-left: 0 !important;
+    width: 80px;
+    font-size: 36px;
   }
 }
