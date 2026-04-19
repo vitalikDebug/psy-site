@@ -48,11 +48,11 @@ export default function Home() {
       <Footer />
 
       {/* 3. Модалка теперь получает данные напрямую из контекста */}
-      <ContactModal
+      {/* <ContactModal
         isOpen={isModalOpen}
         onClose={closeModal}
         initialService={selectedService}
-      />
+      /> */}
     </main>
   );
 }
