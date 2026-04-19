@@ -1,0 +1,97 @@
+.lk-sidebar {
+  position: sticky;
+  top: 100px; /* Отступ сверху, чтобы было место для шапки */
+  width: 280px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  padding: 30px 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.04);
+  height: calc(100vh - 140px); /* Высота с учетом отступов сверху и снизу */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  
+  /* ПЛАВНЫЙ ПЕРЕХОД: анимация изменения высоты и отступа */
+  transition: top 0.3s ease, height 0.3s ease;
+}
+
+.lk-sidebar.lk-sidebar--scrolled {
+  top: 20px; /* Прилипаем почти к самому верху экрана */
+  height: calc(100vh - 40px); /* Вытягиваемся на весь экран (с отступами 20px сверху и снизу) */
+}
+
+.lk-sidebar__label {
+  display: block;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  padding-left: 12px;
+}
+
+.lk-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lk-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.lk-sidebar__link:hover {
+  background-color: #f7f7f9;
+  color: var(--color-text-dark);
+}
+
+.lk-sidebar__link.active {
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  color: var(--color-accent);
+}
+
+.lk-sidebar__icon {
+  flex-shrink: 0;
+}
+
+.lk-sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  border-radius: 16px;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: #e11d48; /* Красный цвет для выхода */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.lk-sidebar__logout:hover {
+  background-color: #ffe4e6;
+}
+
+/* На мобильных пока просто скрываем сайдбар (позже сделаем бургер для ЛК) */
+@media (max-width: 1024px) {
+  .lk-sidebar {
+    display: none;
+  }
+}
