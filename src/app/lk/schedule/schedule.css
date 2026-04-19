@@ -1,0 +1,326 @@
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-header {
+  margin-bottom: 30px;
+}
+
+.schedule-title {
+  font-family: var(--font-family-headings);
+  font-size: 36px;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.schedule-subtitle {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+}
+
+.section-title {
+  font-family: var(--font-family-headings);
+  font-size: 22px;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+/* =========================================
+   --- ПРЕДСТОЯЩИЕ ВСТРЕЧИ ---
+========================================= */
+.upcoming-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.meeting-card {
+  background-color: var(--color-white);
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.meeting-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+}
+
+/* Выделенная карточка (ближайшая встреча) */
+.meeting-card.highlighted {
+  border: 2px solid rgba(160, 120, 196, 0.3);
+  background: linear-gradient(180deg, rgba(160, 120, 196, 0.03) 0%, var(--color-white) 100%);
+}
+
+.meeting-card__badges {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.type-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.type-badge.individual {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+
+.type-badge.group {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+.status-badge {
+  background-color: #22c55e;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.pulse-badge {
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.meeting-title {
+  font-family: var(--font-family-headings);
+  font-size: 18px;
+  color: var(--color-text-dark);
+  margin-bottom: 16px;
+  line-height: 1.4;
+  flex: 1; /* Расталкивает контент */
+}
+
+.meeting-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+}
+
+.detail-icon {
+  color: #A078C4;
+}
+
+/* Кнопки в карточке */
+.join-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 12px;
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.join-btn.active {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.join-btn.active:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 80%, black);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(160, 120, 196, 0.3);
+}
+
+.join-btn.disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.schedule-divider {
+  border: none;
+  height: 1px;
+  background-color: rgba(0,0,0,0.05);
+  margin: 0 0 30px 0;
+}
+
+/* =========================================
+   --- ПРОШЕДШИЕ ВСТРЕЧИ ---
+========================================= */
+.past-meetings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.past-meeting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-white);
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+}
+
+.past-meeting-item:hover {
+  border-color: #A078C4;
+  box-shadow: 0 4px 15px rgba(160, 120, 196, 0.1);
+}
+
+.past-meeting-item__info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.past-date {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+  min-width: 80px;
+}
+
+.past-title {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+.watch-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 50px;
+  transition: background-color 0.2s;
+}
+
+.watch-btn:hover {
+  background-color: rgba(160, 120, 196, 0.1);
+}
+
+/* =========================================
+   --- ИНФО-БЛОК ---
+========================================= */
+.schedule-info-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8fafc;
+  padding: 24px 30px;
+  border-radius: 20px;
+  border: 1px dashed #cbd5e1;
+}
+
+.info-box-content h3 {
+  font-family: var(--font-family-headings);
+  font-size: 18px;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.info-box-content p {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.info-box-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  border: 1px solid #e2e8f0;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.info-box-btn:hover {
+  border-color: #A078C4;
+  color: #A078C4;
+}
+
+/* --- АДАПТИВ --- */
+@media (max-width: 768px) {
+  .past-meeting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .past-meeting-item__info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .watch-btn {
+    width: 100%;
+    justify-content: center;
+    background-color: rgba(160, 120, 196, 0.05);
+  }
+  .schedule-info-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+  }
+  .info-box-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

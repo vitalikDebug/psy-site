@@ -368,3 +368,129 @@
     gap: 8px; 
   }
 }
+
+
+/* =========================================
+   --- ПЛАВАЮЩАЯ КНОПКА ПРОФИЛЯ ВНЕ ХЕДЕРА ---
+========================================= */
+.header__floating-profile {
+  position: absolute;
+  /* Привязываем кнопку к правому краю, сдвигая ее за пределы белого островка */
+  right: -60px; /* Отступ от островка */
+  top: 50%;
+  transform: translateY(-50%);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Красивая тень, так как она висит сама по себе */
+  border: 1px solid rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+  z-index: 1001; /* Поверх всего */
+}
+
+.header__floating-profile:hover {
+  background-color: #fcfcfc;
+  color: var(--color-accent); /* При наведении иконка становится акцентной */
+  box-shadow: 0 15px 40px rgba(160, 120, 196, 0.15); /* Тень усиливается и становится цветной */
+  transform: translateY(calc(-50% - 3px)); /* Чуть приподнимается при ховере */
+}
+
+
+
+.header-lk {
+  position: absolute; /* Или fixed, если хочешь, чтобы он ездил при скролле */
+  top: 20px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header-lk__layout {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Левый мини-островок с профилем */
+.header__lk-island {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--color-white);
+  padding: 6px 20px 6px 6px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.header__lk-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #A078C4 0%, #8C52FF 100%);
+  color: var(--color-white);
+  box-shadow: 0 4px 10px rgba(160, 120, 196, 0.3);
+}
+
+.header__lk-name {
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+/* Правая кнопка "Вернуться на сайт" вне островка */
+.header__lk-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-dark);
+  font-family: var(--font-family-body);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.7); /* Эффект матового стекла */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.header__lk-back-btn:hover {
+  background-color: var(--color-white);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Скрываем мобильный текст по умолчанию */
+.header__lk-back-btn .course-text-mob {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header__lk-back-btn {
+    padding: 10px 16px;
+  }
+  .header__lk-back-btn .course-text-desk {
+    display: none;
+  }
+  .header__lk-back-btn .course-text-mob {
+    display: inline;
+  }
+}
