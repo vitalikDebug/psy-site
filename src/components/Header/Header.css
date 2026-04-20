@@ -293,9 +293,6 @@
 }
 
 
-/* =========================================
-   --- 6. АДАПТИВ (МЕДИА-ЗАПРОСЫ) ---
-========================================= */
 @media (max-width: 1024px) {
   .header__container {
     display: flex;
@@ -309,22 +306,79 @@
   }
 }
 
-@media (max-width: 768px) {
-  .header {
-      width: calc(100% - 24px); 
-      top: 8px;
-      padding: 8px 16px;
-      border-radius: 20px;
+@media (max-width: 1300px) {
+  .header__floating-profile {
+    right: 10px;
+    width: 44px;
+    height: 44px;
   }
-  
-  .header::before {
-      border-radius: 20px; /* Рамка повторяет контур телефона */
-  }
-  
   .header__container {
-    padding: 0;
+    padding-right: 60px; 
   }
-  
+}
+
+@media (max-width: 768px) {
+  /* 1. ГЛАВНАЯ ОБЕРТКА (Прозрачный контейнер) */
+  /* Теперь это просто флекс-контейнер на всю ширину экрана с отступами */
+  .header {
+    width: calc(100% - 32px); /* По 16px отступы по краям */
+    top: 10px;
+    padding: 0; /* Убираем внутренние отступы, они будут у островка */
+    background: transparent; /* Обертка прозрачная */
+    box-shadow: none; /* Тень убираем с обертки */
+    backdrop-filter: none;
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Расстояние между белым островком и кнопкой ЛК */
+    border-radius: 0;
+  }
+
+  /* Отключаем градиентную рамку на мобилке с главной обертки */
+  .header::before {
+    display: none; 
+  }
+  .header__container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px; /* Радиус как у мобильного островка */
+    padding: 2px;
+    background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, black) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    /* Точка старта анимации - там, где находится кнопка курса на телефоне (примерно в 80px от правого края) */
+    clip-path: circle(0px at calc(100% - 80px) 50%);
+    transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .header--course-mode .header__container::before {
+    clip-path: circle(150% at calc(100% - 80px) 50%);
+  }
+
+  /* Добавляем фиолетовое свечение самому островку */
+  .header--course-mode .header__container {
+    box-shadow: 0 10px 40px color-mix(in srgb, var(--color-accent) 25%, transparent);
+    transition: box-shadow 0.7s ease;
+  }
+
+  /* 2. БЕЛЫЙ ОСТРОВОК (Левая часть с кнопками и бургером) */
+  .header__container {
+    flex: 1; /* Занимает всё доступное место */
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+  }
+
+  /* Внутрянка белого островка */
   .header__right {
     gap: 12px;
   }
@@ -334,12 +388,11 @@
     min-width: 0; 
     padding: 6px 14px; 
     font-size: 14px;   
-    gap: 6px;         
+    gap: 6px;        
   }
 
   .header__course-btn:hover {
     transform: none;
-    /* На телефоне оставляем свечение, но не двигаем кнопку */
     box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
   
@@ -355,6 +408,34 @@
 
   .course-text-desk { display: none; }
   .course-text-mob { display: inline; }
+
+  /* 3. КНОПКА ЛК (Второй мини-островок справа) */
+  .header__floating-profile {
+    display: flex;
+    position: static; /* Ставим в общий поток рядом с островком */
+    transform: none;
+    flex-shrink: 0; /* Не даем ей сплющиваться */
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); /* Такая же тень, как у островка */
+    border: none;
+    border-radius: 50%; /* Идеальный круг */
+  }
+
+  .header__floating-profile:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Специфичные стили для режима ЛК на телефоне */
+  .header__lk-back-btn {
+    padding: 10px 16px;
+  }
+  .header__lk-back-btn .course-text-desk {
+    display: none;
+  }
+  .header__lk-back-btn .course-text-mob {
+    display: inline;
+  }
 }
 
 @media (max-width: 400px) {
@@ -366,6 +447,10 @@
   }
   .header__right {
     gap: 8px; 
+  }
+  .header__floating-profile {
+      width: 42px;
+      height: 42px;
   }
 }
 
@@ -492,5 +577,53 @@
   }
   .header__lk-back-btn .course-text-mob {
     display: inline;
+  }
+}
+
+
+/* =========================================
+   --- АДАПТИВ ---
+========================================= */
+@media (max-width: 1300px) {
+  .header__floating-profile {
+    right: 10px;
+    width: 44px;
+    height: 44px;
+  }
+  .header__container {
+    padding-right: 60px; 
+  }
+}
+
+@media (max-width: 768px) {
+  /* Делаем главную обертку шапки Flex-контейнером с отступами по краям экрана */
+  .header {
+    width: calc(100% - 32px); /* Ширина экрана минус отступы (по 16px с краев) */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между главным островком и кнопкой ЛК */
+  }
+
+  /* Главный белый островок занимает всё доступное место */
+  .header__container {
+    flex: 1;
+    padding-right: 20px; /* Возвращаем стандартный отступ */
+    margin: 0;
+  }
+
+  /* Плавающая кнопка возвращается в поток и становится вторым мини-островком */
+  .header__floating-profile {
+    display: flex; /* На всякий случай, если ты её скрывал */
+    position: static; /* Убираем абсолютное позиционирование */
+    transform: none; /* Убираем смещение по вертикали */
+    flex-shrink: 0; /* Чтобы кнопка не сплющивалась */
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06); /* Красивая отдельная тень */
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .header__floating-profile:hover {
+    transform: translateY(-2px); /* Возвращаем анимацию ховера */
   }
 }
