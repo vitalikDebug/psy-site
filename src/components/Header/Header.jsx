@@ -138,7 +138,7 @@ export default function Header() {
 
             <div className="header__right">
               <AnimatePresence mode="wait">
-                <motion.div 
+               <motion.div 
                   key={isCoursePage ? 'course-btn' : 'main-btn'}
                   variants={fadeVariants}
                   initial="hidden"
@@ -161,6 +161,8 @@ export default function Header() {
                   )}
                 </motion.div>
               </AnimatePresence>
+
+             
 
               <button className="header__burger-btn" onClick={toggleMenu} aria-label="Меню">
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}

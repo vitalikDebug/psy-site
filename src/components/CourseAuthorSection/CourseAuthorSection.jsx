@@ -75,8 +75,7 @@ export default function CourseAuthorSection() {
 
 useEffect(() => {
     if (sliderRef.current && trackRef.current) {
-      // Даем React небольшую задержку (через setTimeout), 
-      // чтобы DOM успел обновиться перед замерами ширины
+
       const timeoutId = setTimeout(() => {
         if (!sliderRef.current || !trackRef.current) return;
         
