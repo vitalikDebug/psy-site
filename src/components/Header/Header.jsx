@@ -36,6 +36,7 @@ export default function Header() {
   const { openModal, selectedService } = useModal();
 
   const isCoursePage = pathname === '/course';
+  
   const isLkPage = pathname.startsWith('/lk');
 
   const activeNavLinks = isCoursePage ? courseNavLinks : mainNavLinks;
@@ -53,6 +54,7 @@ export default function Header() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+  if (pathname.startsWith('/blog/')) return null;
 
   return (
     <>

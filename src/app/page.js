@@ -33,6 +33,7 @@ export default function Home() {
       {/* Секции теперь сами используют useModal(), им не нужны пропсы */}
       <HeroSection />
       <AboutSection />
+      <BeforeAfterSection />
       <CourseAuthorSection />
       <ProblemSection />
       <CauseSection />
@@ -40,7 +41,7 @@ export default function Home() {
       <ServicesSection />
       <ApproachSection />
       <ResultsSection />
-      <BeforeAfterSection />
+
       <ReviewsSection />
       <ProcessSection />
       <FAQSection />

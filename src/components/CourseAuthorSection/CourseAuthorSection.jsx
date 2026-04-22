@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, Clock, HelpCircle, Rocket, ArrowRight } from 'lucide-react';
+import { Briefcase, Clock, HelpCircle, Rocket, ArrowRight, Mic } from 'lucide-react'; 
 import './CourseAuthorSection.css';
 
 const categories = [
@@ -13,16 +13,18 @@ const categories = [
   { id: 'adults', title: 'О взрослых', icon: Briefcase, color: '#D98A5B', bg: '#F7E5D4' },
   { id: 'kids', title: 'О детях', icon: Clock, color: '#5B9A56', bg: '#D4E8D0' },
   { id: 'faq', title: 'Частые вопросы', icon: HelpCircle, color: '#6C758F', bg: '#E2E4E9' },
-  { id: 'start', title: 'С чего начать', icon: Rocket, color: '#A078C4', bg: '#F3E1F5' }
+  { id: 'start', title: 'С чего начать', icon: Rocket, color: '#A078C4', bg: '#F3E1F5' },
+  { id: 'podcast', title: 'Подкасты', icon: Mic, color: '#FF7A00', bg: '#FFF0E5' }
 ];
 
 const blogPosts = [
+
   {
     id: 1,
-    categoryId: 'adults',
-    slug: 'adults-regrets',
-    title: 'Почему взрослые жалеют об упущенном времени?',
-    excerpt: 'У меня много взрослых клиентов. И как бы странно это ни звучало, ко мне регулярно обращаются взрослые люди. Заикание к этому возрасту обрастает опытом, страхами и привычками...',
+    categoryId: 'podcast', 
+    slug: 'podcast-neurologist',
+    title: 'Подкаст: Психология и неврология заикания',
+    excerpt: 'Совместный выпуск с врачом-неврологом Евой Баль. Разбираем заикание с двух сторон: медицина и психология. Что работает, а что нет?',
   },
   {
     id: 2,
@@ -51,6 +53,41 @@ const blogPosts = [
     slug: 'school-intensive',
     title: 'Интенсив для школьников: как мы преодолеваем заикание',
     excerpt: 'Рассказываю подробно, потому что наша работа всегда намного больше, чем просто про речь. Мы работаем в трёх направлениях...',
+  },
+  {
+    id: 6,
+    categoryId: 'kids', 
+    slug: 'teacher-anxiety',
+    title: 'Когда учитель неосознанно усиливает тревогу ребёнка',
+    excerpt: 'Верю, учителя не хотят навредить. Наоборот, они хотят включить ребёнка в процесс, подтянуть, поддержать, сделать сильнее. Но даже хорошие намерения могут усиливать тревогу...',
+  },
+  {
+    id: 7,
+    categoryId: 'kids', 
+    slug: 'books-emotions',
+    title: 'Книги для эмоционального развития ребёнка',
+    excerpt: 'Очень часто родители фокусируются только на речи ребёнка и ищут способы быстрее убрать запинки. При этом упускается важный момент: речь напрямую связана с эмоциями...',
+  },
+  {
+    id: 8,
+    categoryId: 'kids', 
+    slug: 'school-anxiety-parents',
+    title: 'Что делать родителям, если школа усиливает тревогу ребёнка?',
+    excerpt: 'Если вы замечаете, что ребёнок не хочет идти в школу, стал раздражительным, закрытым, тревожным, начал сильнее запинаться, не спешите считать это ленью или капризами...',
+  },
+    {
+    id: 9,
+    categoryId: 'adults',
+    slug: 'adults-regrets',
+    title: 'Почему взрослые жалеют об упущенном времени?',
+    excerpt: 'У меня много взрослых клиентов. И как бы странно это ни звучало, ко мне регулярно обращаются взрослые люди. Заикание к этому возрасту обрастает опытом, страхами и привычками...',
+  },
+  {
+    id: 10,
+    categoryId: 'kids',
+    slug: 'bullying-and-stuttering',
+    title: 'Про буллинг и заикание',
+    excerpt: 'Есть вещи, которые невозможно скрыть. Есть уязвимости, которые становятся видны сразу, ещё до слов. Заикание — одна из них...',
   }
 ];
 
