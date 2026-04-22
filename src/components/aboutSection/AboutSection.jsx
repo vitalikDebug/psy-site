@@ -3,11 +3,11 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Award, X, CheckCircle2 } from 'lucide-react';
-import { useModal } from '@/context/ModalContext'; // Подключаем модалку для записи
+import { Users, Award, X, CheckCircle2, XCircle, Heart, Shield, Sparkles } from 'lucide-react';
+import { useModal } from '@/context/ModalContext';
 import './AboutSection.css';
 
-// Твои данные для Bento
+// Данные для Bento
 const bentoCards = [
   { id: 'photo-1', type: 'photo', src: "/photo_2025-11-28_14-57-46.jpg", alt: "Юлия Шкаранда", name: "Юлия Шкаранда", role: "Психолог, Логопед" },
   { id: 'text-1', type: 'text', title: "Комплексный подход", text: "Работа с корнем проблемы через психологию, а не просто маскировка речевых симптомов." },
@@ -33,15 +33,20 @@ const itemVariants = {
   visible: { y: 0, opacity: 1, scale: 1, transition: { type: "spring", stiffness: 120, damping: 20 } }
 };
 
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
 export default function AboutSection() {
-  const { openModal } = useModal(); // Для кнопки в статье
+  const { openModal } = useModal();
   const [isSocialModalOpen, setIsSocialModalOpen] = useState(false);
   const [isDiplomaModalOpen, setIsDiplomaModalOpen] = useState(false);
 
   return (
     <section className="aboutSection" id='about'>
       
-      {/* 1 ЧАСТЬ: BENTO GRID (Факты и цифры) */}
+      {/* 1 ЧАСТЬ: BENTO GRID (Твоя классическая визитка) */}
       <div className="aboutSection__container">
         
         {/* --- ЛЕВАЯ КОЛОНКА: Текст --- */}
@@ -115,53 +120,127 @@ export default function AboutSection() {
                 </motion.div>
             ))}
         </motion.div>
+      </div>
+
+      {/* 2 ЧАСТЬ: МАНИФЕСТ И ВИДЕО (Новый контент) */}
+      <div className="about-story-wrapper">
+        
+        {/* БЛОК 1: МАНИФЕСТ */}
+        <motion.div 
+          className="about__intro"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUpVariants}
+        >
+          <div className="about__intro-text">
+            <h2 className="section-title">Заикание — это не то, что нужно «чинить»</h2>
+            <p className="intro-lead">
+              В моей работе заикание — не враг и не поломка. Это симптом, который показывает, где сейчас человеку слишком сложно. 
+            </p>
+            <div className="intro-principles">
+              <div className="principle-item">
+                <Heart className="principle-icon" />
+                <span><strong>Нет давления</strong> и попыток переделать</span>
+              </div>
+              <div className="principle-item">
+                <Shield className="principle-icon" />
+                <span><strong>Нет позиции</strong> «я знаю лучше»</span>
+              </div>
+              <div className="principle-item">
+                <Sparkles className="principle-icon" />
+                <span><strong>Только бережность</strong> и движение в вашем темпе</span>
+              </div>
+            </div>
+            <p className="intro-subtext">Использую логопедическое образование только как дополнительный способ помощи.</p>
+          </div>
+          
+          <div className="about__intro-video">
+            <div className="video-wrapper">
+              <iframe 
+                src="https://vkvideo.ru/video_ext.php?oid=-209029056&id=456239228&hash=7a9c8b8b8b8b8b8b" 
+                width="100%" 
+                height="100%" 
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" 
+                frameBorder="0" 
+                allowFullScreen
+                title="Видео-визитка Юлии"
+              ></iframe>
+            </div>
+            <span className="video-caption">Посмотрите бесплатный видео-урок и познакомьтесь со мной поближе</span>
+          </div>
+        </motion.div>
+
+        {/* БЛОК 2: КОМУ ПОДОЙДЕТ (ФИЛЬТРЫ) */}
+        <motion.div 
+          className="about__method"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUpVariants}
+        >
+          <div className="method-grid">
+            <div className="method-card fits-for">
+              <h3 className="card-title">Кому подойдёт такой формат:</h3>
+              <ul className="method-list">
+                <li><CheckCircle2 className="icon-check" /> <span>Родителям, которые устали переживать и стыдиться своих детей</span></li>
+                <li><CheckCircle2 className="icon-check" /> <span>Тем, кому надоели БАДы и дыхательные практики без результата</span></li>
+                <li><CheckCircle2 className="icon-check" /> <span>Тем, кто устал жить в кабинетах логопедов и неврологов</span></li>
+                <li><CheckCircle2 className="icon-check" /> <span>Взрослым, которые заикаются много лет и устали прятаться</span></li>
+              </ul>
+            </div>
+            <div className="method-card not-fits-for">
+              <h3 className="card-title">Кому НЕ подойдёт:</h3>
+              <ul className="method-list">
+                <li><XCircle className="icon-cross" /> <span>Тем, кто ищет «волшебную таблетку» и быстрый результат за день</span></li>
+                <li><XCircle className="icon-cross" /> <span>Тем, кто хочет «исправить» ребёнка, не меняясь и не глядя на себя</span></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="method-results">
+             <h3>Когда мы идем глубже, ребёнок выдыхает.</h3>
+             <p>Уходит постоянный контроль, появляется чувство безопасности, снижается тревога. Речь постепенно становится свободнее. Здесь нет гонки. Здесь есть путь.</p>
+          </div>
+        </motion.div>
+
+        {/* БЛОК 3: ОТЗЫВЫ */}
+        {/* <motion.div 
+          className="about__reviews"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUpVariants}
+        >
+          <h2 className="reviews-title">Мои клиенты теперь это понимают</h2>
+          <div className="reviews-scroll">
+         
+            <div className="review-card">
+              <img src="/review1.png" alt="Отзыв клиента" className="review-img" />
+            </div>
+            <div className="review-card">
+              <img src="/review2.png" alt="Отзыв клиента" className="review-img" />
+            </div>
+            <div className="review-card">
+              <img src="/review3.png" alt="Отзыв клиента" className="review-img" />
+            </div>
+          </div>
+          
+          <div className="about-story__footer" style={{ marginTop: '40px' }}>
+             <p>Если вам важен подход, где услышат не только слова, но и ваше состояние между ними — приглашаю в работу.</p>
+             <button 
+               className="about-btn about-btn--social" 
+               style={{ maxWidth: '300px', margin: '20px auto 0' }}
+               onClick={() => openModal('Консультация (Блок Обо мне)')}
+             >
+               Записаться на консультацию
+             </button>
+          </div>
+        </motion.div> */}
 
       </div>
 
-      {/* 2 ЧАСТЬ: ИСТОРИЯ И МЕТОД (Новый блок статьи) */}
-      <motion.div 
-        className="about-story-wrapper"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="about-story">
-          <h3 className="about-story__title">Вы часто спрашиваете меня: <br/> на чём основан мой метод?</h3>
-          
-          <div className="about-story__text-grid">
-            <div className="about-story__column">
-              <p>С удовольствием рассказываю вам, из чего складывается та система работы, благодаря которой мои клиенты — дети, подростки и взрослые — преодолевают заикание, находят голос и уверенность.</p>
-              <p>Мой путь начался с базового психологического образования. Я поступила на факультет психологии после школы. Интерес к психологии никогда не покидал меня.</p>
-              <p>Позже в моей жизни было разное: работа в системе образования, работа с детьми с ОВЗ, с семьями, с тревогами и страхами...</p>
-            </div>
-            
-            <div className="about-story__column">
-              <p>...страхами, которые чаще всего не видны на поверхности, но живут глубоко внутри — <strong>в дыхании, в паузах, в застывших взглядах.</strong></p>
-              <p>Я получила и дефектологическое образование, что дало мне возможность соединить внешнее с внутренним: речь как поведение и речь как проявление психики.</p>
-              <p>Так и формировался мой метод — как <strong>сплав логопедии, глубинной психологии и внимательного отношения к телу</strong>, к эмоциям, к опыту.</p>
-            </div>
-          </div>
-
-          <blockquote className="about-story__quote">
-            «Сегодня я не делю заикание на "проблему речи" или "тревожность". Я вижу в каждом человеке историю. И помогаю раскрыться — быть собой ❤️»
-          </blockquote>
-
-          <div className="about-story__footer">
-            <p>Если вам важен подход, где услышат не только слова, но и ваше состояние между ними — приглашаю в работу.</p>
-            <button 
-              className="about-btn about-btn--social" 
-              style={{ maxWidth: '300px', margin: '0 auto' }}
-              onClick={() => openModal('Консультация (Блок Обо мне)')}
-            >
-              Записаться на консультацию
-            </button>
-          </div>
-
-        </div>
-      </motion.div>
-
-      {/* --- МОДАЛЬНЫЕ ОКНА (Твои старые модалки) --- */}
+      {/* --- МОДАЛЬНЫЕ ОКНА (Оставляем как было) --- */}
       <AnimatePresence>
         {isSocialModalOpen && (
             <ModalOverlay onClose={() => setIsSocialModalOpen(false)}>

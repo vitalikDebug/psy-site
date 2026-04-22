@@ -1,6 +1,10 @@
 // src/app/blog/[slug]/page.js
+'use client';
+
+import { useState, use } from 'react';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { useParams, useSearchParams } from 'next/navigation';
+import { ArrowLeft, X, BookOpen } from 'lucide-react';
 import './BlogPost.css';
 
 const articleData = {
@@ -8,7 +12,7 @@ const articleData = {
         title: 'Может ли заикание пройти само с возрастом?',
         date: '12 Апреля 2024',
         category: 'Частые вопросы',
-        mainImage: '/photo_2026-03-27_20-59-20.jpg',
+        images: ['/photo_2026-03-27_20-59-20.jpg'],
         blocks: [
             { type: 'text', content: 'Это один из самых частых вопросов родителей. Многие надеются, что ребёнок перерастёт, привыкнет, станет старше, и речь выровняется сама.' },
             { type: 'text', content: 'Да, так бывает, заикание может пройти. Совсем. Без любого вмешательства. Но нет никакой гарантии, что это произойдёт, как и нет единого инструмента.' },
@@ -24,17 +28,46 @@ const articleData = {
                 ]
             },
             { type: 'text', content: 'И напряжение остаётся внутри. Поэтому с возрастом заикание чаще не уходит, а меняется. Речь может становиться более ровной, но появляется страх речи, контроль, избегание.' },
-            { type: 'quote', content: 'И уже подростки говорят:<br/>«Я знаю, что застряну»<br/>«Я заранее думаю, что не скажу»<br/>«Мне проще промолчать»' },
+            { type: 'quote', content: 'И уже подростки говорят:«Я знаю, что застряну»«Я заранее думаю, что не скажу»<br/>«Мне проще промолчать»' },
             { type: 'text', content: 'Поэтому важно не ждать, что всё пройдёт само. Если запинки держатся, усиливаются или ребёнок начинает переживать — лучше мягко помочь раньше.' },
             { type: 'text', content: 'Когда работа начинается вовремя, результат приходит быстрее и закрепляется легче. Ребёнок учится говорить спокойнее, увереннее и без постоянного контроля.' },
             { type: 'highlight', content: 'И часто родители уже в середине работы замечают, что ребёнок начинает свободнее говорить и меньше бояться речи 💜' },
+        ]
+    },
+    'podcast-neurologist': {
+        title: 'Подкаст: Психология и неврология заикания',
+        date: '10 Мая 2024',
+        category: 'Подкасты',
+
+        images: [],
+        blocks: [
+            { type: 'text', content: 'Ко мне часто обращаются родители и взрослые после долгих хождений по врачам. Мы решили объединить усилия и записали совместный подкаст с врачом-неврологом, рефлексотерапевтом Евой Баль.' },
+            { type: 'highlight', content: 'В этом выпуске мы разбираем заикание с двух сторон: медицинской и психологической. Спойлер: они не противоречат, а дополняют друг друга.' },
+
+            // НОВЫЙ ТИП БЛОКА: ВИДЕО!
+            {
+                type: 'video',
+                // Специальная ссылка для встраивания Rutube
+                url: 'https://rutube.ru/play/embed/462034c82474396e0b166a9edf1276c0'
+            },
+
+            { type: 'subtitle', content: 'О чём мы поговорили:' },
+            {
+                type: 'list', items: [
+                    'Где заканчивается работа невролога и начинается работа заиколога?',
+                    'Почему таблетки дают лишь временный эффект (и когда они реально нужны)?',
+                    'Как стресс и внутреннее напряжение блокируют речь на уровне тела?',
+                    'Что делать родителям, чтобы помочь, а не навредить?'
+                ]
+            },
+            { type: 'text', content: 'Приятного просмотра! Если после подкаста у вас останутся вопросы — буду рада ответить на них на личной консультации.' }
         ]
     },
     'adults-regrets': {
         title: 'Почему взрослые жалеют об упущенном времени?',
         date: '10 Апреля 2024',
         category: 'О взрослых',
-        mainImage: '/photo_2026-04-17_12-16-38.jpg',
+        images: ['/photo_2026-04-17_12-16-38.jpg'],
         blocks: [
             { type: 'text', content: 'У меня много взрослых клиентов. И как бы странно это ни звучало, потому что мой блог в основном про детей и коррекцию речи у детей, ко мне регулярно обращаются взрослые люди.' },
             { type: 'text', content: 'Часто они пишут, что давно читают, узнают себя в описаниях, вспоминают своё детство и понимают, что их запинки никуда не исчезли, просто со временем стали частью жизни.' },
@@ -54,7 +87,7 @@ const articleData = {
         title: 'Детские психотипы и речь',
         date: '15 Апреля 2024',
         category: 'О детях',
-        mainImage: '/photo_2026-04-17_16-32-20.jpg',
+        images: ['/photo_2026-04-17_16-32-20.jpg'],
         blocks: [
             { type: 'text', content: 'Очень часто родители приходят с запросом «что делать с речью», но если смотреть глубже, становится понятно, речь — это отражение состояния ребёнка.' },
             { type: 'text', content: 'Если упростить, можно выделить несколько психотипов, и у каждого из них есть не только особенности речи, но и поведения в целом.' },
@@ -81,7 +114,7 @@ const articleData = {
         title: 'Интенсив для школьников: Как мы преодолеваем заикание',
         date: '20 Апреля 2024',
         category: 'С чего начать',
-        mainImage: '/photo_2026-04-17_17-36-41.jpg',
+        images: ['/photo_2026-04-17_17-36-41.jpg'],
         blocks: [
             { type: 'text', content: 'Рассказываю подробно, потому что наша работа всегда намного больше, чем просто про речь.' },
             { type: 'highlight', content: 'Поэтому моя работа никогда не про «поставить речь». Она про создание пространства, где ребёнок может выдохнуть и перестать бояться.' },
@@ -94,11 +127,38 @@ const articleData = {
             { type: 'quote', content: 'Мы работаем как команда, потому что за каждым детским страхом часто стоит взрослый, который тоже долго не знал, что делать.' },
         ]
     },
+    'bullying-and-stuttering': {
+        title: 'Про буллинг и заикание',
+        date: '15 Мая 2024',
+        category: 'О детях',
+        images: [],
+        blocks: [
+            { type: 'text', content: 'Есть вещи, которые невозможно скрыть. Есть уязвимости, которые становятся видны сразу, ещё до слов. Заикание — одна из них.' },
+            { type: 'highlight', content: 'Там, где слабость может восприниматься как повод для насмешки, ребёнок с заиканием часто оказывается мишенью. Не потому, что он недостаточно умен. И не потому, что с ним что-то «не так». А потому, что его уязвимость обнажена.' },
+            { type: 'text', content: 'Буллинг — это не только про чужую жестокость. Это про внутреннюю рану, которая начинает кровоточить сильнее.' },
+
+            { type: 'subtitle', content: 'Ребёнок начинает верить:' },
+            {
+                type: 'list', items: [
+                    'Я — странный.',
+                    'Я — неправильный.',
+                    'Я — проблема.'
+                ]
+            },
+
+            { type: 'text', content: 'И тогда заикание перестаёт быть просто нарушением речи. Оно становится домом для страха. Для стыда. Для самоотвержения. С каждым днём укрепляя в ребёнке ложное ощущение: «Я один. И выхода нет».' },
+            { type: 'highlight', content: 'Но правда в другом. Выход — есть. Путь — есть. И он начинается не только с исправления речи.' },
+            { type: 'text', content: 'Он начинается с возвращения доверия к миру. С бережной помощи, с ощущения поддержки. С того, чтобы рядом был взрослый, который смотрит на ребёнка не через призму «дефекта», а через призму любви.' },
+            { type: 'text', content: 'На наших встречах мы работаем с заиканием. Но ещё глубже — мы работаем с травмой. С тревогой быть «не таким». С разрешением быть собой.' },
+
+            { type: 'quote', content: 'Путь непростой. Но когда ребёнок снова начинает говорить — легко, свободно, с улыбкой — вместе с речью к нему возвращается самое важное: вера в себя и своё право звучать в этом мире ❤️' },
+        ]
+    },
     'tactless-questions': {
         title: 'Бестактные вопросы про запинки. Как реагировать родителям?',
         date: '25 Апреля 2024',
         category: 'Частые вопросы',
-        mainImage: '/photo_2026-04-07_22-34-25.jpg',
+        images: ['/photo_2026-04-07_22-34-25.jpg'],
         blocks: [
             { type: 'text', content: 'Часто такие вопросы звучат прямо при ребёнке.' },
             { type: 'list', items: ['«А почему ваш ребёнок заикается?»', '«Он у вас испугался?»'] },
@@ -108,14 +168,114 @@ const articleData = {
             { type: 'quote', content: 'Порой самая поддерживающая фраза очень простая: <br/>«Он скажет сам».' },
         ]
     },
+    'teacher-anxiety': {
+        title: 'Когда учитель неосознанно усиливает тревогу ребёнка',
+        date: '28 Апреля 2024',
+        category: 'О детях',
+        images: ['/photo_2026-04-21_15-08-07.jpg'],
+        blocks: [
+            { type: 'text', content: 'Верю, учителя не хотят навредить. Наоборот, они хотят включить ребёнка в процесс, подтянуть, поддержать, сделать сильнее.' },
+            { type: 'highlight', content: 'НО даже хорошие намерения могут усиливать тревогу ребёнка, особенно если он чувствительный, застенчивый, если живёт в постоянном внутреннем напряжении.' },
+            { type: 'subtitle', content: 'Как это происходит?' },
+            { type: 'text', content: 'Учитель неожиданно вызывает к доске. Для одного ребёнка это обычная ситуация, а для другого — сильный стресс. Пока он идёт к доске, внутри уже паника.' },
+            { type: 'text', content: 'Учитель торопит с ответом. Фразы «быстрее», «ну что ты молчишь», «давай думай» для тревожного ребёнка звучат как давление. В этот момент мыслить становится ещё сложнее.' },
+            { type: 'text', content: 'Учитель исправляет при всём классе. Даже мягкое замечание при других детях может восприниматься как стыд и публичный провал.' },
+            { type: 'text', content: 'Учитель сравнивает с другими детьми. «Вот Маша ответила, а ты почему нет?»' },
+            { type: 'text', content: 'Учитель делает акцент на ошибках. Если ребёнок слышит в основном замечания, у него постепенно формируется страх пробовать.' },
+            { type: 'subtitle', content: 'Как это проявляется дома?' },
+            {
+                type: 'list', items: [
+                    'Ребёнок не хочет идти в школу',
+                    'Долго делает уроки',
+                    'Плачет из-за мелочей',
+                    'Говорит, что болит живот или голова',
+                    'Становится раздражительным или закрытым',
+                    'Плохо спит',
+                    'Начинает хуже говорить, сильнее запинаться или бояться отвечать'
+                ]
+            },
+            { type: 'text', content: 'Очень часто родители думают, что ребёнок ленится или капризничает. Но за этим может стоять накопленная школьная тревога.' },
+            { type: 'quote', content: 'Что с этим делать родителям, расскажу в следующем посте! 💜' },
+        ]
+    },
+    'books-emotions': {
+        title: 'Книги для эмоционального развития ребёнка',
+        date: '2 Май 2024',
+        category: 'О детях',
+        images: [
+            '/photo_2026-04-22_13-37-54.jpg',
+            '/photo_2026-04-22_13-37-57.jpg'
+        ],
+        blocks: [
+            { type: 'text', content: 'Очень часто родители фокусируются только на речи ребёнка и ищут способы, как быстрее убрать запинки или сделать речь более правильной и чёткой. При этом упускается важный момент, что речь напрямую связана с эмоциональным состоянием ребёнка и тем, как он проживает свои внутренние переживания.' },
+            { type: 'text', content: 'Когда ребёнок не понимает, что с ним происходит внутри, он не может это выразить словами и начинает реагировать через тело, через напряжение, через страх и контроль. Именно это внутреннее напряжение очень часто усиливает запинки и делает речь более сложной и зажатой.' },
+
+            {
+                type: 'books',
+                items: [
+                    { author: 'Виктория Шиманская', title: 'Где живут эмоции? Практические задания для развития эмоционального интеллекта', link: 'https://ozon.ru' },
+                    { author: 'Виктория Шиманская', title: 'Эмоциональный интеллект для детей и родителей', link: 'https://ozon.ru' },
+                    { author: 'Наталья Ремиш', title: 'Просто о важном. Про Миру и Гошу', link: 'https://ozon.ru' },
+                    { author: 'Наталья Ремиш', title: 'Просто о важном. Новые истории про Миру и Гошу', link: 'https://ozon.ru' },
+                    { author: 'Наталья Ремиш', title: 'Это мои эмоции', link: 'https://ozon.ru' },
+                    { author: 'Орели Шьен Шо Шин', title: 'Эмоции Гастона (серия книг)', link: 'https://ozon.ru' }
+                ]
+            },
+
+            { type: 'highlight', content: 'Важно не просто читать такие книги, а обсуждать их вместе с ребёнком, задавать вопросы, интересоваться его мнением и давать ему время на ответ.' },
+            { type: 'text', content: 'Сохраните себе список! Если есть вопросы, пишите, я на связи 💜' },
+        ]
+    },
+    'school-anxiety-parents': {
+        title: 'Что делать родителям, если школа усиливает тревогу ребёнка?',
+        date: '5 Мая 2024',
+        category: 'О детях',
+        // Указываем массив с 1 фотографией (чтобы она открылась на всю ширину)
+        images: ['/photo_2026-04-22_14-47-49.jpg'],
+        blocks: [
+            { type: 'text', content: 'Если вы замечаете, что ребёнок не хочет идти в школу, стал раздражительным, закрытым, тревожным, начал сильнее запинаться или отмалчиваться, не спешите считать это ленью или капризами.' },
+
+            { type: 'subtitle', content: '1. Первое, что важно сделать — спокойно поговорить с ребёнком' },
+            { type: 'text', content: 'Можно спросить так:' },
+            {
+                type: 'list', items: [
+                    'Что у тебя сейчас происходит в школе?',
+                    'Тебе там тяжело?',
+                    'Есть уроки, куда не хочется идти?',
+                    'Когда тебе в школе больше всего неприятно?',
+                    'Бывает, что тебя торопят отвечать?',
+                    'Есть кто-то, с кем тебе некомфортно?',
+                    'Бывает, что хочется промолчать и ничего не говорить?',
+                    'Что тебе сейчас в школе даётся тяжелее всего?'
+                ]
+            },
+            { type: 'highlight', content: 'Главное не перебивать, не спорить с его чувствами, не игнорировать их, успокаивая или уменьшая значимость ситуации.' },
+
+            { type: 'subtitle', content: '2. Второй шаг — быть на стороне ребёнка' },
+            { type: 'text', content: 'Не на стороне школы, не на стороне оценок. Для него важно понимать, что дома его поддержат. Нет, вам не нужно конфликтовать с учителями. Вам важно показать: «Я вижу, как тебе тяжело, мы будем разбираться вместе».' },
+
+            { type: 'subtitle', content: '3. Снизить напряжение дома' },
+            { type: 'text', content: 'Дальше важно снизить напряжение дома. Не встречать после школы только вопросами про оценки и уроки. Дать выдохнуть, поесть, побыть в тишине, переключиться.' },
+            { type: 'text', content: 'Помогают простые вещи: прогулка, спокойный вечер, объятия, разговор перед сном, немного времени вместе без нравоучений.' },
+
+            { type: 'subtitle', content: '4. Поговорите с учителем' },
+            { type: 'text', content: 'Если вы понимаете, что ребёнку реально тяжело, обязательно поговорите с учителем! Говорите открыто о чувствах ребёнка, от том, как тяжело он реагирует на давление, что ему нужен более спокойный подход.' },
+            { type: 'text', content: 'Не всем родителям легко идти в школу, открываться. Но если ситуация вредит ребёнку, важно помнить: позиция родителя становится для него защитой.' },
+
+            { type: 'quote', content: 'Будьте рядом. Будьте за своего ребёнка 💜' },
+        ]
+    }
 };
 
-export default async function BlogPost({ params, searchParams }) {
-    const { slug } = await params;
-    const currentSearchParams = await searchParams;
+export default function BlogPost() {
+    const params = useParams();
+    const searchParams = useSearchParams();
 
-    const from = currentSearchParams?.from || 'course';
+    // Безопасно достаем данные
+    const slug = params?.slug;
+    const from = searchParams?.get('from') || 'course';
     const post = articleData[slug];
+    const [zoomedImage, setZoomedImage] = useState(null);
 
     if (!post) {
         return (
@@ -126,73 +286,189 @@ export default async function BlogPost({ params, searchParams }) {
         );
     }
 
-    // ДОБАВИЛИ #author К ССЫЛКАМ
     const backLink = from === 'home' ? '/#author' : '/course#author';
     const backText = from === 'home' ? 'На главную' : 'К курсу';
 
     return (
-        <main className="blogPostPage">
-            <article className="article-container">
+        <>
 
-                <Link href={backLink} className="article-back-btn">
-                    <ArrowLeft size={20} />
-                    <span>{backText}</span>
-                </Link>
-
-                <header className="article-header">
-                    <div className="article-meta">
-                        <span className="article-category">{post.category}</span>
-                        <span className="article-date">{post.date}</span>
-                    </div>
-                    <h1 className="article-title">{post.title}</h1>
-                </header>
-
-                {post.mainImage && (
-                    <div className="article-image">
-                        <img src={post.mainImage} alt={post.title} />
-                    </div>
-                )}
-
-                <div className="article-content">
-                    {post.blocks.map((block, index) => {
-                        if (block.type === 'text') {
-                            return <p key={index}>{block.content}</p>;
-                        }
-                        if (block.type === 'subtitle') {
-                            return <h3 key={index} className="article-block-subtitle">{block.content}</h3>;
-                        }
-                        if (block.type === 'highlight') {
-                            return (
-                                <div key={index} className="article-block-highlight">
-                                    <p>{block.content}</p>
-                                </div>
-                            );
-                        }
-                        if (block.type === 'quote') {
-                            return (
-                                <blockquote key={index} className="article-block-quote" dangerouslySetInnerHTML={{ __html: block.content }} />
-                            );
-                        }
-                        if (block.type === 'list') {
-                            return (
-                                <ul key={index} className="article-block-list">
-                                    {block.items.map((item, i) => (
-                                        <li key={i}>
-                                            <span className="clip">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                </svg>
-                                            </span>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            );
-                        }
-                        return null;
-                    })}
+            <header className="article-top-island">
+                <div className="island-left">
+                    <Link href={backLink} className="island-back-btn">
+                        <ArrowLeft size={18} />
+                        <span className="course-text-desk">{backText}</span>
+                    </Link>
                 </div>
-            </article>
-        </main>
+
+                <div className="island-center">
+                    <h2 className="island-title">{post.title}</h2>
+                    <div className="island-meta">
+                        <span className="meta-tag">{post.category}</span>
+                        <span className="meta-dot">•</span>
+                        <span className="meta-date">{post.date}</span>
+                    </div>
+                </div>
+
+                <div className="island-right">
+                    <div className="island-share">
+                        <button className="island-share-btn" aria-label="VK">
+                            <svg width="28" height="28" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="512" cy="512" r="512" fill="#2787f5" />
+                                <path d="M585.83 271.5H438.17c-134.76 0-166.67 31.91-166.67 166.67v147.66c0 134.76 31.91 166.67 166.67 166.67h147.66c134.76 0 166.67-31.91 166.67-166.67V438.17c0-134.76-32.25-166.67-166.67-166.67zm74 343.18h-35c-13.24 0-17.31-10.52-41.07-34.62-20.71-20-29.87-22.74-35-22.74-7.13 0-9.17 2-9.17 11.88v31.57c0 8.49-2.72 13.58-25.12 13.58-37 0-78.07-22.4-106.93-64.16-43.45-61.1-55.33-106.93-55.33-116.43 0-5.09 2-9.84 11.88-9.84h35c8.83 0 12.22 4.07 15.61 13.58 17.31 49.9 46.17 93.69 58 93.69 4.41 0 6.45-2 6.45-13.24v-51.6c-1.36-23.76-13.92-25.8-13.92-34.28 0-4.07 3.39-8.15 8.83-8.15h55c7.47 0 10.18 4.07 10.18 12.9v69.58c0 7.47 3.39 10.18 5.43 10.18 4.41 0 8.15-2.72 16.29-10.86 25.12-28.17 43.11-71.62 43.11-71.62 2.38-5.09 6.45-9.84 15.28-9.84h35c10.52 0 12.9 5.43 10.52 12.9-4.41 20.37-47.18 80.79-47.18 80.79-3.73 6.11-5.09 8.83 0 15.61 3.73 5.09 16 15.61 24.1 25.12 14.94 17 26.48 31.23 29.53 41.07 3.45 9.84-1.65 14.93-11.49 14.93z" fill="#fff" />
+                            </svg>
+                        </button>
+                        <button className="island-share-btn" aria-label="TG">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16" cy="16" r="14" fill="url(#paint0_linear_87_7225)" />
+                                <path d="M22.9866 10.2088C23.1112 9.40332 22.3454 8.76755 21.6292 9.082L7.36482 15.3448C6.85123 15.5703 6.8888 16.3483 7.42147 16.5179L10.3631 17.4547C10.9246 17.6335 11.5325 17.541 12.0228 17.2023L18.655 12.6203C18.855 12.4821 19.073 12.7665 18.9021 12.9426L14.1281 17.8646C13.665 18.3421 13.7569 19.1512 14.314 19.5005L19.659 22.8523C20.2585 23.2282 21.0297 22.8506 21.1418 22.1261L22.9866 10.2088Z" fill="white" />
+                                <defs>
+                                    <linearGradient id="paint0_linear_87_7225" x1="16" y1="2" x2="16" y2="30" gradientUnits="userSpaceOnUse">
+                                        <stop stopColor="#37BBFE" />
+                                        <stop offset="1" stopColor="#007DBB" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </button>
+                        <button className="island-share-btn wa" aria-label="WA">
+                            <svg width="18" height="18" viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#000" d="M350.4,9.6C141.8,20.5,4.1,184.1,12.8,390.4c3.8,90.3,40.1,168,48.7,253.7,2.2,22.2-4.2,49.6,21.4,59.3,31.5,11.9,79.8-8.1,106.2-26.4,9-6.1,17.6-13.2,24.2-22,27.3,18.1,53.2,35.6,85.7,43.4,143.1,34.3,299.9-44.2,369.6-170.3C799.6,291.2,622.5-4.6,350.4,9.6h0ZM269.4,504c-11.3,8.8-22.2,20.8-34.7,27.7-18.1,9.7-23.7-.4-30.5-16.4-21.4-50.9-24-137.6-11.5-190.9,16.8-72.5,72.9-136.3,150-143.1,78-6.9,150.4,32.7,183.1,104.2,72.4,159.1-112.9,316.2-256.4,218.6h0Z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main className="blogPostPage">
+                <article className="article-container">
+                    <header className="article-header">
+                        <span className="article-super-tag">{post.category}</span>
+                        <h1 className="article-title">{post.title}</h1>
+
+                        <div className="article-author-block">
+
+                            <div className="author-avatar-placeholder">
+                                Ю
+                            </div>
+                            <div className="author-info">
+                                <span className="author-name">Юлия</span>
+                                <div className="author-meta">
+                                    <span>{post.date}</span>
+                                    <span className="meta-dot">•</span>
+                                    <span>Читать 4 мин</span>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* ИЗОБРАЖЕНИЯ (КЛИКАБЕЛЬНЫЕ) */}
+                    {post.images && post.images.length > 0 && (
+                        <div className={`article-hero-images ${post.images.length === 2 ? 'two-images' : 'single-image'}`}>
+                            {post.images.map((src, index) => (
+                                <div
+                                    key={index}
+                                    className="article-hero-image-wrapper"
+                                    onClick={() => setZoomedImage(src)}
+                                    title="Нажмите, чтобы увеличить"
+                                >
+                                    <img src={src} alt={`${post.title} - Изображение ${index + 1}`} />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="article-content">
+                        {post.blocks.map((block, index) => {
+                            if (block.type === 'text') return <p key={index}>{block.content}</p>;
+                            if (block.type === 'subtitle') return <h3 key={index} className="article-block-subtitle">{block.content}</h3>;
+                            if (block.type === 'highlight') return <div key={index} className="article-block-highlight"><p>{block.content}</p></div>;
+                            if (block.type === 'quote') return <blockquote key={index} className="article-block-quote" dangerouslySetInnerHTML={{ __html: block.content }} />;
+                            if (block.type === 'list') {
+                                return (
+                                    <ul key={index} className="article-block-list">
+                                        {block.items.map((item, i) => (
+                                            <li key={i}>
+                                                <span className="clip">
+                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                </span>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                );
+                            }
+                            if (block.type === 'video') {
+                                return (
+                                    <div key={index} className="article-video-wrapper">
+                                        <iframe
+                                            src={block.url}
+                                            frameBorder="0"
+                                            allow="clipboard-write; autoplay"
+                                            webkitAllowFullScreen
+                                            mozallowfullscreen
+                                            allowFullScreen
+                                            title="Подкаст"
+                                        ></iframe>
+                                    </div>
+                                );
+                            }
+                            if (block.type === 'books') {
+                                return (
+                                    <div key={index} className="article-block-books">
+                                        <div className="books-header">
+                                            <BookOpen size={24} className="books-icon" />
+                                            <h3>Рекомендуемая литература</h3>
+                                        </div>
+                                        <ul className="books-list">
+                                            {block.items.map((book, i) => (
+                                                <li key={i} className="book-item">
+                                                    <span className="book-author">{book.author}</span>
+                                                    <a href={book.link} target="_blank" rel="noopener noreferrer" className="book-title-link">
+                                                        «{book.title}»
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })}
+                    </div>
+                    <div className="related-articles-section">
+                        <h3 className="related-title">Читайте также:</h3>
+                        <div className="related-grid">
+                            {Object.keys(articleData)
+                                .filter(key => key !== slug) // Исключаем текущую статью
+                                .slice(0, 2) // Берем 2 другие статьи (можно изменить логику выбора)
+                                .map(key => {
+                                    const relatedPost = articleData[key];
+                                    return (
+                                        <Link href={`/blog/${key}?from=${from}`} key={key} className="related-card">
+                                            <span className="related-category">{relatedPost.category}</span>
+                                            <h4 className="related-post-title">{relatedPost.title}</h4>
+                                        </Link>
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
+                </article>
+            </main>
+
+            {/* МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ФОТО */}
+            {zoomedImage && (
+                <div className="lightbox-overlay" onClick={() => setZoomedImage(null)}>
+                    <button className="lightbox-close" onClick={() => setZoomedImage(null)}>
+                        <X size={32} color="#fff" />
+                    </button>
+                    <img
+                        src={zoomedImage}
+                        alt="Увеличенное изображение"
+                        className="lightbox-image"
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                </div>
+            )}
+        </>
     );
 }
