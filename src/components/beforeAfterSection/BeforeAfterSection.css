@@ -1,120 +1,283 @@
 /* src/components/BeforeAfterSection/BeforeAfterSection.css */
 
 .beforeAfterSection {
-  padding: 100px 0;
-  background-color: #ffffff; /* Секция теперь всегда белая */
-  overflow: hidden; /* Важно для корректной анимации вылета элементов */
+  position: relative;
+  padding: 120px 0;
+  background-color: #fdfbfe; /* Очень светлый нежный фон */
+  overflow: hidden;
 }
 
-.beforeAfterSection__container {
+/* --- ФОНОВЫЕ ИЛЛЮСТРАЦИИ И ГРАДИЕНТЫ --- */
+.ba-bg-elements {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ba-bg-pattern {
+  position: absolute;
+  top: 0; left: 0;
+  opacity: 0.6;
+}
+
+/* Цветные градиентные пятна (Mesh Gradients) */
+.ba-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: floatBlob 10s ease-in-out infinite alternate;
+}
+
+.ba-blob-1 {
+  top: -10%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #e5d5f2 0%, rgba(229, 213, 242, 0) 70%);
+}
+
+.ba-blob-2 {
+  bottom: -10%; right: -5%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #f3e1f5 0%, rgba(243, 225, 245, 0) 70%);
+  animation-delay: -5s;
+}
+
+@keyframes floatBlob {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(50px, 50px) scale(1.1); }
+}
+
+/* --- КОНТЕЙНЕР И ЗАГОЛОВОК --- */
+.ba-container {
+  position: relative;
+  z-index: 1; /* Поверх фоновых элементов */
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* --- ЗАГОЛОВОК СВЕРХУ --- */
-.beforeAfterSection__header {
-  font-family: var(--font-family-headings);
-  font-size: 36px;
+.ba-header {
   text-align: center;
   max-width: 800px;
   margin: 0 auto 60px;
+}
+
+.ba-header h2 {
+  font-family: var(--font-family-headings);
+  font-size: 42px;
   color: var(--color-text-dark);
-  line-height: 1.3;
+  margin-bottom: 16px;
+  line-height: 1.2;
 }
 
-.beforeAfterSection__header .highlight {
+.ba-header h2 .highlight {
   color: var(--color-accent);
-  font-style: italic;
 }
 
-/* --- ЦЕНТРАЛЬНЫЙ КОНТЕНТ (Flex) --- */
-.beforeAfterSection__content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 60px;
-  margin-bottom: 60px;
+.ba-header p {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  line-height: 1.6;
 }
 
-/* Левая часть с видео */
-.beforeAfterSection__video-wrapper {
-  flex: 0 0 400px;
-  height: 400px;
-  display: flex;
-  justify-content: center;
+/* --- СЕТКА (3 колонки) --- */
+.ba-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px 1fr;
+  gap: 30px;
   align-items: center;
 }
 
-/* --- СТИЛЬ ВИДЕО "TELEGRAM" --- */
-.telegram-video-container {
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  overflow: hidden;
+.ba-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Затемнение неактивной колонки */
+.ba-col.dimmed {
+  opacity: 0.3;
+  transform: scale(0.98);
+  pointer-events: none;
+}
+
+/* Заголовки колонок "ДО" и "ПОСЛЕ" */
+.ba-col-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 10px;
+}
+
+.ba-col-header h3 {
+  font-family: var(--font-family-headings);
+  font-size: 20px;
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+.ba-badge {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.ba-badge.error { background-color: #fee2e2; color: #ef4444; }
+.ba-badge.success { background-color: #dcfce3; color: #16a34a; }
+
+/* --- КАРТОЧКИ (Эффект стекла) --- */
+.ba-feature-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 24px;
+  border-radius: 24px;
+  display: flex;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+
+.ba-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ba-feature-card h4 {
+  font-family: var(--font-family-headings);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin: 0 0 6px 0;
+}
+
+.ba-feature-card p {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --- ЦЕНТРАЛЬНОЕ ВИДЕО --- */
+.ba-col-center {
+  align-items: center;
+  z-index: 5;
+}
+
+.ba-video-wrapper {
   position: relative;
-  box-shadow: 0 20px 40px rgba(160, 120, 196, 0.15); /* Лавандовая тень */
+  width: 100%;
+  height: 540px; 
+  border-radius: 32px;
+  box-shadow: 0 20px 50px rgba(160, 120, 196, 0.15); 
+
+  overflow: hidden; 
 }
 
-.telegram-video {
+.ba-video-inner {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  border-radius: 32px;
+  overflow: hidden;
+  background-color: #000;
+  position: relative; 
+}
+
+.ba-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
-/* Правая часть с текстом (Новая карточка с градиентом) */
-.beforeAfterSection__text-content {
-  flex: 0 1 500px;
-}
-
-.text-content-card {
-  background: linear-gradient(135deg, #f5eefa 0%, #e5d5f2 100%);
-  padding: 50px 40px;
-  border-radius: 30px;
-  box-shadow: 0 10px 30px rgba(160, 120, 196, 0.1);
-  min-height: 280px; /* Чтобы карточка не прыгала по высоте */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.beforeAfterSection__title {
-  font-family: var(--font-family-headings);
-  font-size: 28px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--color-accent); /* Сиреневый заголовок */
-  margin-bottom: 24px;
-}
-
-.beforeAfterSection__description {
-  font-family: var(--font-family-body);
-  font-size: 18px;
-  line-height: 1.6;
+.ba-mute-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
   color: var(--color-text-dark);
-}
-
-/* --- НИЖНЯЯ ЧАСТЬ: ПЕРЕКЛЮЧАТЕЛЬ --- */
-.beforeAfterSection__controls {
   display: flex;
+  align-items: center;
   justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+.ba-mute-btn:hover { transform: scale(1.05); color: var(--color-accent); }
+
+.ba-video-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  background-color: transparent;
+  transition: background-color 0.3s;
+  border-radius: 32px; 
 }
 
-/* Контейнер для кнопок (Градиент) */
-.toggle-container {
+.ba-video-inner:hover .ba-video-overlay,
+.ba-play-btn.visible {
+  background-color: rgba(0,0,0,0.2); 
+}
+
+.ba-play-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.ba-video-inner:hover .ba-play-btn,
+.ba-play-btn.visible { opacity: 1; transform: scale(1); }
+
+/* --- ПЕРЕКЛЮЧАТЕЛЬ --- */
+.ba-toggle-container {
   position: relative;
   display: flex;
-  background: linear-gradient(135deg, #f5eefa 0%, #e5d5f2 100%);
+  background-color: #fff;
   padding: 4px;
   border-radius: 40px;
-  width: 320px;
+  width: 100%;
   height: 56px;
-  box-shadow: 0 10px 20px rgba(160, 120, 196, 0.1);
+  margin-top: 16px;
+  box-shadow: 0 10px 25px rgba(160, 120, 196, 0.1);
+  border: 1px solid rgba(160, 120, 196, 0.1);
 }
 
-.toggle-btn {
+.ba-toggle-btn {
   flex: 1;
   position: relative;
   z-index: 2;
@@ -123,177 +286,58 @@
   font-family: var(--font-family-body);
   font-size: 16px;
   font-weight: 600;
-  /* Цвет неактивного текста */
-  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
+  color: color-mix(in srgb, var(--color-text-dark) 50%, transparent);
   cursor: pointer;
   transition: color 0.3s ease;
   border-radius: 36px;
 }
 
-.toggle-btn.active {
-  color: var(--color-text-dark);
-}
+.ba-toggle-btn.active { color: var(--color-text-dark); }
 
-/* Плавающий фон (белый овал) */
-.toggle-slider {
+.ba-toggle-slider {
   position: absolute;
   top: 4px;
-  width: calc(50% - 4px);
+  width: calc(50% - 6px);
   height: calc(100% - 8px);
-  background-color: var(--color-white);
+  background-color: #f3e1f5; /* Легкий лавандовый фон ползунка */
   border-radius: 36px;
   z-index: 1;
-  box-shadow: 0 2px 8px rgba(160, 120, 196, 0.2);
+  border: 1px solid rgba(160, 120, 196, 0.2);
 }
-
 
 /* =========================================
-   ВНЕШНЯЯ КНОПКА ЗВУКА И ОВЕРЛЕЙ ВИДЕО
+   --- АДАПТИВ ---
 ========================================= */
-.video-player-box {
-  position: relative;
-}
-
-.video-mute-btn-external {
-  position: absolute;
-  top: 15px;
-  right: -15px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: var(--color-white);
-  border: 1px solid color-mix(in srgb, var(--color-text-dark) 10%, transparent);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-dark);
-  cursor: pointer;
-  z-index: 20;
-  transition: all 0.3s ease;
-}
-
-.video-mute-btn-external:hover {
-  transform: scale(1.1);
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-}
-
-.video-overlay {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.telegram-video-container:hover .video-overlay,
-.video-play-btn.visible {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.video-play-btn {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-white);
-  cursor: pointer;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.3s ease;
-}
-
-.telegram-video-container:hover .video-play-btn,
-.video-play-btn.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.video-play-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1) !important;
-}
-
-
-/* =========================================
-   АДАПТИВ
-========================================= */
-@media (max-width: 900px) {
-  .beforeAfterSection__content {
-    flex-direction: column;
-    text-align: center;
-    gap: 40px; 
+@media (max-width: 1024px) {
+  .ba-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
   }
+  .ba-col-center {
+    order: -1; /* Видео встает наверх */
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .ba-col-left, .ba-col-right {
+    /* На планшете карточки не затемняем, а просто показываем все */
+    opacity: 1 !important; 
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .beforeAfterSection { padding: 80px 0; }
+  .ba-header h2 { font-size: 32px; }
   
-  .beforeAfterSection__video-wrapper {
-    flex: auto;
-    height: auto;
-  }
-
-  .telegram-video-container {
-    width: 320px;
-    height: 320px;
-  }
+  .ba-video-wrapper { height: 460px; }
+  .ba-feature-card { flex-direction: column; gap: 12px; }
   
-  .beforeAfterSection__text-content {
-    flex: none;
-    width: 100%;
-    max-width: 500px;
-  }
-
-  .text-content-card {
-    padding: 40px 30px;
-  }
-}
-
-@media (max-width: 600px) {
-  .beforeAfterSection {
-    padding: 60px 0;
-  }
-
-  .beforeAfterSection__header {
-    font-size: 24px;
-    margin-bottom: 40px;
-  }
-
-  .telegram-video-container {
-    width: 280px;
-    height: 280px;
-  }
+  /* Мобильная магия: показываем карточки только того таба, который активен на видео */
+  .ba-col { display: none; }
+  .ba-col.dimmed { display: none !important; }
+  .ba-col:not(.dimmed) { display: flex; }
   
-  .beforeAfterSection__title {
-    font-size: 20px;
-    margin-bottom: 16px;
-  }
-
-  .beforeAfterSection__description {
-    font-size: 16px;
-  }
-
-  .toggle-container {
-    width: 100%;
-    max-width: 320px;
-  }
-
-  .video-mute-btn-external {
-    width: 42px;
-    height: 42px;
-    top: 5px;
-    right: 0px; 
-  }
-
-  .video-play-btn {
-    width: 60px;
-    height: 60px;
-  }
+  /* Возвращаем центр всегда */
+  .ba-col-center { display: flex; }
 }
