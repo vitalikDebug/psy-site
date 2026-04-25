@@ -24,7 +24,7 @@ const servicesData = [
     note: 'Обязательный первый шаг',
     buttonText: 'Записаться',
     topTags: ['Онлайн', 'С чего начать'],
-    image: '/a6ad3d85-3a4b-458a-8506-4571583d3640.png', 
+    image: '/IMG_2438.png', 
     bgColor: 'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)'
   },
   {
@@ -43,7 +43,7 @@ const servicesData = [
     note: 'Для любого возраста',
     buttonText: 'Записаться',
     topTags: ['Онлайн', 'Хит продаж 🔥'],
-    image: '/ChatGPT_Image_19_._2026_._00_31_40.png', 
+    image: '/IMG_2437.png', 
     bgColor: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)'
   },
   {
@@ -62,7 +62,7 @@ const servicesData = [
     note: 'Бережный старт',
     buttonText: 'Записаться',
     topTags: ['Специалисту', 'Практика'],
-    image: '/ChatGPT_Image_19_._2026_._00_32_08.png',
+    image: '/IMG_2439.png',
     bgColor: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'
   },
   {
@@ -81,7 +81,7 @@ const servicesData = [
     note: 'Глубокая проработка',
     buttonText: 'Записаться',
     topTags: ['Глубокая работа', 'VIP'],
-    image: '/ChatGPT_Image_19_._2026_._00_31_52.png', 
+    image: '/IMG_2440.png', 
     bgColor: 'linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%)'
   },
   {
@@ -100,7 +100,7 @@ const servicesData = [
     note: 'Конфиденциально',
     buttonText: 'Записаться',
     topTags: ['18+', 'Индивидуально'],
-    image: '/ChatGPT_Image_19_._2026_._00_31_48.png',
+    image: '/IMG_2441.png',
     bgColor: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)'
   }
 ];

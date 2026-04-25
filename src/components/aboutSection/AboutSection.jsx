@@ -68,7 +68,7 @@ export default function AboutSection() {
 
          <motion.ul className="aboutSection__stats-list" variants={itemVariants}>
             <li>Более 15 лет работы с семьями</li>
-            <li>Более 5000 часов коррекционной работы</li>
+            <li>Более 15000 часов коррекционной работы</li>
             <li>Индивидуальный подход к каждой ситуации</li>
           </motion.ul>
           
@@ -134,7 +134,7 @@ export default function AboutSection() {
           variants={fadeUpVariants}
         >
           <div className="about__intro-text">
-            <h2 className="section-title">Заикание — это не то, что нужно «чинить»</h2>
+            <h2 className="section-title">Заикание — не то, что нужно «чинить»</h2>
             <p className="intro-lead">
               В моей работе заикание — не враг и не поломка. Это симптом, который показывает, где сейчас человеку слишком сложно. 
             </p>
@@ -152,7 +152,7 @@ export default function AboutSection() {
                 <span><strong>Только бережность</strong> и движение в вашем темпе</span>
               </div>
             </div>
-            <p className="intro-subtext">Использую логопедическое образование только как дополнительный способ помощи.</p>
+            <p className="intro-subtext">Использую логопедические методы только как дополнительные способы помощи...</p>
           </div>
           
           <div className="about__intro-video">
@@ -200,7 +200,7 @@ export default function AboutSection() {
           
           <div className="method-results">
              <h3>Когда мы идем глубже, ребёнок выдыхает.</h3>
-             <p>Уходит постоянный контроль, появляется чувство безопасности, снижается тревога. Речь постепенно становится свободнее. Здесь нет гонки. Здесь есть путь.</p>
+             <p>Уходит постоянный контроль, появляется чувство безопасности, снижается тревога. Речь постепенно становится свободнее.</p>
           </div>
         </motion.div>
 

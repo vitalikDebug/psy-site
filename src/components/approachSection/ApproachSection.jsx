@@ -119,7 +119,7 @@ export default function ApproachSection() {
               >
                 {item.type === 'photo' && (
                   <div className="approachItem__photo-bg">
-                    <img src="/photo_2025-11-28_14-58-13.jpg" alt="Юлия Шкаранда" />
+                    <img src="/ChatGPT Image 25 апр. 2026 г., 23_49_39.png" alt="Юлия Шкаранда" />
                     <div className="approachItem__photo-overlay"></div>
                   </div>
                 )}
