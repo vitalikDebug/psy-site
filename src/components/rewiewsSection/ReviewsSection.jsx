@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowLeft, ArrowRight } from 'lucide-react'; // Добавили стрелочки
+import { X, ArrowLeft, ArrowRight } from 'lucide-react'; 
 import './ReviewsSection.css';
 
 const reviewsData = [
@@ -70,11 +70,10 @@ const getAuraColor = (id) => {
   return colors[id % colors.length];
 };
 
-// Анимация слайдера, которая учитывает направление (вперед/назад)
 const sliderVariants = {
   enter: (direction) => ({
     opacity: 0,
-    x: direction > 0 ? 50 : -50 // Выезжает справа, если вперед. Слева, если назад.
+    x: direction > 0 ? 50 : -50 
   }),
   center: {
     opacity: 1,
@@ -83,19 +82,18 @@ const sliderVariants = {
   },
   exit: (direction) => ({
     opacity: 0,
-    x: direction > 0 ? -50 : 50, // Уезжает влево, если вперед. Вправо, если назад.
+    x: direction > 0 ? -50 : 50, 
     transition: { duration: 0.3, ease: "easeIn" }
   })
 };
 
 export default function ReviewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = вперед, -1 = назад
+  const [direction, setDirection] = useState(1); 
   const [selectedReview, setSelectedReview] = useState(null);
 
   const visibleReviews = reviewsData.slice(currentIndex, currentIndex + 2);
   
-  // Управление кнопками
   const hasNext = currentIndex + 2 < reviewsData.length;
   const hasPrev = currentIndex > 0;
 
@@ -131,7 +129,6 @@ export default function ReviewsSection() {
         <div className="reviewsSection__header">
           <h2 className="reviewsSection__title">Истории моих клиентов</h2>
           
-          {/* СТРЕЛОЧКИ НАВИГАЦИИ (выводим справа от заголовка или под ним) */}
           <div className="reviewsSection__nav">
             <button 
               className="reviewsSection__nav-btn" 
@@ -153,7 +150,6 @@ export default function ReviewsSection() {
         </div>
 
         <div className="reviewsSection__slider-wrapper">
-          {/* custom={direction} передает направление в sliderVariants */}
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div 
               key={currentIndex}
@@ -177,7 +173,6 @@ export default function ReviewsSection() {
                   </div>
                   
                   <div className="reviewCard__author">
-                    {/* ЭМОДЗИ ВМЕСТО АВАТАРКИ */}
                     <div className="reviewCard__emoji">{review.emoji}</div>
                     <div className="reviewCard__author-info">
                       <span className="reviewCard__name">{review.author}</span>
@@ -189,6 +184,26 @@ export default function ReviewsSection() {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {/* НОВЫЙ БЛОК: ССЫЛКА НА ВСЕ ОТЗЫВЫ */}
+        <motion.div 
+          className="reviewsSection__footer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <a 
+            href="https://t.me/+SUnACUvkFpYzZjYy" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="reviewsSection__tg-link"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M23.1117 4.49449C23.4296 2.94472 21.9074 1.65683 20.4317 2.227L2.3425 9.21601C0.694517 9.85273 0.621087 12.1572 2.22518 12.8975L6.1645 14.7157L8.03849 21.2746C8.13583 21.6153 8.40618 21.8791 8.74917 21.968C9.09216 22.0568 9.45658 21.9576 9.70712 21.707L12.5938 18.8203L16.6375 21.8531C17.8113 22.7334 19.5019 22.0922 19.7967 20.6549L23.1117 4.49449ZM3.0633 11.0816L21.1525 4.0926L17.8375 20.2531L13.1 16.6999C12.7019 16.4013 12.1448 16.4409 11.7929 16.7928L10.5565 18.0292L10.928 15.9861L18.2071 8.70703C18.5614 8.35278 18.5988 7.79106 18.2947 7.39293C17.9906 6.99479 17.4389 6.88312 17.0039 7.13168L6.95124 12.876L3.0633 11.0816ZM8.17695 14.4791L8.78333 16.6015L9.01614 15.321C9.05253 15.1209 9.14908 14.9366 9.29291 14.7928L11.5128 12.573L8.17695 14.4791Z" fill="currentColor"/>
+            </svg>
+            Читать больше отзывов в Telegram
+          </a>
+        </motion.div>
 
       </div>
 

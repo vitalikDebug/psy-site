@@ -11,37 +11,37 @@ const resultsData = [
     number: "95%",
     text: "Родителей отмечают значительное снижение напряжения и тревоги у ребенка.",
     // ЗАМЕНИТЕ НА ВАШ ПУТЬ К ФОТО (например: "/photo_calm_child.jpg")
-    image: "/parent_standing.png" 
+    image: "/IMG_2442.png" 
   },
   {
     id: 2,
     number: "9 из 10",
     text: "Клиентов перестают испытывать панический страх перед общением и публикой.",
-    image: "/fear.png"
+    image: "/IMG_2443.png"
   },
   {
     id: 3,
     number: "~80%",
     text: "Снижение частоты и силы запинок. Речь становится плавной и естественной.",
-    image: "/smooth_speech.png"
+    image: "/IMG_2444.png"
   },
   {
     id: 4,
     number: "100%",
-    text: "Рост уверенности в себе (по субъективной оценке взрослых и детей).",
-    image: "/growing_confidence.png"
+    text: "Рост уверенности в себе.",
+    image: "/IMG_2445.png"
   },
   {
     id: 5,
     number: "500+",
     text: "Учеников начали спокойно отвечать у доски, не боясь поднять руку.",
-    image: "/class.jpg"
+    image: "/IMG_2446.png"
   },
   {
     id: 6,
     number: "3x",
     text: "Меньше навязчивого контроля над каждым словом и звуком.",
-    image: "/abcd.jpg"
+    image: "/ChatGPT Image 25 апр. 2026 г., 23_55_21.png"
   }
 ];
 

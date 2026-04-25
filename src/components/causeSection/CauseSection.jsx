@@ -47,7 +47,7 @@ export default function CauseSection() {
           <motion.div className="causeItem causeItem--intro" variants={itemVariants}>
             <h3 className="causeItem__title">Это не проблема звуков</h3>
             <p className="causeItem__text">
-              Заикание — это реакция нервной системы на напряжение. Когда появляется страх речи, мозг начинает гипертрофированно контролировать каждый звук, что приводит к физическому ступору.
+              Заикание — это реакция нервной системы на напряжение. Когда человек начинает фиксировать внимание на речи, усиливается контроль, появляется страх ошибиться, и именно это напряжение начинает мешать свободному и естественному потоку речи
             </p>
           </motion.div>
 
@@ -56,7 +56,7 @@ export default function CauseSection() {
             <div className="causeItem__step-num">01</div>
             <h3 className="causeItem__title">Напряжение</h3>
             <p className="causeItem__text">
-              Возникает волнение перед общением, звонком или сложной ситуацией. Тело мобилизуется, связки зажимаются.
+              Возникает волнение перед общением, звонком или сложной ситуацией. Тело напрягается, связки зажимаются.
             </p>
           </motion.div>
 
@@ -89,7 +89,7 @@ export default function CauseSection() {
 
           {/* Итог (Широкий блок снизу) */}
           <motion.div className="causeItem causeItem--outro" variants={itemVariants}>
-             <h3 className="causeItem__title">Порочный круг замыкается</h3>
+             <h3 className="causeItem__title">Круг замыкается</h3>
              <p className="causeItem__text">
               Одно цепляется за другое, усиливая симптом с каждым разом. Именно поэтому так важно работать с первопричиной — страхом и напряжением, а не только механически тренировать речь.
              </p>

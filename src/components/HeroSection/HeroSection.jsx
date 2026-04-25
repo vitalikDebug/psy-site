@@ -82,7 +82,7 @@ export default function HeroSection() {
           <motion.div variants={photoVariants} className="heroTop__right">
             <div className="hero-main-photo">
               {/* ЗАМЕНИ на свою лучшую вертикальную фотографию */}
-              <img src="/photo_2025-11-28_14-58-17.jpg" alt="Юлия Шкаранда" />
+              <img src="/photo_2025-11-28_14-58-13.jpg" alt="Юлия Шкаранда" />
               
               {/* Парящая плашка поверх фото */}
               <div className="hero-floating-card">
@@ -121,7 +121,7 @@ export default function HeroSection() {
 
           {/* Карточка 2: Светлая (Часы) */}
           <motion.div variants={itemVariants} className="statCard statCard--light">
-            <span className="statCard__number statCard__number--accent">5000+</span>
+            <span className="statCard__number statCard__number--accent">15000+</span>
             <span className="statCard__label">Часов работы</span>
           </motion.div>
 
