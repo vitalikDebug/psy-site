@@ -24,7 +24,6 @@ const problemTags = [
   'Волнение перед школой'
 ];
 
-// Анимация слайдов (выезд слева направо или справа налево)
 const slideVariants = {
   enter: (direction) => ({
     x: direction > 0 ? 50 : -50,
@@ -46,9 +45,10 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Состояние загрузки
 
   const [formData, setFormData] = useState({
-    type: 'child', // 'child' или 'adult'
+    type: 'child', 
     name: '',
     age: '',
     phone: '',
@@ -58,7 +58,6 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
     selectedTags: []
   });
 
-  // При открытии модалки устанавливаем курс (если передан) и сбрасываем шаги
   useEffect(() => {
     if (isOpen) {
       setStep(1);
@@ -66,7 +65,6 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
       setFormData(prev => ({
         ...prev,
         course: initialService || '',
-        // Если выбран курс "Для взрослых", логично сразу переключить тип
         type: initialService === 'Для взрослых' ? 'adult' : 'child'
       }));
     }
@@ -86,20 +84,40 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
 
   const handleClose = () => {
     onClose();
-    // Небольшая задержка перед очисткой формы, чтобы не ломать анимацию закрытия
     setTimeout(() => {
       setStep(1);
       setFormData({
         type: 'child', name: '', age: '', phone: '', city: '', course: '', problemText: '', selectedTags: []
       });
+      setIsSubmitting(false);
     }, 300);
   };
 
-  const handleSubmit = () => {
-    // Здесь будет логика отправки в Telegram/Почту
-    console.log('Отправка данных:', formData);
-    setDirection(1);
-    setStep(4); // Переход к экрану успеха
+  // ОБНОВЛЕННЫЙ МЕТОД ОТПРАВКИ ЗАЯВКИ
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setDirection(1);
+        setStep(4); // Переход к экрану успеха
+      } else {
+        alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+      }
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      alert('Произошла ошибка сети. Проверьте подключение к интернету.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleTag = (tag) => {
@@ -111,24 +129,22 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
     });
   };
 
-  // Рассчитываем прогресс бар (3 шага заполнения)
   const progressPercent = step <= 3 ? ((step - 1) / 2) * 100 : 100;
 
   return (
     <div className="contactModal__overlay" onClick={handleClose}>
       <motion.div 
-  className={`contactModal__card ${isDropdownOpen ? 'dropdown-open' : ''}`}
-  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-  animate={{ opacity: 1, scale: 1, y: 0 }}
-  exit={{ opacity: 0, scale: 0.95, y: 20 }}
-  transition={{ type: "spring", damping: 25, stiffness: 300 }}
-  onClick={e => e.stopPropagation()}
->
+        className={`contactModal__card ${isDropdownOpen ? 'dropdown-open' : ''}`}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        onClick={e => e.stopPropagation()}
+      >
         <button className="contactModal__close" onClick={handleClose}>
           <X size={20} />
         </button>
 
-        {/* Прогресс бар отображается только на шагах 1-3 */}
         {step <= 3 && (
           <div className="contactModal__progress-container">
             <div className="contactModal__progress-header">
@@ -246,49 +262,46 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
                   />
                 </div>
 
-               <div className="contactModal__input-group" style={{ zIndex: 10 }}>
-  <label>Выбранный формат</label>
-  {/* ВОТ ЭТУ ОБЕРТКУ МЫ ДОБАВИЛИ: */}
-  <div className="contactModal__custom-select">
-    
-    <div 
-      className={`contactModal__select-header ${isDropdownOpen ? 'open' : ''}`}
-      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-    >
-      <span className={formData.course ? 'selected' : 'placeholder'}>
-        {formData.course || 'Выберите формат работы...'}
-      </span>
-      <ChevronDown size={18} className="contactModal__select-icon" />
-    </div>
+                <div className="contactModal__input-group" style={{ zIndex: 10 }}>
+                  <label>Выбранный формат</label>
+                  <div className="contactModal__custom-select">
+                    <div 
+                      className={`contactModal__select-header ${isDropdownOpen ? 'open' : ''}`}
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    >
+                      <span className={formData.course ? 'selected' : 'placeholder'}>
+                        {formData.course || 'Выберите формат работы...'}
+                      </span>
+                      <ChevronDown size={18} className="contactModal__select-icon" />
+                    </div>
 
-    <AnimatePresence>
-      {isDropdownOpen && (
-        <motion.ul 
-          className="contactModal__select-dropdown"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2 }}
-        >
-          {courseOptions.map(opt => (
-            <li 
-              key={opt}
-              className={`contactModal__select-option ${formData.course === opt ? 'active' : ''}`}
-              onClick={() => {
-                setFormData({...formData, course: opt});
-                setIsDropdownOpen(false);
-              }}
-            >
-              {opt}
-              {formData.course === opt && <CheckCircle2 size={16} className="contactModal__select-check" />}
-            </li>
-          ))}
-        </motion.ul>
-      )}
-    </AnimatePresence>
-
-  </div> {/* Закрываем новую обертку */}
-</div>
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.ul 
+                          className="contactModal__select-dropdown"
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {courseOptions.map(opt => (
+                            <li 
+                              key={opt}
+                              className={`contactModal__select-option ${formData.course === opt ? 'active' : ''}`}
+                              onClick={() => {
+                                setFormData({...formData, course: opt});
+                                setIsDropdownOpen(false);
+                              }}
+                            >
+                              {opt}
+                              {formData.course === opt && <CheckCircle2 size={16} className="contactModal__select-check" />}
+                            </li>
+                          ))}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
+                  </div> 
+                </div>
 
                 <div className="contactModal__footer two-cols">
                   <button className="contactModal__btn-back" onClick={handlePrev}>
@@ -343,14 +356,15 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
                 </div>
 
                 <div className="contactModal__footer two-cols">
-                  <button className="contactModal__btn-back" onClick={handlePrev}>
+                  <button className="contactModal__btn-back" onClick={handlePrev} disabled={isSubmitting}>
                     Назад
                   </button>
                   <button 
                     className="contactModal__btn-submit" 
                     onClick={handleSubmit}
+                    disabled={isSubmitting} // Блокируем кнопку, пока идет отправка
                   >
-                    Отправить заявку
+                    {isSubmitting ? 'Отправляем...' : 'Отправить заявку'}
                   </button>
                 </div>
               </motion.div>
