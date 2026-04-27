@@ -24,7 +24,7 @@ const servicesData = [
     note: 'Обязательный первый шаг',
     buttonText: 'Записаться',
     topTags: ['Онлайн', 'С чего начать'],
-    image: '/IMG_2438.png', 
+    image: '/servicesImg_2438.png.png', 
     bgColor: 'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)'
   },
   {
