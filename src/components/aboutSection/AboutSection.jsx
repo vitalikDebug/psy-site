@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Award, X, CheckCircle2, XCircle, Heart, Shield, Sparkles } from 'lucide-react';
+import { Users, Award, X, CheckCircle2, XCircle, Heart, Shield, Sparkles, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
 import './AboutSection.css';
 
@@ -18,9 +18,11 @@ const bentoCards = [
 ];
 
 const diplomas = [
-  "/diplomas/diploma-1.jpg",
-  "/diplomas/diploma-2.jpg",
-  "/diplomas/diploma-3.jpg",
+  "/diplomas/file-001.png",
+  "/diplomas/file-002.png",
+  "/diplomas/file-003.png",
+  "/diplomas/file-004.png",
+  "/diplomas/file-005.png",
 ];
 
 const containerVariants = {
@@ -42,11 +44,23 @@ export default function AboutSection() {
   const { openModal } = useModal();
   const [isSocialModalOpen, setIsSocialModalOpen] = useState(false);
   const [isDiplomaModalOpen, setIsDiplomaModalOpen] = useState(false);
+  
+  // Состояния для слайдера дипломов
+  const [currentDiplomaIndex, setCurrentDiplomaIndex] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false); // Для полноэкранного просмотра
+
+  const nextDiploma = () => {
+    setCurrentDiplomaIndex((prev) => (prev === diplomas.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevDiploma = () => {
+    setCurrentDiplomaIndex((prev) => (prev === 0 ? diplomas.length - 1 : prev - 1));
+  };
 
   return (
     <section className="aboutSection" id='about'>
       
-      {/* 1 ЧАСТЬ: BENTO GRID (Твоя классическая визитка) */}
+      {/* 1 ЧАСТЬ: BENTO GRID */}
       <div className="aboutSection__container">
         
         {/* --- ЛЕВАЯ КОЛОНКА: Текст --- */}
@@ -122,10 +136,9 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* 2 ЧАСТЬ: МАНИФЕСТ И ВИДЕО (Новый контент) */}
+      {/* 2 ЧАСТЬ: МАНИФЕСТ И ВИДЕО */}
       <div className="about-story-wrapper">
         
-        {/* БЛОК 1: МАНИФЕСТ */}
         <motion.div 
           className="about__intro"
           initial="hidden"
@@ -171,7 +184,7 @@ export default function AboutSection() {
           </div>
         </motion.div>
 
-        {/* БЛОК 2: КОМУ ПОДОЙДЕТ (ФИЛЬТРЫ) */}
+        {/* БЛОК КОМУ ПОДОЙДЕТ */}
         <motion.div 
           className="about__method"
           initial="hidden"
@@ -203,44 +216,9 @@ export default function AboutSection() {
              <p>Уходит постоянный контроль, появляется чувство безопасности, снижается тревога. Речь постепенно становится свободнее.</p>
           </div>
         </motion.div>
-
-        {/* БЛОК 3: ОТЗЫВЫ */}
-        {/* <motion.div 
-          className="about__reviews"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeUpVariants}
-        >
-          <h2 className="reviews-title">Мои клиенты теперь это понимают</h2>
-          <div className="reviews-scroll">
-         
-            <div className="review-card">
-              <img src="/review1.png" alt="Отзыв клиента" className="review-img" />
-            </div>
-            <div className="review-card">
-              <img src="/review2.png" alt="Отзыв клиента" className="review-img" />
-            </div>
-            <div className="review-card">
-              <img src="/review3.png" alt="Отзыв клиента" className="review-img" />
-            </div>
-          </div>
-          
-          <div className="about-story__footer" style={{ marginTop: '40px' }}>
-             <p>Если вам важен подход, где услышат не только слова, но и ваше состояние между ними — приглашаю в работу.</p>
-             <button 
-               className="about-btn about-btn--social" 
-               style={{ maxWidth: '300px', margin: '20px auto 0' }}
-               onClick={() => openModal('Консультация (Блок Обо мне)')}
-             >
-               Записаться на консультацию
-             </button>
-          </div>
-        </motion.div> */}
-
       </div>
 
-      {/* --- МОДАЛЬНЫЕ ОКНА (Оставляем как было) --- */}
+      {/* --- МОДАЛЬНОЕ ОКНО: СОЦСЕТИ --- */}
       <AnimatePresence>
         {isSocialModalOpen && (
             <ModalOverlay onClose={() => setIsSocialModalOpen(false)}>
@@ -259,24 +237,92 @@ export default function AboutSection() {
         )}
       </AnimatePresence>
 
+      {/* --- МОДАЛЬНОЕ ОКНО: ДИПЛОМЫ (СЛАЙДЕР) --- */}
       <AnimatePresence>
         {isDiplomaModalOpen && (
-            <ModalOverlay onClose={() => setIsDiplomaModalOpen(false)} wide>
-                <h3 className="modal-title" style={{marginBottom: '30px'}}>Образование и квалификация</h3>
-                <div className="diplomas-grid">
-                    {diplomas.map((src, index) => (
-                        <div key={index} className="diploma-item">
-                            <div style={{width:'100%', height:'250px', background: '#eee', display:'flex', alignItems:'center', justifyContent:'center', color: '#999'}}>Диплом {index+1}</div>
-                        </div>
-                    ))}
+            <ModalOverlay onClose={() => { setIsDiplomaModalOpen(false); setIsZoomed(false); }} wide>
+                
+                <div className="diploma-slider-header">
+                  <h3 className="modal-title">Образование и квалификация</h3>
+                  <p className="diploma-counter">{currentDiplomaIndex + 1} / {diplomas.length}</p>
                 </div>
+
+                <div className="diploma-slider-container">
+                  <button className="diploma-nav-btn prev" onClick={prevDiploma}>
+                    <ChevronLeft size={28} />
+                  </button>
+
+                  <div className="diploma-image-wrapper" onClick={() => setIsZoomed(true)}>
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={currentDiplomaIndex}
+                        src={diplomas[currentDiplomaIndex]}
+                        alt={`Диплом Юлии Шкаранда ${currentDiplomaIndex + 1}`}
+                        className="diploma-active-image"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </AnimatePresence>
+                    <div className="diploma-zoom-hint">
+                      <ZoomIn size={20} />
+                      <span>Нажмите, чтобы увеличить</span>
+                    </div>
+                  </div>
+
+                  <button className="diploma-nav-btn next" onClick={nextDiploma}>
+                    <ChevronRight size={28} />
+                  </button>
+                </div>
+
+                {/* Миниатюры (Dots) */}
+                <div className="diploma-thumbnails">
+                  {diplomas.map((_, idx) => (
+                    <button 
+                      key={idx} 
+                      className={`diploma-thumb ${idx === currentDiplomaIndex ? 'active' : ''}`}
+                      onClick={() => setCurrentDiplomaIndex(idx)}
+                    />
+                  ))}
+                </div>
+
             </ModalOverlay>
         )}
       </AnimatePresence>
+
+      {/* --- ПОЛНОЭКРАННЫЙ ПРОСМОТР ДИПЛОМА (ZOOM) --- */}
+      <AnimatePresence>
+        {isZoomed && (
+          <motion.div 
+            className="diploma-zoom-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsZoomed(false)}
+          >
+            <button className="diploma-zoom-close" onClick={() => setIsZoomed(false)}>
+              <X size={32} />
+            </button>
+            <motion.img
+              src={diplomas[currentDiplomaIndex]}
+              alt="Диплом крупным планом"
+              className="diploma-zoomed-image"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()} // Чтобы клик по самой картинке не закрывал её
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }
 
+// Компонент обертки модального окна
 function ModalOverlay({ children, onClose, wide = false }) {
     return (
         <motion.div className="about-modal-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
