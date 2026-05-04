@@ -1,231 +1,510 @@
 /* src/components/CourseModulesSection/CourseModulesSection.css */
 
-.modulesSection {
+.horizontalRoadmap {
+  position: relative;
   padding: 100px 0;
-  background-color: #fafafa;
+  overflow: hidden; 
+  min-height: 800px;
+  display: flex;
+  align-items: center;
 }
 
-.modulesSection__container {
-  max-width: var(--container-width);
+/* =========================================
+   ЖИВОЙ АБСТРАКТНЫЙ ФОН
+========================================= */
+.horizontalRoadmap__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #f8fafc;
+}
+
+.roadmap-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+}
+
+.roadmap-blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  animation: float-bg-1 12s infinite alternate ease-in-out;
+}
+
+.roadmap-blob-2 {
+  bottom: -10%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  animation: float-bg-2 15s infinite alternate ease-in-out;
+}
+
+@keyframes float-bg-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(150px, 100px) scale(1.1); }
+}
+
+@keyframes float-bg-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-150px, -100px) scale(1.2); }
+}
+
+.horizontalRoadmap__glass-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+
+/* =========================================
+   КОНТЕЙНЕР
+========================================= */
+.horizontalRoadmap__container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px; /* Увеличен для 5 карточек в ряд */
   margin: 0 auto;
   padding: 0 20px;
+  width: 100%;
 }
 
-.modulesSection__header {
+.horizontalRoadmap__header {
   text-align: center;
   margin-bottom: 60px;
 }
 
-.modulesSection__title {
+.horizontalRoadmap__title {
   font-family: var(--font-family-headings);
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 800;
-  color: var(--color-text-dark);
+  color: #1e293b;
   margin-bottom: 16px;
 }
 
-.modulesSection__subtitle {
+.horizontalRoadmap__subtitle {
   font-family: var(--font-family-body);
   font-size: 18px;
-  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  color: #475569;
 }
 
-/* --- СЕТКА: Лево (Аккордеон) | Право (Иллюстрация) --- */
-.modulesGrid {
+/* =========================================
+   СЕТКА 5x2 (ROADMAP)
+========================================= */
+.roadmapSteps__wrapper {
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+.roadmapSteps__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: flex-start;
-}
-
-/* --- ЛЕВАЯ КОЛОНКА (Аккордеон) --- */
-.modulesAccordion {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.accordionItem {
-  background-color: var(--color-white);
-  border-radius: 24px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-  overflow: hidden;
-  border: 1px solid rgba(0,0,0,0.02);
-  transition: all 0.3s ease;
-}
-
-/* Активный модуль выделяем легкой тенью и цветной границей */
-.accordionItem--active {
-  box-shadow: 0 15px 35px rgba(160, 120, 196, 0.1);
-  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
-}
-
-.accordionItem__header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 30px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-}
-
-.accordionItem__title {
-  font-family: var(--font-family-headings);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-text-dark);
-  padding-right: 20px;
-  transition: color 0.3s ease;
-}
-
-.accordionItem--active .accordionItem__title {
-  color: var(--color-accent);
-}
-
-.accordionItem__icon {
-  color: color-mix(in srgb, var(--color-text-dark) 40%, transparent);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #f5f5f5;
-  transition: all 0.3s ease;
-}
-
-.accordionItem--active .accordionItem__icon {
-  background-color: var(--color-accent);
-  color: var(--color-white);
-}
-
-.accordionItem__body {
-  overflow: hidden;
-}
-
-.accordionItem__content {
-  padding: 0 30px 30px 30px;
-  font-family: var(--font-family-body);
-  font-size: 16px;
-  line-height: 1.6;
-  color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
-}
-
-/* Картинка для мобильных по умолчанию скрыта */
-.accordionItem__mobile-illus {
-  display: none;
-}
-
-
-/* --- ПРАВАЯ КОЛОНКА (Иллюстрация) --- */
-.modulesVisual {
+  grid-template-columns: repeat(5, 1fr);
+  row-gap: 50px;
+  column-gap: 20px;
   position: relative;
-  height: 100%;
 }
 
-/* Делаем ее липкой, чтобы она ехала за нами при скролле */
-.modulesVisual__sticky {
-  position: sticky;
-  top: 120px; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 550px; /* Увеличили высоту стенда, чтобы вместить картинку 450x450 */
-  
-  /* НОВЫЙ ФОН: Нежная карточка для разграничения */
-  background: linear-gradient(145deg, #ffffff 0%, #fcf9ff 100%);
-  border-radius: 40px; /* Большие скругления как у современных Apple-устройств */
-  box-shadow: 0 20px 50px rgba(0,0,0,0.04);
-  border: 1px solid rgba(255,255,255,0.8);
-  overflow: hidden; /* Чтобы свечение не вылезало за края стенда */
-}
-
-.modulesVisual__image-wrapper {
+/* Отдельный шаг */
+.roadmapStep {
   position: relative;
-  width: 100%;
-  max-width: 450px; /* УВЕЛИЧИЛИ РАЗМЕР КАРТИНКИ */
   z-index: 2;
   display: flex;
-  justify-content: center;
-}
-
-.modulesVisual__image-wrapper img {
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
   width: 100%;
-  height: auto;
-  max-height: 450px; /* Ограничиваем высоту */
-  object-fit: contain;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1)); 
 }
 
-/* Мягкое свечение сзади картинки */
-.modulesVisual__glow {
+/* Отрезок линии (идет от текущего маркера вправо к следующему) */
+.roadmapStep__line-segment {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px; /* Увеличили свечение */
-  height: 400px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 15%, transparent) 0%, transparent 70%);
-  border-radius: 50%;
+  top: 9px; /* Ровно по центру кружка (20px) */
+  left: 30px; /* Начинается чуть правее кружка */
+  right: -20px; /* Пересекает gap и доходит до следующего шага */
+  height: 2px;
+  background-color: #cbd5e1;
   z-index: 1;
 }
 
-/* --- АДАПТИВ --- */
-@media (max-width: 1024px) {
-  .modulesGrid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
+/* Прячем линию у последних элементов в ряду (5-й и 10-й) */
+.roadmapStep:nth-child(5n) .roadmapStep__line-segment {
+  display: none;
+}
 
-  /* На планшетах и телефонах прячем правую липкую колонку */
-  .modulesVisual {
+/* Кружок на линии */
+.roadmapStep__marker {
+  position: relative;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 4px solid #cbd5e1;
+  margin-bottom: 20px;
+  margin-left: 5px; /* Сдвиг кружка */
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.roadmapStep.active .roadmapStep__marker {
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+/* Стеклянная мини-карточка */
+.roadmapStep__card {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 16px 16px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.roadmapStep:hover .roadmapStep__card {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.roadmapStep.active .roadmapStep__card {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-color: #ffffff;
+  transform: translateY(-5px);
+}
+
+.roadmapStep__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.roadmapStep__num {
+  font-size: 11px;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+.roadmapStep.active .roadmapStep__num {
+  color: #1e293b;
+}
+
+.roadmapStep__title {
+  font-family: var(--font-family-headings);
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.3;
+}
+
+.roadmapStep.active .roadmapStep__title {
+  color: #0f172a;
+}
+
+/* =========================================
+   ЦЕНТРАЛЬНАЯ КАРТОЧКА ОПИСАНИЯ
+========================================= */
+.activeLesson__showcase {
+  display: flex;
+  justify-content: center;
+}
+
+.activeLesson__card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 30px;
+  padding: 50px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+.activeLesson__header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.activeLesson__badge {
+  display: inline-block;
+  padding: 6px 14px;
+  color: white;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.activeLesson__card-title {
+  font-family: var(--font-family-headings);
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.activeLesson__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activeLesson__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #334155;
+  background: rgba(255,255,255,0.5);
+  padding: 16px 20px;
+  border-radius: 16px;
+}
+
+.activeLesson__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* =========================================
+   АДАПТИВ (Планшеты и Телефоны)
+========================================= */
+
+/* Планшеты (3 в ряд) */
+@media (max-width: 1024px) {
+  .roadmapSteps__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Сбрасываем старую логику обрыва линии */
+  .roadmapStep:nth-child(5n) .roadmapStep__line-segment {
+    display: block; 
+  }
+  /* Обрываем линию на каждом 3-м элементе */
+  .roadmapStep:nth-child(3n) .roadmapStep__line-segment {
     display: none;
   }
+}
 
-  /* Вместо этого показываем картинку прямо внутри аккордеона! */
-  .accordionItem__mobile-illus {
+/* Телефоны (Вертикальный список) */
+@media (max-width: 768px) {
+  .horizontalRoadmap { padding: 60px 0; }
+  .horizontalRoadmap__title { font-size: 32px; }
+
+  /* Карточка описания переезжает наверх */
+  .horizontalRoadmap__container {
     display: flex;
-    justify-content: center;
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px dashed rgba(0,0,0,0.1);
+    flex-direction: column;
+  }
+  .activeLesson__showcase {
+    order: 1;
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    margin-bottom: 40px;
+  }
+  .activeLesson__card {
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+  .activeLesson__card-title { font-size: 24px; }
+  .activeLesson__list li { font-size: 15px; padding: 12px; }
+
+  /* Сетка становится вертикальной колонкой */
+  .roadmapSteps__wrapper {
+    order: 2;
+  }
+  .roadmapSteps__grid {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
   }
 
-  .accordionItem__mobile-illus img {
-    max-width: 200px;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+  .roadmapStep {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  /* Линия становится вертикальной! */
+  .roadmapStep__line-segment {
+    display: block !important; /* Отменяем все предыдущие nth-child */
+    top: 25px; /* Чуть ниже центра текущего кружка */
+    bottom: -25px; /* Тянется до следующего кружка */
+    left: 14px; /* Ровно по центру левого кружка */
+    width: 2px;
+    height: auto;
+    right: auto;
+  }
+  /* У самого последнего элемента линию убираем навсегда */
+  .roadmapStep:last-child .roadmapStep__line-segment {
+    display: none !important;
+  }
+
+  .roadmapStep__marker {
+    margin-bottom: 0;
+    margin-left: 5px;
+    margin-right: 20px;
+  }
+
+  .roadmapStep__card {
+    width: calc(100% - 45px);
+  }
+
+  .roadmapStep:hover .roadmapStep__card,
+  .roadmapStep.active .roadmapStep__card {
+    transform: translateX(5px); /* Анимация вправо, а не вверх */
   }
 }
 
-@media (max-width: 600px) {
-  .modulesSection { padding: 60px 0; }
-  .modulesSection__title { font-size: 32px; }
-  
-  .accordionItem__header {
-    padding: 20px;
-  }
-  .accordionItem__title {
-    font-size: 16px;
-  }
-  .accordionItem__content {
-    padding: 0 20px 20px 20px;
-    font-size: 15px;
-  }
+
+
+/* src/components/CourseModulesSection/CourseModulesSection.css */
+
+.horizontalRoadmap {
+  position: relative;
+  padding: 100px 0;
+  overflow: hidden; 
+  min-height: 800px;
+  display: flex;
+  align-items: center;
 }
 
-.module-svg-icon {
-  width: 100%;
-  max-width: 450px; 
-  height: auto;
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08)); 
+/* ФОН */
+.horizontalRoadmap__bg { position: absolute; inset: 0; z-index: 0; background-color: #f8fafc; }
+.roadmap-blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.6; }
+.roadmap-blob-1 { top: -10%; left: -10%; width: 600px; height: 600px; animation: float-bg-1 12s infinite alternate ease-in-out; }
+.roadmap-blob-2 { bottom: -10%; right: -10%; width: 500px; height: 500px; animation: float-bg-2 15s infinite alternate ease-in-out; }
+
+@keyframes float-bg-1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(150px, 100px) scale(1.1); } }
+@keyframes float-bg-2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-150px, -100px) scale(1.2); } }
+
+.horizontalRoadmap__glass-overlay {
+  position: absolute; inset: 0; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
 }
 
+/* КОНТЕЙНЕР */
+.horizontalRoadmap__container { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
+.horizontalRoadmap__header { text-align: center; margin-bottom: 60px; }
+.horizontalRoadmap__title { font-family: var(--font-family-headings); font-size: 42px; font-weight: 800; color: #1e293b; margin-bottom: 16px; }
+.horizontalRoadmap__subtitle { font-family: var(--font-family-body); font-size: 18px; color: #475569; }
+
+/* СЕТКА (ДЕСКТОП) */
+.roadmapSteps__wrapper { width: 100%; margin-bottom: 60px; }
+.roadmapSteps__grid { display: grid; grid-template-columns: repeat(5, 1fr); row-gap: 50px; column-gap: 20px; position: relative; }
+.roadmapStep { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; cursor: pointer; width: 100%; }
+
+/* Линия */
+.roadmapStep__line-segment {
+  position: absolute; top: 9px; left: 30px; right: -20px; height: 2px; background-color: #cbd5e1; z-index: 1;
+}
+.roadmapStep:nth-child(5n) .roadmapStep__line-segment { display: none; }
+
+/* Кружок */
+.roadmapStep__marker { position: relative; z-index: 2; width: 20px; height: 20px; border-radius: 50%; background: white; border: 4px solid #cbd5e1; margin-bottom: 20px; margin-left: 5px; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.roadmapStep.active .roadmapStep__marker { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.6); }
+
+/* Карточка */
+.roadmapStep__card { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 16px; padding: 16px 16px; width: 100%; transition: all 0.3s ease; }
+.roadmapStep:hover .roadmapStep__card { transform: translateY(-5px); background: rgba(255, 255, 255, 0.8); }
+.roadmapStep.active .roadmapStep__card { background: rgba(255, 255, 255, 1); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border-color: #ffffff; transform: translateY(-5px); }
+
+.roadmapStep__card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.roadmapStep__num { font-size: 11px; font-weight: 800; color: #94a3b8; letter-spacing: 1px; }
+.roadmapStep.active .roadmapStep__num { color: #1e293b; }
+.roadmapStep__title { font-family: var(--font-family-headings); font-size: 14px; font-weight: 600; color: #475569; line-height: 1.3; }
+.roadmapStep.active .roadmapStep__title { color: #0f172a; }
+
+/* СКРЫВАЕМ АККОРДЕОН НА ДЕСКТОПЕ */
+.roadmapStep__mobile-details-wrapper { display: none; }
+.desktop-only { display: flex; justify-content: center; }
+
+/* ЦЕНТРАЛЬНАЯ КАРТОЧКА (ДЕСКТОП) */
+.activeLesson__card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 30px; padding: 50px; width: 100%; max-width: 800px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05); }
+.activeLesson__header { margin-bottom: 30px; text-align: center; }
+.activeLesson__badge { display: inline-block; padding: 6px 14px; color: white; border-radius: 12px; font-size: 13px; font-weight: 800; letter-spacing: 1px; margin-bottom: 16px; }
+.activeLesson__card-title { font-family: var(--font-family-headings); font-size: 32px; font-weight: 700; color: #1e293b; }
+.activeLesson__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 20px; }
+.activeLesson__list li { display: flex; align-items: flex-start; gap: 16px; font-size: 18px; line-height: 1.6; color: #334155; background: rgba(255,255,255,0.5); padding: 16px 20px; border-radius: 16px; }
+.activeLesson__icon { flex-shrink: 0; margin-top: 2px; }
+
+/* =========================================
+   АДАПТИВ (Планшеты и Телефоны)
+========================================= */
 @media (max-width: 1024px) {
-  .module-svg-icon {
-    max-width: 250px;
+  .roadmapSteps__grid { grid-template-columns: repeat(3, 1fr); }
+  .roadmapStep:nth-child(5n) .roadmapStep__line-segment { display: block; }
+  .roadmapStep:nth-child(3n) .roadmapStep__line-segment { display: none; }
+}
+
+@media (max-width: 768px) {
+  .horizontalRoadmap { padding: 60px 0; }
+  .horizontalRoadmap__title { font-size: 32px; }
+
+  /* ПРЯЧЕМ БОЛЬШУЮ КАРТОЧКУ СНИЗУ */
+  .desktop-only { display: none !important; }
+
+  /* ПОКАЗЫВАЕМ АККОРДЕОН ВНУТРИ ШАГОВ */
+  .roadmapStep__mobile-details-wrapper {
+    display: block;
+    overflow: hidden;
+  }
+
+  .roadmapStep__mobile-list {
+    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;
+  }
+  
+  .roadmapStep__mobile-list li {
+    display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: #475569; background: rgba(255, 255, 255, 0.4); padding: 12px; border-radius: 12px;
+  }
+  .roadmapStep__mobile-icon { flex-shrink: 0; margin-top: 2px; }
+
+  /* ПЕРЕСТРАИВАЕМ СЕТКУ В ВЕРТИКАЛЬНУЮ ЛИНИЮ */
+  .roadmapSteps__grid {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+  }
+
+  .roadmapStep {
+    flex-direction: row;
+    align-items: flex-start; /* Выравнивание по верху, так как карточка может расти */
+  }
+
+  /* ВЕРТИКАЛЬНАЯ ЛИНИЯ, КОТОРАЯ РАСТЯГИВАЕТСЯ АВТОМАТИЧЕСКИ */
+  .roadmapStep__line-segment {
+    display: block !important;
+    top: 25px; 
+    bottom: -25px; /* Тянется до следующего узла даже при открытом аккордеоне! */
+    left: 14px; /* По центру левого кружка */
+    width: 2px;
+    height: auto;
+    right: auto;
+  }
+  .roadmapStep:last-child .roadmapStep__line-segment { display: none !important; }
+
+  .roadmapStep__marker {
+    margin-top: 4px; /* Чтобы кружок был ровно напротив заголовка */
+    margin-bottom: 0;
+    margin-left: 5px;
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+
+  .roadmapStep__card {
+    width: calc(100% - 45px);
+  }
+
+  /* Отключаем сдвиг вправо на мобилках, чтобы не дергалось */
+  .roadmapStep:hover .roadmapStep__card,
+  .roadmapStep.active .roadmapStep__card {
+    transform: none;
   }
 }

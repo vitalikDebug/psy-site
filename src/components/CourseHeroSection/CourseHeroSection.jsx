@@ -87,15 +87,15 @@ export default function CourseHeroSection() {
         <motion.div variants={itemVariants} className="courseHero__right">
           <div className="course-accordion">
             <div className="accordion-item accordion-item--1">
-              <img src="/soothing_moment.png" alt="Забота" />
+              <img src="/moment.png" alt="Забота" />
               <div className="accordion-label">Забота и поддержка</div>
             </div>
             <div className="accordion-item accordion-item--2">
-              <img src="/listen_and_communicate.png" alt="Внимание" />
+              <img src="/listen.png" alt="Внимание" />
               <div className="accordion-label">Внимание</div>
             </div>
             <div className="accordion-item accordion-item--3">
-              <img src="/discussion_of_ideas.png" alt="Общение" />
+              <img src="/growthOfCon.png" alt="Общение" />
               <div className="accordion-label">Общение</div>
             </div>
           </div>

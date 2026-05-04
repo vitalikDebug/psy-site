@@ -549,3 +549,101 @@
 .contactModal__btn-submit.btn-disabled:hover {
   transform: none; /* Отключаем эффект увеличения при наведении */
 }
+
+
+/* =========================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ (ВСПЛЫВАЮЩАЯ ШТОРКА iOS Style)
+========================================= */
+@media (max-width: 768px) {
+  .contactModal__overlay {
+    align-items: flex-end; /* Прижимаем модалку к низу */
+    padding: 0; /* Убираем внешние отступы экрана */
+  }
+
+  .contactModal__card {
+    width: 100%;
+    max-width: 100%;
+    /* Ограничиваем высоту, чтобы сверху было видно размытый сайт (около 15% высоты) */
+    max-height: 85vh; 
+    border-radius: 28px 28px 0 0; /* Скругляем только верх */
+    margin: 0;
+    
+    /* Важно: отключаем скролл на самой карточке, он будет внутри body */
+    overflow: hidden; 
+    
+    /* Делаем карточку Flex-контейнером, чтобы шапка с прогресс-баром не уезжала при скролле */
+    display: flex;
+    flex-direction: column;
+    
+    /* Убираем лишние паддинги, которые ломали верстку на скриншоте */
+    padding: 0; 
+  }
+
+  /* Декоративный "гриппер" (полоска сверху) для имитации смахивания */
+  .contactModal__card::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    z-index: 20;
+  }
+
+  /* Крестик закрытия */
+  .contactModal__close {
+    top: 20px;
+    right: 20px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    padding: 6px;
+  }
+
+  /* Шапка формы (где написан Шаг 1 из 3) */
+  .contactModal__progress-container {
+    padding: 30px 24px 0 24px;
+    /* Фиксируем шапку, чтобы она не скроллилась вместе с инпутами */
+    flex-shrink: 0; 
+  }
+
+  /* Внутренний контейнер с контентом (инпуты, текст) */
+  .contactModal__body {
+    padding: 24px 24px 40px 24px;
+    
+    /* Включаем вертикальный скролл именно ТУТ */
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iPhone */
+    
+    /* Заставляем боди занять всю оставшуюся высоту до низа экрана */
+    flex-grow: 1; 
+  }
+
+  .contactModal__title {
+    font-size: 24px;
+    margin-top: 5px;
+  }
+
+  /* Убираем отступы между инпутами в сетке */
+  .contactModal__grid-inputs {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* Кнопки выстраиваем друг над другом */
+  .contactModal__footer.two-cols {
+    flex-direction: column-reverse;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .contactModal__btn-back,
+  .contactModal__btn-submit,
+  .contactModal__btn-next {
+    width: 100%;
+    justify-content: center;
+    padding: 18px 24px; /* Чуть увеличим высоту кнопок для удобства пальца */
+  }
+}

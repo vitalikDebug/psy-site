@@ -4,6 +4,7 @@
 import { motion } from 'framer-motion';
 import { Check, ArrowRight } from 'lucide-react';
 import './CoursePricingSection.css';
+import { useModal } from '@/context/ModalContext'; // <-- ИМПОРТ КОНТЕКСТА
 
 // Анимация для появления блока при скролле
 const containerVariants = {
@@ -21,6 +22,8 @@ const cardVariants = {
 };
 
 export default function CoursePricingSection() {
+  const { openModal } = useModal(); // <-- ДОСТАЕМ ФУНКЦИЮ ОТКРЫТИЯ МОДАЛКИ
+
   return (
     <section id="pricing" className="pricingSection">
       <motion.div 
@@ -50,13 +53,17 @@ export default function CoursePricingSection() {
             
             <div className="priceCard__price-block">
               <div className="priceCard__price">3 000 ₽</div>
-              <button className="priceCard__btn priceCard__btn--dark">
+              {/* ДОБАВЛЯЕМ onClick */}
+              <button 
+                className="priceCard__btn priceCard__btn--dark"
+                onClick={() => openModal('Курс: Самостоятельный тариф')}
+              >
                 Выбрать <ArrowRight size={18} />
               </button>
             </div>
 
             <ul className="priceCard__features">
-              <li><Check size={16} /> Доступ ко всем 4 модулям</li>
+              <li><Check size={16} /> Доступ ко всем 10 модулям</li>
               <li><Check size={16} /> Доступ к материалам на 3 месяца</li>
               <li><Check size={16} /> Самостоятельное изучение</li>
               <li className="disabled"><Check size={16} /> Без проверки заданий</li>
@@ -76,7 +83,11 @@ export default function CoursePricingSection() {
             
             <div className="priceCard__price-block">
               <div className="priceCard__price">7 000 ₽</div>
-              <button className="priceCard__btn priceCard__btn--light">
+              {/* ДОБАВЛЯЕМ onClick */}
+              <button 
+                className="priceCard__btn priceCard__btn--light"
+                onClick={() => openModal('Курс: Тариф С поддержкой')}
+              >
                 Выбрать <ArrowRight size={18} />
               </button>
             </div>
@@ -103,15 +114,19 @@ export default function CoursePricingSection() {
               </div>
               
               <div className="priceCard__price-block priceCard__price-block--wide">
-                <div className="priceCard__price">15 000 ₽</div>
-                <button className="priceCard__btn priceCard__btn--accent">
+                <div className="priceCard__price">13 000 ₽</div>
+                {/* ДОБАВЛЯЕМ onClick */}
+                <button 
+                  className="priceCard__btn priceCard__btn--accent"
+                  onClick={() => openModal('Курс: Личное ведение (VIP)')}
+                >
                   Записаться <ArrowRight size={18} />
                 </button>
               </div>
             </div>
 
             <ul className="priceCard__features priceCard__features--wide">
-              <li><Check size={16} /> Полный доступ к курсу навсегда</li>
+              <li><Check size={16} /> Полный доступ к курсу</li>
               <li><Check size={16} /> 2 личные онлайн-консультации</li>
               <li><Check size={16} /> Индивидуальный план работы</li>
               <li><Check size={16} /> Связь в личном мессенджере</li>

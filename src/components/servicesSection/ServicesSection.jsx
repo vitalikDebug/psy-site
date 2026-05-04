@@ -18,7 +18,7 @@ const servicesData = [
       'Рекомендации и план работы'
     ],
     result: 'Понятный пошаговый план действий и снятие родительской тревожности.',
-    tags: ['#анализ_речи', '#план_действий', '#снятие_тревоги'],
+    tags: ['#анализ_речи', '#план_действий', '#снятие_тревоги'], // Оставлено в данных, но не выводится
     format: 'Онлайн',
     duration: '60 минут',
     note: 'Обязательный первый шаг',
@@ -118,12 +118,10 @@ export default function ServicesSection() {
   const { openModal } = useModal();
   const [selectedService, setSelectedService] = useState(null);
 
-  // Ссылки и стейт для плавного свайпа (как в блоге)
   const sliderRef = useRef(null);
   const trackRef = useRef(null);
   const [sliderConstraints, setSliderConstraints] = useState({ left: 0, right: 0 });
 
-  // Пересчитываем границы свайпа с защитой от бесконечных рендеров
   useEffect(() => {
     if (sliderRef.current && trackRef.current) {
       const timeoutId = setTimeout(() => {
@@ -144,7 +142,6 @@ export default function ServicesSection() {
     }
   }, [servicesData.length]);
 
-  // Блокируем скролл сайта при открытой модалке
   useEffect(() => {
     if (selectedService) {
       document.body.style.overflow = 'hidden';
@@ -168,7 +165,6 @@ export default function ServicesSection() {
           <h2 className="servicesSection__title">Форматы работы</h2>
         </motion.div>
 
-        {/* НОВЫЙ БЛОК СЛАЙДЕРА СВОБОДНОГО СВАЙПА */}
         <motion.div 
           className="servicesSection__slider-viewport"
           ref={sliderRef}
@@ -210,11 +206,7 @@ export default function ServicesSection() {
                     <div className="serviceCard__rating"></div>
                     <p className="serviceCard__subtitle">{item.subtitle}</p>
 
-                    <div className="serviceCard__tags">
-                      {item.tags.map((tag, i) => (
-                        <span key={i} className={`serviceCard__hashtag color-${i}`}>{tag}</span>
-                      ))}
-                    </div>
+                    {/* Блок с тегами был удален отсюда */}
 
                     <div className="serviceCard__features-grid">
                       <div className="feature-item">
@@ -252,9 +244,6 @@ export default function ServicesSection() {
 
       </div>
 
-      {/* =========================================
-          МОДАЛЬНОЕ ОКНО С ПОДРОБНОСТЯМИ КУРСА
-      ========================================= */}
       <AnimatePresence>
         {selectedService && (
           <motion.div 
