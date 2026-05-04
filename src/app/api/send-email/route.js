@@ -3,27 +3,27 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 export async function POST(request) {
-    try {
-        const data = await request.json();
+  try {
+    const data = await request.json();
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'gghjbhgfbb@gmail.com',
-                pass: process.env.GMAIL_APP_PASSWORD
-            }
-        });
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'ev.brazhko@gmail.com',
+        pass: process.env.GMAIL_APP_PASSWORD
+      }
+    });
 
-        const tagsString = data.selectedTags.length > 0
-            ? data.selectedTags.join(', ')
-            : 'Не выбраны';
+    const tagsString = data.selectedTags.length > 0
+      ? data.selectedTags.join(', ')
+      : 'Не выбраны';
 
-        // Формируем КРАСИВОЕ HTML письмо
-        const mailOptions = {
-            from: 'gghjbhgfbb@gmail.com',
-            to: 'gghjbhgfbb@gmail.com',
-            subject: `🔥 Новая заявка: ${data.name} - ${data.course || 'Консультация'}`,
-            html: `
+    // Формируем КРАСИВОЕ HTML письмо
+    const mailOptions = {
+      from: 'ev.brazhko@gmail.com',
+      to: 'ev.brazhko@gmail.com',
+      subject: `🔥 Новая заявка: ${data.name} - ${data.course || 'Консультация'}`,
+      html: `
         <div style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #333;">
           
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
@@ -75,12 +75,12 @@ export async function POST(request) {
           
         </div>
       `
-        };
+    };
 
-        await transporter.sendMail(mailOptions);
-        return NextResponse.json({ message: "Письмо успешно отправлено" }, { status: 200 });
-    } catch (error) {
-        console.error("Ошибка при отправке письма:", error);
-        return NextResponse.json({ error: "Ошибка при отправке письма" }, { status: 500 });
-    }
+    await transporter.sendMail(mailOptions);
+    return NextResponse.json({ message: "Письмо успешно отправлено" }, { status: 200 });
+  } catch (error) {
+    console.error("Ошибка при отправке письма:", error);
+    return NextResponse.json({ error: "Ошибка при отправке письма" }, { status: 500 });
+  }
 }

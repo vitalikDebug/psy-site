@@ -3,8 +3,9 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
-import { useModal } from '@/context/ModalContext'; // Импортируем модалку
+// Добавили новые иконки для заголовков
+import { ArrowUpRight, Phone, Share2, Compass, FileText } from 'lucide-react';
+import { useModal } from '@/context/ModalContext';
 import './Footer.css';
 
 const containerVariants = {
@@ -22,7 +23,7 @@ const itemVariants = {
 };
 
 export default function Footer() {
-  const { openModal } = useModal(); // Достаем функцию открытия модалки
+  const { openModal } = useModal();
 
   return (
     <footer className="footer" id="contacts">
@@ -63,13 +64,17 @@ export default function Footer() {
           {/* Левая часть: Колонки меню */}
           <div className="footer__columns">
             <motion.div className="footerCol" variants={itemVariants}>
-              <h4 className="footerCol__title">Контакты</h4>
+              <h4 className="footerCol__title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Phone size={18} strokeWidth={1.5} /> Контакты
+              </h4>
               <p className="footerCol__text">Онлайн-консультации<br/>и ведение по всему миру.</p>
               <a href="mailto:example@mail.ru" className="footerCol__link">example@mail.ru</a>
             </motion.div>
 
             <motion.div className="footerCol" variants={itemVariants}>
-              <h4 className="footerCol__title">Соцсети</h4>
+              <h4 className="footerCol__title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Share2 size={18} strokeWidth={1.5} /> Соцсети
+              </h4>
               <ul className="footerCol__list">
                 <li><a href="https://t.me/julia_shkaranda" target="_blank" rel="noreferrer">Telegram <ArrowUpRight size={14}/></a></li>
                 <li><a href="#" target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={14}/></a></li>
@@ -79,12 +84,27 @@ export default function Footer() {
             </motion.div>
 
             <motion.div className="footerCol" variants={itemVariants}>
-              <h4 className="footerCol__title">Навигация</h4>
+              <h4 className="footerCol__title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Compass size={18} strokeWidth={1.5} /> Навигация
+              </h4>
               <ul className="footerCol__list">
                 <li><Link href="/#about">Обо мне</Link></li>
                 <li><Link href="/#approach">Подход</Link></li>
                 <li><Link href="/course">Курс для родителей</Link></li>
                 <li><Link href="/#reviews">Отзывы</Link></li>
+              </ul>
+            </motion.div>
+
+            <motion.div className="footerCol" variants={itemVariants}>
+              <h4 className="footerCol__title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FileText size={18} strokeWidth={1.5} /> Документы
+              </h4>
+              <ul className="footerCol__list">
+                <li><a href="/docs/1.-Оферта-ИП-ШКАРАНДА-Ю.pdf" target="_blank" rel="noreferrer">Договор оферты</a></li>
+                <li><a href="/docs/2.-Политика-ОПД-ИП-ШКАРАНДА-Ю.pdf" target="_blank" rel="noreferrer">Политика конфиденциальности</a></li>
+                <li><a href="/docs/3_Согласие_на_ОПД_сайт_ИП_ШКАРАНДА_Ю-_2_.pdf" target="_blank" rel="noreferrer">Согласие на обработку ПД</a></li>
+                <li><a href="/docs/4_Согласие_на_публикацию_отзывов_ИП_ШКАРАНДА_Ю-_2_.pdf" target="_blank" rel="noreferrer">Согласие на публикацию</a></li>
+                <li><a href="/docs/5_Согласие_на_рассылку_ИП_ШКАРАНДА_Ю-_2_.pdf" target="_blank" rel="noreferrer">Согласие на рассылку</a></li>
               </ul>
             </motion.div>
           </div>
@@ -100,14 +120,12 @@ export default function Footer() {
         {/* Самый низ - Юридическая информация */}
         <motion.div className="footer__bottom" variants={itemVariants}>
           <div className="footer__legal-info">
-            <span>ИП Юлия Шкаранда</span>
+            <span>ИП Шкаранда Юлия</span>
             <span>ОГРН: 321392600030851</span>
             <span>ИНН: 390705830870</span>
           </div>
           <div className="footer__legal-links">
-            <a href="#">Политика конфиденциальности</a>
-            <a href="#">Оферта</a>
-            <span>© {new Date().getFullYear()}</span>
+            <span>© {new Date().getFullYear()} Все права защищены</span>
           </div>
         </motion.div>
       </motion.div>
