@@ -11,6 +11,7 @@ import CourseHeroSection from '@/components/CourseHeroSection/CourseHeroSection'
 import CourseModulesSection from '@/components/CourseModuleSection/CourseModulesSection';
 import CoursePricingSection from '@/components/CoursePricingSection/CoursePricingSection';
 import Footer from '@/components/footer/Footer';
+import AboutSection from '@/components/aboutSection/AboutSection';
 
 export default function CoursePage() {
   return (
@@ -21,6 +22,7 @@ export default function CoursePage() {
 
       {/* Наш лендинг, собранный из независимых блоков */}
       <CourseHeroSection />
+      <AboutSection/>
       <CourseTargetSection />
       <CourseVideoSection />
       <CourseModulesSection />

@@ -3,149 +3,183 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 import './CourseModulesSection.css';
-import AnimatedBrainSVG from '../AnimatedBrainSVG/AnimatedBrainSVG';
-import AnimatedBalanceSVG from '../AnimatedBalanceSvg/AnimatedBalanceSvg';
-import AnimatedAnxietySVG from '../AnimatedAnixetySVG/AnimatedAnixetySVG';
-import AnimatedChillSVG from '../AnimatedChillSVG/AnimatedChillSVG';
 
-// Данные модулей курса
 const modulesData = [
   {
-   id: 1,
-    title: "Модуль 1. Природа заикания и осознанность",
-    description: "Разбираем истинные причины запинок. Вы поймете, как работает речевой аппарат ребенка, почему возникают ступоры и перестанете винить себя. Это фундамент, без которого не работает ни одна техника.",
-    type: 'svg', 
-    component: <AnimatedBrainSVG className="module-svg-icon" />
-  },
-{
-    id: 2,
-    title: "Модуль 2. Работа с родительской тревогой",
-    description: "Дети считывают наше состояние. В этом модуле мы учимся снимать ваше внутреннее напряжение, возвращать опору и реагировать на запинки ребенка спокойно, без паники и жалости.",
-    type: 'svg', // <-- МЕНЯЕМ 'image' НА 'svg'
-    component: <AnimatedAnxietySVG className="module-svg-icon" /> 
+    id: 1, title: "УРОК 1", subtitle: "Состояние и речь",
+    bullets: ["вы увидите, как ребёнок считывает не слова, а ваше состояние", "поймёте, почему он рядом с вами может говорить по-разному", "заметите, как ваше напряжение сразу отражается в его речи"],
+    colors: ['#e0c3fc', '#8ec5fc'] 
   },
   {
-    id: 3,
-    title: "Модуль 3. Правильная реакция и среда",
-    description: "Как правильно слушать? Куда смотреть, когда ребенок застрял на слове? Нужно ли помогать ему договорить? Выстраиваем дома терапевтическую среду, где ребенку безопасно звучать.",
-    type: 'svg',
-    component: <AnimatedChillSVG className="module-svg-icon" /> 
+    id: 2, title: "УРОК 2", subtitle: "Паузы и ожидание",
+    bullets: ["поймёте, что пауза — это не «он не может», а ему стало сложно", "увидите, как спешка усиливает заикание", "научитесь выдерживать момент, в котором речь выравнивается"],
+    colors: ['#a1c4fd', '#c2e9fb'] 
   },
   {
-    id: 4,
-    title: "Модуль 4. Снижение напряжения и результат",
-    description: "Переходим к практическим инструментам расслабления тела и снижения темпа жизни. Вы увидите, как через изменение семейных привычек речь ребенка становится более плавной и свободной.",
-    type: 'svg', 
-    component: <AnimatedBalanceSVG className="module-svg-icon" /> 
+    id: 3, title: "УРОК 3", subtitle: "Давление помощи",
+    bullets: ["узнаете, как давление появляется, даже когда вы «просто помогаете»", "увидите, в какие моменты ребёнок начинает зажиматься", "поймёте, какие слова усиливают запинки"],
+    colors: ['#ffecd2', '#fcb69f'] 
+  },
+  {
+    id: 4, title: "УРОК 4", subtitle: "Напряжение в теле",
+    bullets: ["увидите связь: напряжение в теле = напряжение в речи", "начнёте замечать это в обычной жизни", "поймёте, почему в расслабленном состоянии ребёнок говорит легче"],
+    colors: ['#cfd9df', '#e2ebf0'] 
+  },
+  {
+    id: 5, title: "УРОК 5", subtitle: "Живое общение",
+    bullets: ["узнаете, почему ребёнок закрывается в разговоре", "увидите, как «скажи правильно» ломает лёгкость речи", "поймёте, как вернуть живое общение"],
+    colors: ['#fbc2eb', '#a6c1ee'] 
+  },
+  {
+    id: 6, title: "УРОК 6", subtitle: "Естественное дыхание",
+    bullets: ["поймёте, почему дыхание не нужно контролировать", "увидите, как оно выравнивается, когда ребёнку спокойно", "заметите, как через это меняется речь"],
+    colors: ['#84fab0', '#8fd3f4'] 
+  },
+  {
+    id: 7, title: "УРОК 7", subtitle: "Ощущение безопасности",
+    bullets: ["увидите, как ребёнок чувствует оценку, даже без слов", "поймёте, почему рядом с вами ему может быть сложнее", "узнаете, что даёт ему ощущение безопасности"],
+    colors: ['#ff9a9e', '#fecfef'] 
+  },
+  {
+    id: 8, title: "УРОК 8", subtitle: "Ловушка подсказок",
+    bullets: ["поймёте, почему «помочь» — не всегда про поддержку", "узнаете себя в моментах, когда хочется подсказать", "увидите, как это усиливает заикание"],
+    colors: ['#d4fc79', '#96e6a1'] 
+  },
+  {
+    id: 9, title: "УРОК 9", subtitle: "Поддержка без оценки",
+    bullets: ["поймёте, почему даже «молодец» может напрягать", "увидите, как ребёнок начинает стараться и зажиматься", "научитесь поддерживать без давления"],
+    colors: ['#a18cd1', '#fbc2eb'] 
+  },
+  {
+    id: 10, title: "УРОК 10", subtitle: "Свободная речь",
+    bullets: ["почувствуете, что речь не нужно «чинить»", "увидите, как она выравнивается без усилия", "поймёте, как ребёнок перестаёт застревать в этом состоянии"],
+    colors: ['#fdfbfb', '#ebedee'] 
   }
 ];
 
 export default function CourseModulesSection() {
-  // По умолчанию открыт первый модуль
   const [activeModule, setActiveModule] = useState(modulesData[0].id);
-
-  const toggleModule = (id) => {
-    setActiveModule(activeModule === id ? null : id);
-  };
-
-  // Находим данные активного модуля для вывода картинки справа
   const activeData = modulesData.find(m => m.id === activeModule) || modulesData[0];
 
   return (
-    <section id="modules" className="modulesSection">
-      <div className="modulesSection__container">
+    <section id="modules" className="horizontalRoadmap">
+      
+      {/* ФОН СЕКЦИИ */}
+      <div className="horizontalRoadmap__bg">
+        <motion.div 
+          className="roadmap-blob roadmap-blob-1"
+          animate={{ backgroundColor: activeData.colors[0] }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="roadmap-blob roadmap-blob-2"
+          animate={{ backgroundColor: activeData.colors[1] }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        />
+        <div className="horizontalRoadmap__glass-overlay"></div>
+      </div>
+
+      <div className="horizontalRoadmap__container">
         
-        <div className="modulesSection__header">
-          <h2 className="modulesSection__title">Программа курса</h2>
-          <p className="modulesSection__subtitle">Пошаговый путь к свободной речи вашего ребёнка</p>
+        <div className="horizontalRoadmap__header">
+          <h2 className="horizontalRoadmap__title">Программа курса</h2>
+          <p className="horizontalRoadmap__subtitle">Пошаговый путь к свободной речи вашего ребёнка</p>
         </div>
 
-        <div className="modulesGrid">
-          
-       
-          <div className="modulesAccordion">
+        {/* --- СЕТКА КАРТОЧЕК --- */}
+        <div className="roadmapSteps__wrapper">
+          <div className="roadmapSteps__grid">
             {modulesData.map((mod) => {
               const isActive = activeModule === mod.id;
+              
+              return (
+                <div 
+                  key={mod.id} 
+                  className={`roadmapStep ${isActive ? 'active' : ''}`}
+                  onClick={() => setActiveModule(mod.id)}
+                >
+                  <div className="roadmapStep__line-segment"></div>
 
-             return (
-                <div key={mod.id} className={`accordionItem ${isActive ? 'accordionItem--active' : ''}`}>
-                  <button className="accordionItem__header" onClick={() => toggleModule(mod.id)}>
-                    <span className="accordionItem__title">{mod.title}</span>
-                    <motion.div 
-                      className="accordionItem__icon"
-                      animate={{ rotate: isActive ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChevronDown size={24} />
-                    </motion.div>
-                  </button>
+                  <motion.div 
+                    className="roadmapStep__marker"
+                    animate={{ 
+                      borderColor: isActive ? activeData.colors[0] : '#cbd5e1',
+                      backgroundColor: isActive ? activeData.colors[0] : '#ffffff',
+                      scale: isActive ? 1.3 : 1
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  
+                  <div className="roadmapStep__card">
+                    <div className="roadmapStep__card-header">
+                      <span className="roadmapStep__num">{mod.title}</span>
+                      {isActive && <ArrowRight size={14} className="roadmapStep__arrow" style={{ color: activeData.colors[0] }} />}
+                    </div>
+                    <h4 className="roadmapStep__title">{mod.subtitle}</h4>
 
-                  <AnimatePresence initial={false}>
-                    {isActive && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="accordionItem__body"
-                      >
-                        <div className="accordionItem__content">
-                          <p>{mod.description}</p>
-                          
-                          {/* Картинка или SVG для мобильных */}
-                          <div className="accordionItem__mobile-illus">
-                            {mod.type === 'svg' ? (
-                                mod.component
-                            ) : (
-                                <motion.img 
-                                  src={mod.illustration} 
-                                  alt="Иллюстрация модуля"
-                                  animate={{ y: [0, -10, 0] }}
-                                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                                />
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    {/* === НОВЫЙ БЛОК: АККОРДЕОН ДЛЯ МОБИЛЬНЫХ === */}
+                    <div className="roadmapStep__mobile-details-wrapper">
+                      <AnimatePresence initial={false}>
+                        {isActive && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                            animate={{ height: "auto", opacity: 1, marginTop: 16 }}
+                            exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="roadmapStep__mobile-details"
+                          >
+                            <ul className="roadmapStep__mobile-list">
+                              {mod.bullets.map((bullet, idx) => (
+                                <li key={idx}>
+                                  <CheckCircle2 size={16} className="roadmapStep__mobile-icon" style={{ color: activeData.colors[0] }} />
+                                  <span>{bullet}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+
                 </div>
               );
             })}
           </div>
-
-          {/* --- ПРАВАЯ КОЛОНКА: ПАРЯЩАЯ ИЛЛЮСТРАЦИЯ (Десктоп) --- */}
-          <div className="modulesVisual">
-            <div className="modulesVisual__sticky">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeData.id}
-                  initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-                  transition={{ duration: 0.5 }}
-                  className="modulesVisual__image-wrapper"
-                >
-                  {/* Если тип SVG, рендерим компонент. Иначе - картинку с анимацией парения */}
-                  {activeData.type === 'svg' ? (
-                      activeData.component
-                  ) : (
-                      <motion.img 
-                        src={activeData.illustration} 
-                        alt={activeData.title} 
-                        animate={{ y: [0, -20, 0] }}
-                        transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                      />
-                  )}
-                </motion.div>
-              </AnimatePresence>
-              <div className="modulesVisual__glow"></div>
-            </div>
-          </div>
-
         </div>
+
+        {/* --- ОСНОВНОЙ БЛОК ОПИСАНИЯ (ТОЛЬКО ДЛЯ ПК) --- */}
+        <div className="activeLesson__showcase desktop-only">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeData.id}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.98 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="activeLesson__card"
+            >
+              <div className="activeLesson__header">
+                <span className="activeLesson__badge" style={{ backgroundColor: activeData.colors[0] }}>
+                  {activeData.title}
+                </span>
+                <h3 className="activeLesson__card-title">{activeData.subtitle}</h3>
+              </div>
+              
+              <ul className="activeLesson__list">
+                {activeData.bullets.map((bullet, idx) => (
+                  <li key={idx}>
+                    <CheckCircle2 size={22} className="activeLesson__icon" style={{ color: activeData.colors[0] }} />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
       </div>
     </section>
   );
