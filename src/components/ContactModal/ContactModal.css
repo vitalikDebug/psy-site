@@ -473,3 +473,79 @@
 .contactModal__card.dropdown-open {
   overflow: visible;
 }
+
+
+/* =========================================
+   БЛОК ЧЕКБОКСОВ (152-ФЗ)
+========================================= */
+.contactModal__consents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.contactModal__checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+/* Стилизация самого квадратика */
+.contactModal__checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* Ссылки в чекбоксах */
+.contactModal__checkbox-text a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.contactModal__checkbox-text a:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+/* --- ОШИБКА ВАЛИДАЦИИ --- */
+.contactModal__checkbox-label.error {
+  color: #ef4444; /* Красный цвет текста */
+}
+
+.contactModal__checkbox-label.error input[type="checkbox"] {
+  outline: 2px solid #ef4444;
+  outline-offset: 1px;
+}
+
+.contactModal__checkbox-label.error a {
+  color: #ef4444;
+}
+
+.contactModal__consent-error-msg {
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* Полупрозрачная кнопка, если не стоят нужные галочки (чтобы визуально показать, что чего-то не хватает) */
+.contactModal__btn-submit.btn-disabled {
+  opacity: 0.6;
+  background-color: #94a3b8;
+}
+.contactModal__btn-submit.btn-disabled:hover {
+  transform: none; /* Отключаем эффект увеличения при наведении */
+}
