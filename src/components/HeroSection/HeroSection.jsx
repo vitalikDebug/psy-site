@@ -82,7 +82,7 @@ export default function HeroSection() {
           <motion.div variants={photoVariants} className="heroTop__right">
             <div className="hero-main-photo">
               {/* ЗАМЕНИ на свою лучшую вертикальную фотографию */}
-              <img src="/photo_2025-11-28_14-58-13.jpg" alt="Юлия Шкаранда" />
+              <img src="/IMG_5884.png" alt="Юлия Шкаранда" />
               
               {/* Парящая плашка поверх фото */}
               <div className="hero-floating-card">

@@ -12,6 +12,7 @@ import CourseModulesSection from '@/components/CourseModuleSection/CourseModules
 import CoursePricingSection from '@/components/CoursePricingSection/CoursePricingSection';
 import Footer from '@/components/footer/Footer';
 import AboutSection from '@/components/aboutSection/AboutSection';
+import PaymentInfo from '@/components/PaymentInfo/PaymentInfo';
 
 export default function CoursePage() {
   return (
@@ -28,6 +29,7 @@ export default function CoursePage() {
       <CourseModulesSection />
       <CourseAuthorSection />
       <CoursePricingSection/>
+      <PaymentInfo/>
       <Footer/>
     </main>
   );

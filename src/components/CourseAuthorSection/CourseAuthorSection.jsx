@@ -14,18 +14,18 @@ const categories = [
   { id: 'kids', title: 'О детях', icon: Clock, color: '#5B9A56', bg: '#D4E8D0' },
   { id: 'faq', title: 'Частые вопросы', icon: HelpCircle, color: '#6C758F', bg: '#E2E4E9' },
   { id: 'start', title: 'С чего начать', icon: Rocket, color: '#A078C4', bg: '#F3E1F5' },
-  { id: 'podcast', title: 'Подкасты', icon: Mic, color: '#FF7A00', bg: '#FFF0E5' }
+  // { id: 'podcast', title: 'Подкасты', icon: Mic, color: '#FF7A00', bg: '#FFF0E5' }
 ];
 
 const blogPosts = [
 
-  {
-    id: 1,
-    categoryId: 'podcast', 
-    slug: 'podcast-neurologist',
-    title: 'Подкаст: Психология и неврология заикания',
-    excerpt: 'Совместный выпуск с врачом-неврологом Евой Баль. Разбираем заикание с двух сторон: медицина и психология. Что работает, а что нет?',
-  },
+  // {
+  //   id: 1,
+  //   categoryId: 'podcast', 
+  //   slug: 'podcast-neurologist',
+  //   title: 'Подкаст: Психология и неврология заикания',
+  //   excerpt: 'Совместный выпуск с врачом-неврологом Евой Баль. Разбираем заикание с двух сторон: медицина и психология. Что работает, а что нет?',
+  // },
   {
     id: 2,
     categoryId: 'faq',
