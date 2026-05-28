@@ -14,6 +14,7 @@ const mainNavLinks = [
   { name: 'Обо мне', href: '/#about' },
   { name: 'Подход', href: '/#approach' },
   { name: 'Отзывы', href: '/#reviews' },
+  { name: 'Оплата', href: '/#payment' },
   { name: 'Контакты', href: '/#contacts' },
 ];
 

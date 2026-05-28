@@ -74,7 +74,7 @@ export default function CourseHeroSection() {
             <div className="cta-box__bottom">
               <div className="cta-box__price">
                 <span className="price-old">5000 ₽</span>
-                <span className="price-new">3000 ₽</span>
+                <span className="price-new">2400 ₽</span>
               </div>
               <button className="cta-box__btn">
                 Купить курс <ArrowRight size={20} />

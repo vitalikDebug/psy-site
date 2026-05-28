@@ -52,7 +52,7 @@ export default function CoursePricingSection() {
             </h3>
             
             <div className="priceCard__price-block">
-              <div className="priceCard__price">3 000 ₽</div>
+              <div className="priceCard__price">2 400 ₽</div>
               {/* ДОБАВЛЯЕМ onClick */}
               <button 
                 className="priceCard__btn priceCard__btn--dark"
@@ -82,7 +82,7 @@ export default function CoursePricingSection() {
             </h3>
             
             <div className="priceCard__price-block">
-              <div className="priceCard__price">7 000 ₽</div>
+              <div className="priceCard__price">6 000 ₽</div>
               {/* ДОБАВЛЯЕМ onClick */}
               <button 
                 className="priceCard__btn priceCard__btn--light"

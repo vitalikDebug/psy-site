@@ -602,11 +602,16 @@
     padding: 6px;
   }
 
-  /* Шапка формы (где написан Шаг 1 из 3) */
+
   .contactModal__progress-container {
     padding: 30px 24px 0 24px;
-    /* Фиксируем шапку, чтобы она не скроллилась вместе с инпутами */
+    
+touch-action: none; 
+    cursor: grab;
     flex-shrink: 0; 
+  }
+  .contactModal__progress-container:active {
+    cursor: grabbing;
   }
 
   /* Внутренний контейнер с контентом (инпуты, текст) */

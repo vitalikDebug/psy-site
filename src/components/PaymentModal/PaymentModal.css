@@ -1,0 +1,137 @@
+.paymentModal__overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+
+.paymentModal__card {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 32px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.paymentModal__close {
+  position: absolute; top: 20px; right: 20px;
+  background: #f1f5f9; border: none; border-radius: 50%;
+  color: #64748b; cursor: pointer; padding: 8px;
+  transition: all 0.2s ease;
+}
+
+.paymentModal__close:hover {
+  background: #e2e8f0; color: #0f172a;
+}
+
+.paymentModal__header {
+  padding: 40px 30px 30px 30px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid #f1f5f9;
+  text-align: center;
+}
+
+.paymentModal__security-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #ecfdf5; color: #059669;
+  padding: 6px 12px; border-radius: 20px;
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.paymentModal__title {
+  font-family: var(--font-family-headings); /* <-- Добавили эту строку */
+  font-size: 24px; 
+  font-weight: 800; 
+  color: #1e293b; 
+  margin-bottom: 20px;
+}
+
+.paymentModal__order-info {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #f1f5f9; padding: 16px 20px; border-radius: 16px;
+}
+
+.paymentModal__tariff {
+  font-size: 16px; font-weight: 600; color: #334155; text-align: left;
+}
+
+.paymentModal__price {
+  font-size: 20px; font-weight: 800; color: #a078c4;
+}
+
+.paymentModal__body {
+  padding: 30px;
+}
+
+.paymentModal__subtitle {
+  font-size: 15px; color: #64748b; margin-bottom: 16px; font-weight: 500;
+}
+
+.paymentModal__methods {
+  display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;
+}
+
+.paymentModal__method-btn {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%; padding: 16px;
+  background: #ffffff; border: 2px solid #f1f5f9; border-radius: 20px;
+  cursor: pointer; text-align: left; transition: all 0.3s ease;
+}
+
+.paymentModal__method-btn:hover {
+  border-color: #a078c4; background: #faf5ff;
+  transform: translateY(-2px); box-shadow: 0 10px 20px rgba(160, 120, 196, 0.1);
+}
+
+.paymentModal__method-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+.paymentModal__method-text {
+  flex-grow: 1; display: flex; flex-direction: column; gap: 4px;
+}
+
+.paymentModal__method-title {
+  font-size: 16px; font-weight: 700; color: #1e293b;
+}
+
+.paymentModal__method-desc {
+  font-size: 13px; color: #64748b;
+}
+
+.paymentModal__method-arrow {
+  color: #cbd5e1; transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.paymentModal__method-btn:hover .paymentModal__method-arrow {
+  color: #a078c4; transform: translateX(4px);
+}
+
+.paymentModal__terms {
+  font-size: 12px; color: #94a3b8; text-align: center; line-height: 1.5;
+}
+
+.paymentModal__terms a {
+  color: #a078c4; text-decoration: underline;
+}
+
+/* МОБИЛЬНАЯ АДАПТАЦИЯ (ШТОРКА) */
+@media (max-width: 768px) {
+  .paymentModal__overlay { align-items: flex-end; padding: 0; }
+  .paymentModal__card {
+    border-radius: 28px 28px 0 0; margin: 0; max-height: 90vh;
+  }
+  .paymentModal__card::after {
+    content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 36px; height: 4px; background-color: #cbd5e1; border-radius: 4px; z-index: 20;
+  }
+  .paymentModal__header { padding: 40px 20px 24px 20px; }
+  .paymentModal__body { padding: 24px 20px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+}

@@ -1,0 +1,325 @@
+/* src/components/PaymentInfo/PaymentInfo.css */
+
+.paymentInfo {
+  padding: 100px 20px;
+  background-color: #f1f5f9; /* Светло-серый фон для контраста с белыми карточками */
+}
+
+.paymentInfo__container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.paymentInfo__header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.paymentInfo__title {
+  font-family: var(--font-family-headings);
+  font-size: 38px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.paymentInfo__subtitle {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   BENTO BOX GRID
+========================================= */
+.paymentInfo__bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.bento-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Широкая карточка занимает все 3 колонки (или можно 2, если хочешь асимметрию) */
+.bento-card--wide {
+  grid-column: span 3;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.bento-card__content {
+  flex: 1;
+  max-width: 500px;
+}
+
+/* Иконки в кружочках */
+.bento-card__icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.bento-card__icon-wrapper.yellow { background: #fef08a; color: #ca8a04; }
+.bento-card__icon-wrapper.blue { background: #e0f2fe; color: #0284c7; }
+.bento-card__icon-wrapper.green { background: #dcfce3; color: #059669; }
+
+.bento-card__title {
+  font-family: var(--font-family-headings);
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.bento-card__text {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Декоративный интерфейс для широкой карточки */
+.bento-card__visual {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mock-ui {
+  width: 100%;
+  max-width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 16px;
+}
+
+.mock-ui__header {
+  display: flex; gap: 6px; margin-bottom: 20px;
+}
+
+.mock-ui__dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #e2e8f0;
+}
+
+.mock-ui__line {
+  height: 8px; background: #f1f5f9; border-radius: 4px; margin-bottom: 12px;
+}
+.w-70 { width: 70%; }
+.w-40 { width: 40%; margin-bottom: 24px; }
+
+.mock-ui__skeleton-card {
+  background: #f8fafc; border-radius: 8px; padding: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.mock-ui__price {
+  font-weight: 700; color: #1e293b; font-size: 16px;
+}
+
+/* Темная карточка */
+.bento-card--dark {
+  background: #1e293b;
+  color: #ffffff;
+  justify-content: center;
+}
+
+.dark-title { color: #ffffff; font-size: 22px; }
+.dark-text { color: #94a3b8; margin-bottom: 30px; }
+
+.bento-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fef08a; /* Желтая кнопка как на референсе */
+  color: #ca8a04;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.bento-card__btn:hover {
+  background: #fde047;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   БРЕНДЫ / СПОСОБЫ ОПЛАТЫ
+========================================= */
+.paymentInfo__brands {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.brands-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 30px;
+}
+
+.brands-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.brand-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  padding: 12px 24px;
+  border-radius: 16px;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+/* =========================================
+   АДАПТИВ
+========================================= */
+@media (max-width: 900px) {
+  .paymentInfo__bento {
+    grid-template-columns: 1fr; /* На планшетах и телефонах все в 1 колонку */
+  }
+  
+  .bento-card--wide {
+    grid-column: span 1;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bento-card__icon-wrapper {
+    margin: 0 auto 20px auto;
+  }
+
+  .bento-card__visual {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .bento-card {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+
+/* =========================================
+   ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ (ТОСТ)
+========================================= */
+.hesitation-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  width: 320px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.hesitation-toast__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.hesitation-toast__close:hover {
+  color: #1e293b;
+}
+
+.hesitation-toast__icon {
+  background: #fdf4ff;
+  color: #a078c4;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hesitation-toast__content h4 {
+  font-family: var(--font-family-headings); 
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.hesitation-toast__content p {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.hesitation-toast__btn {
+  background: #1e293b;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.hesitation-toast__btn:hover {
+  background: #0f172a;
+  transform: translateY(-1px);
+}
+
+/* МОБИЛЬНЫЙ ТОСТ */
+@media (max-width: 600px) {
+  .hesitation-toast {
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    width: auto; /* Растягиваем на ширину экрана с отступами */
+  }
+}

@@ -157,13 +157,23 @@ export default function ContactModal({ isOpen, onClose, initialService }) {
 
   return (
     <div className="contactModal__overlay" onClick={handleClose}>
-      <motion.div 
+     <motion.div 
         className={`contactModal__card ${isDropdownOpen ? 'dropdown-open' : ''}`}
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={e => e.stopPropagation()}
+        
+     
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }} 
+        dragElastic={{ top: 0, bottom: 0.5 }} 
+        onDragEnd={(e, info) => {
+          if (info.offset.y > 100 || info.velocity.y > 400) {
+            handleClose();
+          }
+        }}
       >
         <button className="contactModal__close" onClick={handleClose}>
           <X size={20} />
