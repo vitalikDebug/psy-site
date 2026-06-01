@@ -192,65 +192,67 @@
     transition: transform 0.4s ease;
 }
 
+/* --- СТИЛИ ДЛЯ ПЛАШЕК ПОВЕРХ ФОТО --- */
 .bento-card__info {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
-    padding: 10px 16px;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  position: absolute;
+  bottom: 20px; /* Чуть увеличили отступ от низа */
+  left: 20px;
+  z-index: 10; /* ВАЖНО: жестко выводим поверх картинки */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 12px 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .bento-card__name {
-    font-family: var(--font-family-headings);
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--color-text-dark);
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  font-family: var(--font-family-headings);
+  font-size: 16px; /* Чуть крупнее */
+  font-weight: 800;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .verified-icon { color: var(--color-accent); }
 
 .bento-card__role {
-    font-family: var(--font-family-body);
-    font-size: 12px;
-    color: color-mix(in srgb, var(--color-text-dark) 70%, transparent);
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text-dark) 60%, transparent);
+  margin-top: 2px;
 }
 
-/* --- СТИЛИ ДЛЯ БЕЛЫХ ТЕКСТОВЫХ КАРТОЧЕК (ГРАДИЕНТНАЯ РАМКА) --- */
+/* --- СТИЛИ ДЛЯ БЕЛЫХ ТЕКСТОВЫХ КАРТОЧЕК --- */
 .bento-card--text {
-    background-color: var(--color-white);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; 
-    align-items: flex-start;
-    /* Указанная тобой тень */
-    box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 30%, transparent);
-    z-index: 1; 
+  background-color: var(--color-white);
+  padding: 30px; /* Увеличили внутренние отступы, чтобы текст дышал */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центрируем текст по вертикали, а не прижимаем к низу */
+  align-items: flex-start;
+  box-shadow: 0 10px 25px color-mix(in srgb, var(--color-accent) 20%, transparent);
+  z-index: 1; 
 }
 
-/* Создаем градиентную рамку через псевдоэлемент mask */
+/* Градиентная рамка */
 .bento-card--text::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
-    padding: 3px; /* Толщина рамки */
-    background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, black) 100%);
-    
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    
-    z-index: -1;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 2px; /* Сделали рамку чуть тоньше (2px вместо 3px) для элегантности */
+  background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 70%, black) 100%);
+  
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  
+  z-index: -1;
+  pointer-events: none;
 }
 
 .bento-card__title {

@@ -68,7 +68,7 @@ export default function Footer() {
                 <Phone size={18} strokeWidth={1.5} /> Контакты
               </h4>
               <p className="footerCol__text">Онлайн-консультации<br/>и ведение по всему миру.</p>
-              <a href="mailto:example@mail.ru" className="footerCol__link">example@mail.ru</a>
+              {/* <a href="mailto:example@mail.ru" className="footerCol__link">example@mail.ru</a> */}
             </motion.div>
 
             <motion.div className="footerCol" variants={itemVariants}>

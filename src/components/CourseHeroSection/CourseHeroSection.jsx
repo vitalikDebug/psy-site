@@ -3,13 +3,15 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image'; // Импортируем компонент оптимизации изображений
 import { CheckCircle2, Timer, ArrowRight } from 'lucide-react';
 import './CourseHeroSection.css'; // Подключаем стили именно этого блока
+import { useModal } from '@/context/ModalContext';
 
 export default function CourseHeroSection() {
   // --- ЛОГИКА ТАЙМЕРА (30 минут) ---
   const [timeLeft, setTimeLeft] = useState(30 * 60);
-
+const { openModal } = useModal();
   useEffect(() => {
     if (timeLeft <= 0) return;
     const intervalId = setInterval(() => {
@@ -76,7 +78,10 @@ export default function CourseHeroSection() {
                 <span className="price-old">5000 ₽</span>
                 <span className="price-new">2400 ₽</span>
               </div>
-              <button className="cta-box__btn">
+             <button 
+                className="cta-box__btn" 
+                onClick={() => openModal('Курс для родителей')}
+              >
                 Купить курс <ArrowRight size={20} />
               </button>
             </div>
@@ -87,15 +92,36 @@ export default function CourseHeroSection() {
         <motion.div variants={itemVariants} className="courseHero__right">
           <div className="course-accordion">
             <div className="accordion-item accordion-item--1">
-              <img src="/moment.png" alt="Забота" />
+              <Image 
+                src="/moment.png" 
+                alt="Забота" 
+                fill={true}
+                priority={true}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="accordion-image" // ДОБАВИЛИ КЛАСС
+              />
               <div className="accordion-label">Забота и поддержка</div>
             </div>
             <div className="accordion-item accordion-item--2">
-              <img src="/listen.png" alt="Внимание" />
+              <Image 
+                src="/listen.png" 
+                alt="Внимание" 
+                fill={true}
+                priority={true}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="accordion-image" // ДОБАВИЛИ КЛАСС
+              />
               <div className="accordion-label">Внимание</div>
             </div>
             <div className="accordion-item accordion-item--3">
-              <img src="/growthOfCon.png" alt="Общение" />
+              <Image 
+                src="/growthOfCon.png" 
+                alt="Общение" 
+                fill={true}
+                priority={true}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="accordion-image" // ДОБАВИЛИ КЛАСС
+              />
               <div className="accordion-label">Общение</div>
             </div>
           </div>

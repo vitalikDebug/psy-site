@@ -174,10 +174,6 @@
   transform: translateY(-2px);
   box-shadow: 0 15px 30px color-mix(in srgb, var(--color-accent) 50%, transparent);
 }
-
-/* =========================================
-   --- ПРАВАЯ КОЛОНКА (Галерея-Аккордеон) ---
-========================================= */
 .courseHero__right {
   height: 550px;
   width: 100%;
@@ -191,10 +187,10 @@
 }
 
 .accordion-item {
-  position: relative;
+  position: relative; /* НУЖНО ДЛЯ NEXT IMAGE */
   flex: 1;
   border-radius: 40px;
-  overflow: hidden;
+  overflow: hidden;   /* НУЖНО, ЧТОБЫ КАРТИНКА НЕ ВЫЛЕЗАЛА */
   background-color: #e0e0e0;
   box-shadow: 0 15px 30px rgba(0,0,0,0.08);
   cursor: pointer;
@@ -205,16 +201,20 @@
 .accordion-item--2 { height: 85%; align-self: flex-start; }
 .accordion-item--3 { height: 95%; align-self: flex-end; }
 
-.accordion-item img {
-  width: 100%;
-  height: 100%;
+/* ОБНОВИЛИ СЕЛЕКТОР НА НАШ НОВЫЙ КЛАСС */
+.accordion-image {
   object-fit: cover;
   transition: transform 0.6s ease;
+  z-index: 0; /* Отправляем картинку на задний план */
 }
 
 .course-accordion:not(:hover) .accordion-item--1 { flex: 3; }
 .course-accordion .accordion-item:hover { flex: 3; }
-.course-accordion .accordion-item:hover img { transform: scale(1.05); }
+
+/* ОБНОВИЛИ СЕЛЕКТОР АНИМАЦИИ ПРИ НАВЕДЕНИИ */
+.course-accordion .accordion-item:hover .accordion-image { 
+  transform: scale(1.05); 
+}
 
 .accordion-label {
   position: absolute;
@@ -233,6 +233,7 @@
   transform: translateY(10px);
   transition: all 0.4s ease;
   pointer-events: none;
+  z-index: 10; /* ВЫТАСКИВАЕМ ПЛАШКУ ПОВЕРХ КАРТИНКИ */
 }
 
 .course-accordion:not(:hover) .accordion-item--1 .accordion-label,
@@ -242,7 +243,6 @@
   transition-delay: 0.2s;
 }
 
-/* --- АДАПТИВ --- */
 @media (max-width: 1024px) {
   .courseHero__title { font-size: 36px; }
   .courseHero__right { height: 450px; }

@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image'; // <-- ИМПОРТИРУЕМ ОПТИМИЗАТОР КАРТИНОК NEXT.JS
 import { User, ChevronRight, Star, X, CheckCircle2, Info } from 'lucide-react';
 import './ServicesSection.css';
 import { useModal } from '@/context/ModalContext';
@@ -18,7 +19,7 @@ const servicesData = [
       'Рекомендации и план работы'
     ],
     result: 'Понятный пошаговый план действий и снятие родительской тревожности.',
-    tags: ['#анализ_речи', '#план_действий', '#снятие_тревоги'], // Оставлено в данных, но не выводится
+    tags: ['#анализ_речи', '#план_действий', '#снятие_тревоги'],
     format: 'Онлайн',
     duration: '60 минут',
     note: 'Обязательный первый шаг',
@@ -190,23 +191,34 @@ export default function ServicesSection() {
                   onClick={() => setSelectedService(item)}
                 >
                   
-                  <div className="serviceCard__cover">
-                    <div className="serviceCard__top-tags">
+                  {/* ИЗМЕНЕННЫЙ БЛОК ОБЛОЖКИ (Карточка) */}
+                  <div className="serviceCard__cover" style={{ position: 'relative', overflow: 'hidden' }}>
+                    
+                    {/* Оптимизированная картинка ложится на задний фон */}
+                    <Image 
+                      src={item.image} 
+                      alt={item.title} 
+                      fill={true}
+                      sizes="(max-width: 768px) 80vw, 300px"
+                      className="serviceCard__illustration-img" 
+                      style={{ objectFit: 'cover', zIndex: 0 }}
+                    />
+
+                    {/* Плашки выводим поверх картинки */}
+                    <div className="serviceCard__top-tags" style={{ position: 'relative', zIndex: 1 }}>
                       {item.topTags.map((tag, i) => (
                         <span key={i} className={`serviceCard__badge ${tag.includes('Хит') ? 'serviceCard__badge--hot' : ''}`}>
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <img src={item.image} className="serviceCard__illustration-img" alt={item.title} />
+
                   </div>
 
                   <div className="serviceCard__content">
                     <h3 className="serviceCard__title">{item.title}</h3>
                     <div className="serviceCard__rating"></div>
                     <p className="serviceCard__subtitle">{item.subtitle}</p>
-
-                    {/* Блок с тегами был удален отсюда */}
 
                     <div className="serviceCard__features-grid">
                       <div className="feature-item">
@@ -264,8 +276,16 @@ export default function ServicesSection() {
                 <X size={24} />
               </button>
 
-              <div className="serviceDetails__cover">
-                <img src={selectedService.image} alt={selectedService.title} className="serviceDetails__img" />
+              {/* ИЗМЕНЕННЫЙ БЛОК ОБЛОЖКИ (Внутри модального окна) */}
+              <div className="serviceDetails__cover" style={{ position: 'relative', overflow: 'hidden' }}>
+                <Image 
+                  src={selectedService.image} 
+                  alt={selectedService.title} 
+                  fill={true}
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  className="serviceDetails__img" 
+                  style={{ objectFit: 'cover' }}
+                />
               </div>
 
               <div className="serviceDetails__scroll-area">
