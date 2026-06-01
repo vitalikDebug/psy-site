@@ -203,7 +203,7 @@ export default function AboutSection() {
           <div className="about__intro-video">
             <div className="video-wrapper">
               <iframe 
-               src="https://vkvideo.ru/video_ext.php?oid=-209029056&id=456239239&hash=ТВОЙ_ХЭШ&hd=2" 
+               src="https://vkvideo.ru/video_ext.php?oid=-209029056&id=456239239&hash=b03b7f33d64e3356&hd=3" 
                 width="100%"
                 height="100%" 
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" 
