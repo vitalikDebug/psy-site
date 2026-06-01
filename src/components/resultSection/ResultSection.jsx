@@ -2,15 +2,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image'; // ВАЖНО: Импортируем оптимизированный компонент Next.js
 import './ResultSection.css';
 
-// --- ДАННЫЕ (Добавили поле image для каждой картинки) ---
 const resultsData = [
   {
     id: 1,
     number: "95%",
     text: "Родителей отмечают значительное снижение напряжения и тревоги у ребенка.",
-    // ЗАМЕНИТЕ НА ВАШ ПУТЬ К ФОТО (например: "/photo_calm_child.jpg")
     image: "/parents.png" 
   },
   {
@@ -45,35 +44,22 @@ const resultsData = [
   }
 ];
 
-// --- НАСТРОЙКИ АНИМАЦИИ (Точно как в Hero) ---
-
-// Дирижер: управляет появлением дочерних элементов по очереди
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.3, // Задержка между появлением блоков
-      delayChildren: 0.2,   // Начальная задержка
-    }
+    transition: { staggerChildren: 0.3, delayChildren: 0.2 }
   }
 };
 
-// Элемент: плавно выезжает снизу вверх
 const itemVariants = {
   hidden: { y: 50, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 80,
-      damping: 20,
-      duration: 0.8
-    }
+    transition: { type: "spring", stiffness: 80, damping: 20, duration: 0.8 }
   }
 };
-
 
 export default function ResultsSection() {
   return (
@@ -86,44 +72,43 @@ export default function ResultsSection() {
           </h2>
         </div>
 
-        {/* ГЛАВНЫЙ КОНТЕЙНЕР С АНИМАЦИЕЙ */}
-        {/* Используем whileInView, чтобы анимация стартовала при скролле */}
         <motion.div 
           className="results-list"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          // once: true - анимация проиграется только один раз
-          // amount: 0.2 - начнется, когда 20% блока появится на экране
           viewport={{ once: true, amount: 0.1 }}
         >
           {resultsData.map((item, index) => {
-            // Определяем, четный это элемент или нечетный, для зигзага
             const isEven = index % 2 === 0;
 
             return (
-              // Каждый блок - это motion.div с вариантом анимации
               <motion.div 
                 key={item.id} 
-                // Добавляем класс 'reversed' для нечетных элементов
                 className={`result-pair ${!isEven ? 'result-pair--reversed' : ''}`}
                 variants={itemVariants}
               >
                 
                 {/* БЛОК С КАРТИНКОЙ */}
-                <div className="result-pair__image-wrapper">
-                  {/* Заглушка, если картинка не найдена */}
-                  <div className="image-placeholder" style={{background: `hsl(${index * 60}, 70%, 80%)`}}></div>
+                <div 
+                  className="result-pair__image-wrapper" 
+                  // position: relative обязательно нужен для работы fill={true} у Next/Image
+                  style={{ position: 'relative', overflow: 'hidden' }} 
+                >
+                  {/* Цветная заглушка, которая видна доли секунды, пока грузится картинка */}
+                  <div 
+                    className="image-placeholder" 
+                    style={{ position: 'absolute', inset: 0, background: `hsl(${index * 60}, 70%, 90%)`, zIndex: 0 }}
+                  ></div>
                   
-                  <img 
+                  {/* ИСПОЛЬЗУЕМ NEXT/IMAGE */}
+                  <Image 
                     src={item.image} 
                     alt={`Результат: ${item.text.substring(0, 20)}...`} 
+                    fill={true} // Картинка сама растянется по размеру контейнера wrapper
+                    sizes="(max-width: 768px) 100vw, 50vw" // Подсказка браузеру для экономии трафика
                     className="result-pair__image"
-                    // Простой способ скрыть битую картинку и показать цветную заглушку
-                    onError={(e) => {
-                      e.target.style.display = 'none'; 
-                      e.target.previousSibling.style.display = 'block'; 
-                    }}
+                    style={{ objectFit: 'cover', zIndex: 1 }} // Чтобы картинка красиво заполняла блок и была поверх заглушки
                   />
                 </div>
 
@@ -138,7 +123,6 @@ export default function ResultsSection() {
           })}
         </motion.div>
 
-        {/* Финальная фраза */}
         <div className="resultsSection__quote">
           {"Чем раньше начать работу с заиканием, тем легче вернуть спокойную речь."}
         </div>

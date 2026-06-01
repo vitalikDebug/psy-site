@@ -3,17 +3,31 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image'; // <-- ИМПОРТИРУЕМ ОПТИМИЗАТОР КАРТИНОК NEXT.JS
 import { Users, Award, X, CheckCircle2, XCircle, Heart, Shield, Sparkles, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
 import './AboutSection.css';
 
-// Данные для Bento
+
 const bentoCards = [
-  { id: 'photo-1', type: 'photo', src: "/IMG_5996.png", alt: "Юлия Шкаранда", name: "Юлия Шкаранда", role: "Психолог, Логопед" },
+  { 
+    id: 'photo-1', type: 'photo', src: "/IMG_5996.png", alt: "Юлия Шкаранда", 
+    name: "Юлия Шкаранда", role: "Психолог, Логопед" 
+  },
   { id: 'text-1', type: 'text', title: "Комплексный подход", text: "Работа с корнем проблемы через психологию, а не просто маскировка речевых симптомов." },
-  { id: 'photo-2', type: 'photo', src: "/IMG_5994.png", alt: "Процесс работы", name: "Процесс", role: "Индивидуальные сессии" },
+  { 
+    id: 'photo-2', type: 'photo', src: "/IMG_5994.png", alt: "Процесс работы", 
+    name: "Процесс", role: "Индивидуальные сессии",
+    imgFit: 'cover', imgPosition: 'top', 
+    hideInfo: true // <-- Добавили команду скрыть плашку
+  },
   { id: 'text-2', type: 'text', title: "Опыт и экспертиза", text: "Более 15 лет практики и 15000+ часов работы с детьми и взрослыми." },
-  { id: 'photo-3', type: 'photo', src: "/IMG_5993.png", alt: "Детали работы", name: "Результат", role: "Свободная речь" },
+  { 
+    id: 'photo-3', type: 'photo', src: "/IMG_5993.png", alt: "Детали работы", 
+    name: "Результат", role: "Свободная речь",
+    imgFit: 'cover', imgPosition: 'top', 
+    hideInfo: true // <-- Добавили команду скрыть плашку
+  },
   { id: 'text-3', type: 'text', title: "Поддержка 24/7", text: "Сопровождение и ответы на вопросы в закрытом сообществе." }
 ];
 
@@ -116,14 +130,32 @@ export default function AboutSection() {
                     className={`bento-card bento-card--${card.type} bento-card--${index + 1}`}
                     variants={itemVariants}
                     whileHover={{ scale: 1.03 }}
+                  
+                    style={card.type === 'photo' ? { position: 'relative', overflow: 'hidden' } : {}}
                 >
-                    {card.type === 'photo' ? (
+                {card.type === 'photo' ? (
                         <>
-                            <img src={card.src} alt={card.alt} className="bento-card__img" />
-                            <div className="bento-card__info">
-                                <span className="bento-card__name">{card.name} <CheckCircle2 size={16} className="verified-icon" /></span>
-                                <span className="bento-card__role">{card.role}</span>
-                            </div>
+                            {/* Оптимизированная картинка-фон */}
+                            <Image 
+                                src={card.src} 
+                                alt={card.alt} 
+                                fill={true}
+                                sizes="(max-width: 768px) 100vw, 33vw"
+                                className="bento-card__img" 
+                                style={{ 
+                                    objectFit: card.imgFit || 'cover',
+                                    objectPosition: card.imgPosition || 'center',
+                                    zIndex: 0 
+                                }} 
+                            />
+                            
+                            {/* Текст поверх картинки (Выводим, только если нет команды скрыть) */}
+                            {!card.hideInfo && (
+                                <div className="bento-card__info">
+                                    <span className="bento-card__name">{card.name} <CheckCircle2 size={16} className="verified-icon" /></span>
+                                    <span className="bento-card__role">{card.role}</span>
+                                </div>
+                            )}
                         </>
                     ) : (
                         <div className="bento-card__content">
@@ -171,8 +203,8 @@ export default function AboutSection() {
           <div className="about__intro-video">
             <div className="video-wrapper">
               <iframe 
-                src="https://vkvideo.ru/video_ext.php?oid=-209029056&id=456239228&hash=7a9c8b8b8b8b8b8b" 
-                width="100%" 
+               src="https://vkvideo.ru/video_ext.php?oid=-209029056&id=456239239&hash=ТВОЙ_ХЭШ&hd=2" 
+                width="100%"
                 height="100%" 
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" 
                 frameBorder="0" 
@@ -252,18 +284,25 @@ export default function AboutSection() {
                     <ChevronLeft size={28} />
                   </button>
 
-                  <div className="diploma-image-wrapper" onClick={() => setIsZoomed(true)}>
+                  <div className="diploma-image-wrapper" onClick={() => setIsZoomed(true)} style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <AnimatePresence mode="wait">
-                      <motion.img
+                      <motion.div
                         key={currentDiplomaIndex}
-                        src={diplomas[currentDiplomaIndex]}
-                        alt={`Диплом Юлии Шкаранда ${currentDiplomaIndex + 1}`}
-                        className="diploma-active-image"
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.2 }}
-                      />
+                        style={{ width: '100%', textAlign: 'center' }}
+                      >
+                        <Image
+                          src={diplomas[currentDiplomaIndex]}
+                          alt={`Диплом Юлии Шкаранда ${currentDiplomaIndex + 1}`}
+                          width={800}
+                          height={600}
+                          className="diploma-active-image"
+                          style={{ width: '100%', height: 'auto', maxHeight: '50vh', objectFit: 'contain' }}
+                        />
+                      </motion.div>
                     </AnimatePresence>
                     <div className="diploma-zoom-hint">
                       <ZoomIn size={20} />
@@ -304,16 +343,23 @@ export default function AboutSection() {
             <button className="diploma-zoom-close" onClick={() => setIsZoomed(false)}>
               <X size={32} />
             </button>
-            <motion.img
-              src={diplomas[currentDiplomaIndex]}
-              alt="Диплом крупным планом"
-              className="diploma-zoomed-image"
+            <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()} // Чтобы клик по самой картинке не закрывал её
-            />
+              style={{ position: 'relative', width: '90vw', height: '90vh' }}
+            >
+              <Image
+                src={diplomas[currentDiplomaIndex]}
+                alt="Диплом крупным планом"
+                fill={true}
+                sizes="100vw"
+                className="diploma-zoomed-image"
+                style={{ objectFit: 'contain' }}
+              />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

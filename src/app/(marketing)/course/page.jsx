@@ -29,7 +29,7 @@ export default function CoursePage() {
       <CourseModulesSection />
       <CourseAuthorSection />
       <CoursePricingSection/>
-      <PaymentInfo/>
+      {/* <PaymentInfo/> */}
       <Footer/>
     </main>
   );

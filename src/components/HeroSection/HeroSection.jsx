@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image'; // <-- ИМПОРТИРУЕМ ОПТИМИЗАТОР КАРТИНОК NEXT.JS
 import { motion } from 'framer-motion';
 import { ShieldCheck, Sparkles, Star } from 'lucide-react'; 
 import { useModal } from '@/context/ModalContext';
@@ -79,22 +80,31 @@ export default function HeroSection() {
           </div>
 
           {/* Правая колонка: Большое фото с плашкой */}
-          <motion.div variants={photoVariants} className="heroTop__right">
+        <motion.div variants={photoVariants} className="heroTop__right">
+            
+            {/* 1. Контейнер для фото (обрезает только саму картинку) */}
             <div className="hero-main-photo">
-              {/* ЗАМЕНИ на свою лучшую вертикальную фотографию */}
-              <img src="/IMG_5884.png" alt="Юлия Шкаранда" />
+              <Image 
+                src="/IMG_5884.png" 
+                alt="Юлия Шкаранда"
+                fill={true}
+                priority={true} 
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
               
-              {/* Парящая плашка поверх фото */}
-              <div className="hero-floating-card">
-                <div className="floating-card-icon">
-                  <ShieldCheck size={24} />
-                </div>
-                <div className="floating-card-text">
-                  <span className="floating-card-title">Доказанный</span>
-                  <span className="floating-card-sub">научный подход</span>
-                </div>
+        
+            <div className="hero-floating-card">
+              <div className="floating-card-icon">
+                <ShieldCheck size={24} />
+              </div>
+              <div className="floating-card-text">
+                <span className="floating-card-title">Доказанный</span>
+                <span className="floating-card-sub">научный подход</span>
               </div>
             </div>
+
           </motion.div>
 
         </div>

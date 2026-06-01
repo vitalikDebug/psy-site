@@ -29,9 +29,7 @@ export default function CourseVideoSection() {
         viewport={{ once: true, amount: 0.2 }}
       >
         
-        {/* =========================================
-            ЛЕВАЯ КОЛОНКА: ТЕКСТ И ТАЙМЛАЙН
-        ========================================= */}
+    
         <div className="courseVideo__left">
           <motion.h2 variants={itemVariants} className="courseVideo__title">
             Навыки, которые изменят <br/> вашу жизнь и речь ребёнка
@@ -85,9 +83,9 @@ export default function CourseVideoSection() {
         {/* =========================================
             ПРАВАЯ КОЛОНКА: ВИДЕО И ПЛАШКА
         ========================================= */}
-        <motion.div variants={itemVariants} className="courseVideo__right">
+        {/* <motion.div variants={itemVariants} className="courseVideo__right">
           
-          {/* Парящая плашка статистики (как на референсе) */}
+         
           <div className="courseVideo__floating-badge">
             <div className="badge-stat">
               <span className="badge-number">10</span>
@@ -100,9 +98,9 @@ export default function CourseVideoSection() {
             </div>
           </div>
 
-          {/* Контейнер видео */}
+         
           <div className="courseVideo__player-wrapper">
-            {/* Замени src и poster на свои файлы */}
+         
             <video 
               className="courseVideo__player"
               controls 
@@ -111,7 +109,7 @@ export default function CourseVideoSection() {
             />
           </div>
 
-        </motion.div>
+        </motion.div> */}
 
       </motion.div>
     </section>
