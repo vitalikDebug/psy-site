@@ -16,14 +16,14 @@ const bentoCards = [
   },
   { id: 'text-1', type: 'text', title: "Комплексный подход", text: "Работа с корнем проблемы через психологию, а не просто маскировка речевых симптомов." },
   { 
-    id: 'photo-2', type: 'photo', src: "/IMG_5994.png", alt: "Процесс работы", 
+    id: 'photo-2', type: 'photo', src: "/IMG_59944.png", alt: "Процесс работы", 
     name: "Процесс", role: "Индивидуальные сессии",
     imgFit: 'cover', imgPosition: 'top', 
     hideInfo: true // <-- Добавили команду скрыть плашку
   },
   { id: 'text-2', type: 'text', title: "Опыт и экспертиза", text: "Более 15 лет практики и 15000+ часов работы с детьми и взрослыми." },
   { 
-    id: 'photo-3', type: 'photo', src: "/IMG_5993.png", alt: "Детали работы", 
+    id: 'photo-3', type: 'photo', src: "/IMG_59933.png", alt: "Детали работы", 
     name: "Результат", role: "Свободная речь",
     imgFit: 'cover', imgPosition: 'top', 
     hideInfo: true // <-- Добавили команду скрыть плашку
